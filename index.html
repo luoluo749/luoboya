@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>萝卜芽科技无限公司</title>
-    <!-- Tailwind CSS v3 -->
+    <title>萝卜芽科技无限公司出品</title>
+    <!-- 外部资源 -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <!-- GSAP 动画库 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
     <!-- Tailwind 配置 -->
     <script>
         tailwind.config = {
@@ -32,6 +30,7 @@
             }
         }
     </script>
+    
     <style type="text/tailwindcss">
         @layer utilities {
             .text-gradient {
@@ -45,7 +44,7 @@
             }
         }
         
-        /* 自定义样式 */
+        /* 基础样式 */
         body {
             background: linear-gradient(135deg, #0a192f 0%, #172a45 100%);
             min-height: 100vh;
@@ -87,180 +86,194 @@
             left: 100%;
         }
         
-        /* 粒子背景 */
-        #particles-js {
+        /* 敬请期待区域样式 */
+        #coming-soon {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.95);
+            z-index: 100;
+            display: none; /* 默认隐藏 */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+        }
+        
+        /* 简单粒子背景 */
+        .simple-particles {
             position: absolute;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
             z-index: 0;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            background-color: #00aaff;
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+        
+        /* 淡化进场动画 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        .fade-in-delay-1 {
+            animation-delay: 0.2s;
+        }
+        
+        .fade-in-delay-2 {
+            animation-delay: 0.4s;
+        }
+        
+        .fade-in-delay-3 {
+            animation-delay: 0.6s;
+        }
+        
+        .fade-in-delay-4 {
+            animation-delay: 0.8s;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 域名样式 */
+        .domain-link {
+            transition: all 0.3s ease;
+            border-bottom: 1px dotted rgba(0, 170, 255, 0.5);
+        }
+        
+        .domain-link:hover {
+            color: #00aaff;
+            border-bottom-color: #00aaff;
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify justify-center min-h-screen text-light">
-    <!-- 粒子背景 -->
-    <div id="particles-js"></div>
+<body class="flex flex-col min-h-screen text-light">
+    <!-- 简单粒子背景 -->
+    <div class="simple-particles" id="simple-particles"></div>
     
     <!-- 主内容 -->
-    <div class="container mx-auto px-4 z-10 flex flex flex-col items-center justify-center">
+    <div class="container mx-auto px-4 z-10 flex flex-col items-center justify-center flex-grow py-12">
         <!-- Logo -->
-        <div class="logo-container mb-8">
-            <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/6538ddbc44ba4be0aa5d0a418ca7da53~tplv-a9rns2rl98-image.image?rcl=20250930165933678E3045435AC6472980&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1761814784&x-signature=BuNnNqvpMYODlmSWBoPRRweFgyw%3D" 
+        <div class="logo-container mb-8 fade-in">
+            <img src="https://via.placeholder.com/160x160/0066cc/ffffff?text=RB" 
                  alt="萝卜芽科技无限公司" 
-                 class="logo w-40 h-40 object-contain mb-4">
+                 class="logo w-40 h-40 object-contain mb-4 rounded-full">
         </div>
         
         <!-- 公司名称 -->
-        <h1 class="text-4xl md:text-6xl font-bold mb-2 text-gradient">萝卜芽科技无限公司</h1>
-        <p class="text-xl md:text-2xl text-gray-300 mb-12">探索科技无限可能</p>
+        <h1 class="text-4xl md:text-6xl font-bold mb-2 text-gradient fade-in fade-in-delay-1">萝卜芽科技无限公司</h1>
+        <p class="text-xl md:text-2xl text-gray-300 mb-4 fade-in fade-in-delay-2">探索科技无限可能</p>
+        
+        <!-- 域名显示 -->
+        <div class="mb-12 fade-in fade-in-delay-3">
+            <a href="https://luoboya.top" target="_blank" class="domain-link text-lg text-gray-300 hover:text-secondary">
+                luoboya.top
+            </a>
+        </div>
         
         <!-- 按钮容器 -->
-        <div class="flex flex-col md:flex-row gap-6 w-full max-w-md">
+        <div class="flex flex-col sm:flex-row gap-4 w-full max-w-lg mx-auto flex-wrap justify-center fade-in fade-in-delay-4">
             <!-- 拉布布折纸铺按钮 -->
-            <button id="btn-origami" class="btn-primary btn-glow flex-1 py-4 px-8 rounded-full text-xl font-semibold text-white shadow-lg hover:scale-105 active:scale-95">
+            <button id="btn-origami" class="btn-primary btn-glow py-4 px-6 rounded-full text-lg font-semibold text-white shadow-lg hover:scale-105 active:scale-95 min-w-[180px]">
                 <i class="fa fa-paper-plane mr-2"></i>拉布布折纸铺
             </button>
             
             <!-- HTML在线游戏按钮 -->
-            <button id="btn-games" class="btn-primary btn-glow flex-1 py-4 px-8 rounded-full text-xl font-semibold text-white shadow-lg hover:scale-105 active:scale-95">
+            <button id="btn-games" class="btn-primary btn-glow py-4 px-6 rounded-full text-lg font-semibold text-white shadow-lg hover:scale-105 active:scale-95 min-w-[180px]">
                 <i class="fa fa-gamepad mr-2"></i>HTML在线游戏
+            </button>
+        </div>
+        
+        <!-- 公司简介 -->
+        <div class="mt-16 max-w-2xl text-center bg-blur rounded-2xl p-8 backdrop-blur-md fade-in">
+            <h2 class="text-2xl font-bold mb-4 text-gradient">关于我们</h2>
+            <p class="text-gray-300 mb-4">
+                萝卜芽科技无限公司是一家专注于创新科技产品研发的企业，致力于通过技术改善人们的生活体验。
+            </p>
+            <p class="text-gray-300">
+                我们的产品包括拉布布折纸铺和HTML在线游戏平台，为用户提供富有创意的数字体验。
+            </p>
+        </div>
+    </div>
+    
+    <!-- 底部版权标识 -->
+    <footer class="py-6 border-t border-gray-800 mt-auto">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-400 text-sm">
+                © 2023 萝卜芽科技无限公司. 保留所有权利. | 
+                <a href="https://luoboya.top" target="_blank" class="text-gray-400 hover:text-secondary transition-colors">luoboya.top</a>
+            </p>
+        </div>
+    </footer>
+    
+    <!-- 敬请期待区域（默认隐藏） -->
+    <div id="coming-soon">
+        <div class="text-center p-8 max-w-md mx-auto bg-blur rounded-2xl">
+            <h2 class="text-4xl font-bold mb-6 text-gradient">敬请期待</h2>
+            <p class="text-xl text-gray-300 mb-8">HTML在线游戏功能正在开发中，即将上线！</p>
+            <button id="btn-close" class="btn-primary btn-glow py-3 px-8 rounded-full text-lg font-semibold text-white shadow-lg hover:scale-105 active:scale-95">
+                返回首页
             </button>
         </div>
     </div>
     
-    <!-- 粒子效果库 -->
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    
     <script>
-        // 初始化粒子背景
+        // 创建简单粒子背景
+        function createSimpleParticles() {
+            const container = document.getElementById('simple-particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // 随机大小
+                const size = Math.random() * 6 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // 随机位置
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // 初始化简单粒子背景
         document.addEventListener('DOMContentLoaded', function() {
-            particlesJS('particles-js', {
-                "particles": {
-                    "number": {
-                        "value": 80,
-                        "density": {
-                            "enable": true,
-                            "value_area": 800
-                        }
-                    },
-                    "color": {
-                        "value": "#00aaff"
-                    },
-                    "shape": {
-                        "type": "circle",
-                        "stroke": {
-                            "width": 0,
-                            "color": "#000000"
-                        }
-                    },
-                    "opacity": {
-                        "value": 0.5,
-                        "random": false,
-                        "anim": {
-                            "enable": false
-                        }
-                    },
-                    "size": {
-                        "value": 3,
-                        "random": true,
-                        "anim": {
-                            "enable": false
-                        }
-                    },
-                    "line_linked": {
-                        "enable": true,
-                        "distance": 150,
-                        "color": "#0066cc",
-                        "opacity": 0.4,
-                        "width": 1
-                    },
-                    "move": {
-                        "enable": true,
-                        "speed": 1,
-                        "direction": "none",
-                        "random": false,
-                        "straight": false,
-                        "out_mode": "out",
-                        "bounce": false,
-                        "attract": {
-                            "enable": false,
-                            "rotateX": 600,
-                            "rotateY": 1200
-                        }
-                    }
-                },
-                "interactivity": {
-                    "detect_on": "canvas",
-                    "events": {
-                        "onhover": {
-                            "enable": true,
-                            "mode": "grab"
-                        },
-                        "onclick": {
-                            "enable": true,
-                            "mode": "push"
-                        },
-                        "resize": true
-                    },
-                    "modes": {
-                        "grab": {
-                            "distance": 140,
-                            "line_linked": {
-                                "opacity": 0.8
-                            }
-                        },
-                        "push": {
-                            "particles_nb": 4
-                        }
-                    }
-                },
-                "retina_detect": true
-            });
-            
-            // 页面元素动画
-            gsap.from('.logo', {
-                y: -50,
-                opacity: 0,
-                duration: 1,
-                ease: 'power3.out'
-            });
-            
-            gsap.from('h1', {
-                y: 30,
-                opacity: 0,
-                duration: 1,
-                delay: 0.3,
-                ease: 'power3.out'
-            });
-            
-            gsap.from('p', {
-                y: 20,
-                opacity: 0,
-                duration: 1,
-                delay: 0.6,
-                ease: 'power3.out'
-            });
-            
-            gsap.from('.btn-primary', {
-                y: 40,
-                opacity: 0,
-                duration: 1,
-                delay: 0.9,
-                stagger: 0.2,
-                ease: 'power3.out'
-            });
+            createSimpleParticles();
         });
         
         // 按钮点击事件
+        // 拉布布折纸铺：跳转留空（点击无反应）
         document.getElementById('btn-origami').addEventListener('click', function() {
-            // 跳转到拉布布折纸铺页面（留空）
-            window.location.href = 'origami.html';
+            // 留空：不执行任何跳转或操作
         });
         
+        // HTML在线游戏：显示敬请期待区域
         document.getElementById('btn-games').addEventListener('click', function() {
-            // 跳转到HTML在线游戏页面（留空）
-            window.location.href = 'games.html';
+            document.getElementById('coming-soon').style.display = 'flex';
+        });
+        
+        // 关闭敬请期待区域
+        document.getElementById('btn-close').addEventListener('click', function() {
+            document.getElementById('coming-soon').style.display = 'none';
         });
     </script>
 </body>
