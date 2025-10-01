@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="拉布布折纸铺 - 提供详细的折纸教程，包括空客A320和坦克等模型">
+    <title>拉布布折纸铺 - 折纸教程分享</title>
+    <style>
+        /* 基础变量：明暗模式核心配色 */
+        :root {
+            --bg-main: #ffffff;
+            --bg-card: #f8fafc;
+            --bg-hover: #f0f9ff;
+            --text-title: #1e293b;
+            --text-desc: #64748b;
+            --accent-primary: #3b82f6;
+            --accent-light: #93c5fd;
+            --border-light: #e2e8f0;
+            --shadow-light: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .dark {
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --bg-hover: #2563eb15;
+            --text-title: #f1f5f9;
+            --text-desc: #94a3b8;
+            --accent-primary: #93c5fd;
+            --accent-light: #3b82f6;
+            --border-light: #334155;
+            --shadow-light: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* 全局样式：统一重置与过渡 */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: "Inter", "微软雅黑", system-ui, -apple-system; 
+        }
+        body { 
+            background: var(--bg-main); 
+            color: var(--text-desc); 
+            line-height: 1.6; 
+            padding: 20px; 
+            transition: background 0.3s ease, color 0.3s ease; 
+            min-height: 100vh;
+        }
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto; 
+            padding: 30px 0; 
+        }
+
+        /* 顶部栏：标题+明暗模式切换 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 50px;
+        }
+        .shop-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(120deg, var(--accent-primary), var(--accent-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .theme-toggle {
+            width: 42px;
+            height: 22px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .theme-toggle::after {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            transition: transform 0.3s ease;
+        }
+        .dark .theme-toggle::after {
+            transform: translateX(20px);
+        }
+
+        /* B站式链接入口：高颜值卡片设计 */
+        .link-list {
+            display: grid;
+            gap: 24px;
+        }
+        .link-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .link-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-primary);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        .link-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-light);
+            background: var(--bg-hover);
+        }
+        .link-card:hover::before {
+            transform: scaleY(1);
+        }
+        .link-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-title);
+            margin-bottom: 8px;
+        }
+        .link-desc {
+            font-size: 0.95rem;
+            color: var(--text-desc);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+        .link-tag {
+            display: inline-block;
+            padding: 5px 12px;
+            background: var(--accent-primary)15;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--accent-primary);
+            font-weight: 500;
+        }
+
+        /* 视频+文章区域：默认隐藏，精致排版 */
+        .content-section {
+            display: none;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-light);
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .back-btn {
+            padding: 8px 16px;
+            background: var(--accent-primary);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.3s ease;
+            margin-bottom: 20px;
+        }
+        .back-btn:hover {
+            background: var(--accent-light);
+        }
+        .video-container {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+        .post-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .post-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .post-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        .post-section {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid var(--border-light);
+        }
+        .post-section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-title);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .post-section-title::before {
+            content: "";
+            width: 4px;
+            height: 16px;
+            background: var(--accent-primary);
+            border-radius: 2px;
+        }
+        .post-list {
+            margin-left: 20px;
+        }
+        .post-list-item {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        .download-link {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            word-break: break-all;
+            display: block;
+            padding: 8px;
+            background: var(--bg-main);
+            border-radius: 4px;
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+        .download-link:hover {
+            background: var(--bg-hover);
+            text-decoration: underline;
+        }
+        .extract-code {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            padding: 4px 8px;
+            background: var(--bg-main);
+            border-radius: 4px;
+            display: inline-block;
+        }
+        
+        /* OneDrive提示样式 */
+        .onedrive-alert {
+            background: #f0f9ff;
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            text-align: center;
+        }
+        .download-btn {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 10px;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+        .download-btn:hover {
+            background: #2563eb;
+        }
+        
+        /* 加载指示器 */
+        .loader {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: var(--accent-primary);
+        }
+        
+        /* 错误提示 */
+        .error-message {
+            display: none;
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-light);
+            font-size: 0.9rem;
+            color: var(--text-desc);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部：标题+明暗模式切换 -->
+        <div class="header">
+            <h1 class="shop-title">拉布布折纸铺</h1>
+            <div class="theme-toggle" id="themeToggle"></div>
+        </div>
+
+        <!-- 核心：B站式链接入口列表 -->
+        <div class="link-list" id="linkList">
+            <!-- 折纸空客A320 链接卡片 -->
+            <div class="link-card" id="a320Link">
+                <h2 class="link-title">【详细视频】折纸空客A320客机</h2>
+                <p class="link-desc">新手友好的立体折纸教程，附材料清单与视频下载链接，关键步骤有清晰提示</p>
+                <span class="link-tag">交通工具折纸</span>
+            </div>
+
+            <!-- 折纸坦克 链接卡片 -->
+            <div class="link-card" id="tankLink">
+                <h2 class="link-title">【零基础教程】折纸坦克</h2>
+                <p class="link-desc">带可活动履带的趣味折纸，材料简单易获取，步骤拆解适合新手入门</p>
+                <span class="link-tag">机械类折纸</span>
+            </div>
+        </div>
+
+        <!-- 加载指示器 -->
+        <div class="loader" id="videoLoader">
+            视频加载中...
+        </div>
+        
+        <!-- 错误提示 -->
+        <div class="error-message" id="videoError">
+            视频加载失败，请检查网络连接或使用下方的备用下载链接。
+        </div>
+
+        <!-- 折纸空客A320 视频+文章区域（默认隐藏） -->
+        <div class="content-section" id="a320Content">
+            <button class="back-btn" id="a320Back">返回链接列表</button>
+            <div class="video-container">
+                <video 
+                    id="a320Video"
+                    class="post-video" 
+                    controls
+                    preload="metadata"
+                    poster="images/a320-cover.jpg"
+                >
+                    您的浏览器不支持HTML5视频，请更新浏览器。
+                    <!-- 替换为您的OneDrive视频直链 -->
+                    <source src="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VhdjFQd2N0SFdkQm0tTVF5Wi1SY1VnQkZLMDhISldLMHhVQ1kwdW5xdXhDMnc_ZT1KU2JqQmI.mp4" type="video/mp4">
+                    <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VhdjFQd2N0SFdkQm0tTVF5Wi1SY1VnQkZLMDhISldLMHhVQ1kwdW5xdXhDMnc_ZT1KU2JqQmI.mp4">点击下载视频</a>
+                </video>
+            </div>
+            
+            <!-- OneDrive下载提示 -->
+            <div class="onedrive-alert">
+                <p>💡 如果视频加载缓慢或无法播放，建议使用下方链接下载到本地观看</p>
+                <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VhdjFQd2N0SFdkQm0tTVF5Wi1SY1VnQkZLMDhISldLMHhVQ1kwdW5xdXhDMnc_ZT1KU2JqQmI.mp4" class="download-btn" target="_blank">
+                    下载A320教程高清视频
+                </a>
+            </div>
+            
+            <div class="post-content">
+                <div class="post-section">
+                    <h3 class="post-section-title">备用下载链接</h3>
+                    <!-- 原有百度云链接 -->
+                    <a href="https://pan.baidu.com/s/1UJQmjuTEgLnRDxc9XgeAKg?pwd=6666" class="download-link" target="_blank">
+                        百度云：https://pan.baidu.com/s/1UJQmjuTEgLnRDxc9XgeAKg
+                    </a>
+                    <div class="extract-code">提取码：6666</div>
+                    <!-- 新增OneDrive备用链接（与坦克板块下载方式一致） -->
+                    <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VhdjFQd2N0SFdkQm0tTVF5Wi1SY1VnQkZLMDhISldLMHhVQ1kwdW5xdXhDMnc_ZT1KU2JqQmI.mp4" class="download-link" style="margin-top: 12px;" target="_blank">
+                        OneDrive：https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VhdjFQd2N0SFdkQm0tTVF5Wi1SY1VnQkZLMDhISldLMHhVQ1kwdW5xdXhDMnc_ZT1KU2JqQmI.mp4
+                    </a>
+                </div>
+                <div class="post-section">
+                    <h3 class="post-section-title">准备材料</h3>
+                    <ul class="post-list">
+                        <li class="post-list-item">A4纸1张</li>
+                        <li class="post-list-item">白胶1小支</li>
+                    </ul>
+                </div>
+                <div class="post-section" style="grid-column: 1/-1;">
+                    <h3 class="post-section-title">关键提示</h3>
+                    <p style="font-size: 0.9rem;">建议开头直接将A4纸裁成三等分！</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 折纸坦克 视频+文章区域（默认隐藏） -->
+        <div class="content-section" id="tankContent">
+            <button class="back-btn" id="tankBack">返回链接列表</button>
+            <div class="video-container">
+                <video 
+                    id="tankVideo"
+                    class="post-video" 
+                    controls
+                    preload="metadata"
+                    poster="images/tank-cover.jpg"
+                >
+                    您的浏览器不支持HTML5视频，请更新浏览器。
+                    <!-- 替换为您的OneDrive视频直链 -->
+                    <source src="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VZTTYwdmdacmFaSnZBZmVWRUYtNGMwQk9yY1V2a2FDblczWDBkTGs3U2twNmc_ZT1XU2diTXI.mp4" type="video/mp4">
+                    <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VZTTYwdmdacmFaSnZBZmVWRUYtNGMwQk9yY1V2a2FDblczWDBkTGs3U2twNmc_ZT1XU2diTXI.mp4">点击下载视频</a>
+                </video>
+            </div>
+            
+            <!-- OneDrive下载提示 -->
+            <div class="onedrive-alert">
+                <p>💡 如果视频加载缓慢或无法播放，建议使用下方链接下载到本地观看</p>
+                <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VZTTYwdmdacmFaSnZBZmVWRUYtNGMwQk9yY1V2a2FDblczWDBkTGs3U2twNmc_ZT1XU2diTXI.mp4" class="download-btn" target="_blank">
+                    下载坦克教程高清视频
+                </a>
+            </div>
+            
+            <div class="post-content">
+                <div class="post-section">
+                    <h3 class="post-section-title">备用下载链接</h3>
+                    <a href="https://pan.baidu.com/s/1EAqEJVdZEBRj5u4QeXHsXg?pwd=6666" class="download-link" target="_blank">
+                        https://pan.baidu.com/s/1EAqEJVdZEBRj5u4QeXHsXg
+                    </a>
+                    <div class="extract-code">提取码：6666</div>
+                </div>
+                <div class="post-section">
+                    <h3 class="post-section-title">准备材料</h3>
+                    <ul class="post-list">
+                        <li class="post-list-item">A4纸1张</li>
+                        <li class="post-list-item">白胶1小支</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 页脚 -->
+        <div class="footer">
+            <p>拉布布折纸铺 &copy; 2023 - 分享有趣的折纸教程</p>
+        </div>
+    </div>
+
+    <!-- 交互JS：明暗模式+链接/内容切换 -->
+    <script>
+        // 1. 明暗模式切换（记忆用户偏好）
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const isDarkMode = localStorage.getItem('isDarkMode') === 'true';
+
+        // 初始化主题（优先用户之前的选择）
+        if (isDarkMode) {
+            html.classList.add('dark');
+        }
+
+        // 点击切换主题
+        themeToggle.addEventListener('click', () => {
+            const isDark = html.classList.toggle('dark');
+            localStorage.setItem('isDarkMode', isDark);
+        });
+
+        // 2. 链接入口与内容区域切换
+        const linkList = document.getElementById('linkList');
+        const a320Link = document.getElementById('a320Link');
+        const tankLink = document.getElementById('tankLink');
+        const a320Content = document.getElementById('a320Content');
+        const tankContent = document.getElementById('tankContent');
+        const a320Back = document.getElementById('a320Back');
+        const tankBack = document.getElementById('tankBack');
+        const videoLoader = document.getElementById('videoLoader');
+        const videoError = document.getElementById('videoError');
+
+        // 视频加载状态管理
+        function showLoader() {
+            videoLoader.style.display = 'block';
+            videoError.style.display = 'none';
+        }
+        
+        function hideLoader() {
+            videoLoader.style.display = 'none';
+        }
+        
+        function showError() {
+            videoError.style.display = 'block';
+            videoLoader.style.display = 'none';
+        }
+
+        // 点击A320链接：显示内容，隐藏入口
+        a320Link.addEventListener('click', () => {
+            linkList.style.display = 'none';
+            a320Content.style.display = 'block';
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // 预加载视频
+            const a320Video = document.getElementById('a320Video');
+            showLoader();
+            a320Video.load();
+            
+            a320Video.addEventListener('loadeddata', () => {
+                hideLoader();
+            });
+            
+            a320Video.addEventListener('error', () => {
+                showError();
+            });
+        });
+
+        // 点击坦克链接：显示内容，隐藏入口
+        tankLink.addEventListener('click', () => {
+            linkList.style.display = 'none';
+            tankContent.style.display = 'block';
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // 预加载视频
+            const tankVideo = document.getElementById('tankVideo');
+            showLoader();
+            tankVideo.load();
+            
+            tankVideo.addEventListener('loadeddata', () => {
+                hideLoader();
+            });
+            
+            tankVideo.addEventListener('error', () => {
+                showError();
+            });
+        });
+
+        // 点击A320返回：显示入口，隐藏内容
+        a320Back.addEventListener('click', () => {
+            a320Content.style.display = 'none';
+            linkList.style.display = 'grid';
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            hideLoader();
+            videoError.style.display = 'none';
+        });
+
+        // 点击坦克返回：显示入口，隐藏内容
+        tankBack.addEventListener('click', () => {
+            tankContent.style.display = 'none';
+            linkList.style.display = 'grid';
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            hideLoader();
+            videoError.style.display = 'none';
+        });
+
+        // 3. 键盘快捷键支持
+        document.addEventListener('keydown', (e) => {
+            // ESC键返回列表
+            if (e.key === 'Escape') {
+                if (a320Content.style.display === 'block') {
+                    a320Back.click();
+                } else if (tankContent.style.display === 'block') {
+                    tankBack.click();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
