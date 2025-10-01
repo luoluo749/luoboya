@@ -170,9 +170,28 @@
             font-weight: 500;
             transition: background 0.3s ease;
             margin-bottom: 20px;
+            margin-right: 10px;
         }
         .back-btn:hover {
             background: var(--accent-light);
+        }
+        .home-btn {
+            padding: 8px 16px;
+            background: var(--bg-card);
+            color: var(--text-title);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .home-btn:hover {
+            background: var(--bg-hover);
+            transform: translateY(-2px);
         }
         .video-container {
             width: 100%;
@@ -342,7 +361,10 @@
 
         <!-- 折纸空客A320 视频+文章区域（默认隐藏） -->
         <div class="content-section" id="a320Content">
-            <button class="back-btn" id="a320Back">返回链接列表</button>
+            <div class="button-group">
+                <button class="back-btn" id="a320Back">返回列表</button>
+                <a href="https://luoboya.top/lbbzzp/" class="home-btn">返回首页</a>
+            </div>
             <div class="video-container">
                 <video 
                     id="a320Video"
@@ -374,10 +396,6 @@
                         百度云：https://pan.baidu.com/s/1UJQmjuTEgLnRDxc9XgeAKg
                     </a>
                     <div class="extract-code">提取码：6666</div>
-                    <!-- 新增OneDrive备用链接（与坦克板块下载方式一致） -->
-                    <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VhdjFQd2N0SFdkQm0tTVF5Wi1SY1VnQkZLMDhISldLMHhVQ1kwdW5xdXhDMnc_ZT1KU2JqQmI.mp4" class="download-link" style="margin-top: 12px;" target="_blank">
-                        OneDrive：https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VhdjFQd2N0SFdkQm0tTVF5Wi1SY1VnQkZLMDhISldLMHhVQ1kwdW5xdXhDMnc_ZT1KU2JqQmI.mp4
-                    </a>
                 </div>
                 <div class="post-section">
                     <h3 class="post-section-title">准备材料</h3>
@@ -395,7 +413,10 @@
 
         <!-- 折纸坦克 视频+文章区域（默认隐藏） -->
         <div class="content-section" id="tankContent">
-            <button class="back-btn" id="tankBack">返回链接列表</button>
+            <div class="button-group">
+                <button class="back-btn" id="tankBack">返回列表</button>
+                <a href="https://luoboya.top/lbbzzp/" class="home-btn">返回首页</a>
+            </div>
             <div class="video-container">
                 <video 
                     id="tankVideo"
