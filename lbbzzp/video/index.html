@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="拉布布折纸铺 - 提供详细的折纸教程，包括空客A320、坦克和各种枪械模型">
-    <title>拉布布折纸铺 - 折纸教程分享</title>
+    <title>拉布布折纸铺 - 军事装备折纸教程</title>
     <style>
         /* 基础变量：明暗模式核心配色 */
         :root {
@@ -17,6 +17,7 @@
             --accent-light: #93c5fd;
             --border-light: #e2e8f0;
             --shadow-light: 0 4px 12px rgba(0,0,0,0.05);
+            --shadow-medium: 0 6px 20px rgba(0,0,0,0.08);
         }
         .dark {
             --bg-main: #0f172a;
@@ -28,6 +29,7 @@
             --accent-light: #3b82f6;
             --border-light: #334155;
             --shadow-light: 0 4px 12px rgba(0,0,0,0.15);
+            --shadow-medium: 0 6px 20px rgba(0,0,0,0.2);
         }
 
         /* 全局样式：统一重置与过渡 */
@@ -46,7 +48,7 @@
             min-height: 100vh;
         }
         .container { 
-            max-width: 900px; 
+            max-width: 1100px; 
             margin: 0 auto; 
             padding: 30px 0; 
         }
@@ -57,14 +59,17 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 50px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-light);
         }
         .shop-title {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 700;
             background: linear-gradient(120deg, var(--accent-primary), var(--accent-light));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            letter-spacing: -0.5px;
         }
         .theme-toggle {
             width: 42px;
@@ -116,6 +121,7 @@
         /* B站式链接入口：高颜值卡片设计 */
         .link-list {
             display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 24px;
         }
         .link-card {
@@ -127,6 +133,9 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 180px;
         }
         .link-card::before {
             content: "";
@@ -141,7 +150,7 @@
         }
         .link-card:hover {
             transform: translateY(-4px);
-            box-shadow: var(--shadow-light);
+            box-shadow: var(--shadow-medium);
             background: var(--bg-hover);
         }
         .link-card:hover::before {
@@ -151,13 +160,15 @@
             font-size: 1.3rem;
             font-weight: 600;
             color: var(--text-title);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            line-height: 1.3;
         }
         .link-desc {
             font-size: 0.95rem;
             color: var(--text-desc);
             margin-bottom: 16px;
             line-height: 1.5;
+            flex-grow: 1;
         }
         .link-tag {
             display: inline-block;
@@ -167,6 +178,7 @@
             font-size: 0.8rem;
             color: var(--accent-primary);
             font-weight: 500;
+            align-self: flex-start;
         }
 
         /* 视频+文章区域：默认隐藏，精致排版 */
@@ -182,17 +194,16 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .back-btn {
-            padding: 8px 16px;
+            padding: 10px 20px;
             background: var(--accent-primary);
             color: #ffffff;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 500;
             transition: background 0.3s ease;
             margin-bottom: 20px;
-            margin-right: 10px;
         }
         .back-btn:hover {
             background: var(--accent-light);
@@ -204,6 +215,8 @@
             border-radius: 12px;
             overflow: hidden;
             margin-bottom: 24px;
+            position: relative;
+            box-shadow: var(--shadow-medium);
         }
         .post-video {
             width: 100%;
@@ -219,18 +232,22 @@
             .post-content {
                 grid-template-columns: 1fr;
             }
+            .link-list {
+                grid-template-columns: 1fr;
+            }
         }
         .post-section {
             background: var(--bg-card);
             border-radius: 8px;
-            padding: 16px;
+            padding: 20px;
             border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-light);
         }
         .post-section-title {
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 600;
             color: var(--text-title);
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -248,6 +265,7 @@
         .post-list-item {
             margin-bottom: 8px;
             font-size: 0.9rem;
+            line-height: 1.5;
         }
         .download-link {
             color: var(--accent-primary);
@@ -255,11 +273,12 @@
             font-size: 0.9rem;
             word-break: break-all;
             display: block;
-            padding: 8px;
+            padding: 10px;
             background: var(--bg-main);
-            border-radius: 4px;
+            border-radius: 6px;
             border: 1px solid var(--border-light);
             transition: all 0.3s ease;
+            margin-bottom: 8px;
         }
         .download-link:hover {
             background: var(--bg-hover);
@@ -268,10 +287,12 @@
         .extract-code {
             margin-top: 8px;
             font-size: 0.9rem;
-            padding: 4px 8px;
+            padding: 6px 12px;
             background: var(--bg-main);
-            border-radius: 4px;
+            border-radius: 6px;
             display: inline-block;
+            border: 1px solid var(--border-light);
+            font-weight: 500;
         }
         
         /* OneDrive提示样式 */
@@ -283,12 +304,16 @@
             margin: 16px 0;
             text-align: center;
         }
+        .dark .onedrive-alert {
+            background: #1e3a5f;
+            border-color: #3b82f6;
+        }
         .download-btn {
             display: inline-block;
             background: #3b82f6;
             color: white;
             padding: 10px 20px;
-            border-radius: 5px;
+            border-radius: 6px;
             text-decoration: none;
             margin-top: 10px;
             font-weight: 500;
@@ -316,6 +341,25 @@
             margin: 10px 0;
             text-align: center;
         }
+        .dark .error-message {
+            background: #7f1d1d;
+            color: #fecaca;
+        }
+        
+        /* 网络提示 */
+        .network-alert {
+            display: none;
+            background: #fffbeb;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            text-align: center;
+        }
+        .dark .network-alert {
+            background: #78350f;
+            border-color: #f59e0b;
+        }
         
         /* 页脚 */
         .footer {
@@ -325,6 +369,30 @@
             border-top: 1px solid var(--border-light);
             font-size: 0.9rem;
             color: var(--text-desc);
+        }
+        
+        /* 视频加载遮罩 */
+        .video-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            z-index: 10;
+        }
+        
+        /* 提示文本样式 */
+        .hint-text {
+            font-size: 0.9rem;
+            color: var(--text-desc);
+            font-style: italic;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -355,11 +423,18 @@
                 <span class="link-tag">机械类折纸</span>
             </div>
 
-            <!-- 歼10战斗机 链接卡片 -->
-            <div class="link-card" id="j10Link">
-                <h2 class="link-title">【详细教程】歼10战斗机</h2>
-                <p class="link-desc">中国自主研发的先进战斗机折纸模型，结构精密，展现威武气势</p>
-                <span class="link-tag">战斗机折纸</span>
+            <!-- 98K步枪 链接卡片 -->
+            <div class="link-card" id="kar98kLink">
+                <h2 class="link-title">【详细教程】98K - Kar98k步枪</h2>
+                <p class="link-desc">二战经典步枪折纸模型，拉栓式设计，历史感十足</p>
+                <span class="link-tag">枪械折纸</span>
+            </div>
+
+            <!-- AWM狙击枪 链接卡片 -->
+            <div class="link-card" id="awmLink">
+                <h2 class="link-title">【详细教程】AWM - AWM狙击步枪</h2>
+                <p class="link-desc">高精度狙击步枪折纸模型，长枪管设计，适合远程射击爱好者</p>
+                <span class="link-tag">枪械折纸</span>
             </div>
 
             <!-- M416步枪 链接卡片 -->
@@ -369,10 +444,17 @@
                 <span class="link-tag">枪械折纸</span>
             </div>
 
-            <!-- AWM狙击枪 链接卡片 -->
-            <div class="link-card" id="awmLink">
-                <h2 class="link-title">【详细教程】AWM - AWM狙击步枪</h2>
-                <p class="link-desc">高精度狙击步枪折纸模型，长枪管设计，适合远程射击爱好者</p>
+            <!-- 野牛冲锋枪 链接卡片 -->
+            <div class="link-card" id="bizonLink">
+                <h2 class="link-title">【详细教程】野牛冲锋枪</h2>
+                <p class="link-desc">独特弹鼓设计的冲锋枪折纸模型，容量大，火力持续性强</p>
+                <span class="link-tag">枪械折纸</span>
+            </div>
+
+            <!-- 左轮手枪 链接卡片 -->
+            <div class="link-card" id="revolverLink">
+                <h2 class="link-title">【详细教程】左轮手枪</h2>
+                <p class="link-desc">经典左轮手枪折纸模型，转轮结构，需要两张A4纸制作</p>
                 <span class="link-tag">枪械折纸</span>
             </div>
 
@@ -389,27 +471,6 @@
                 <p class="link-desc">经典冲锋枪折纸模型，射速快，结构紧凑，需要两张A4纸</p>
                 <span class="link-tag">枪械折纸</span>
             </div>
-
-            <!-- 左轮手枪 链接卡片 -->
-            <div class="link-card" id="revolverLink">
-                <h2 class="link-title">【详细教程】左轮手枪</h2>
-                <p class="link-desc">经典左轮手枪折纸模型，转轮结构，需要两张A4纸制作</p>
-                <span class="link-tag">枪械折纸</span>
-            </div>
-
-            <!-- 野牛冲锋枪 链接卡片 -->
-            <div class="link-card" id="bizonLink">
-                <h2 class="link-title">【详细教程】野牛冲锋枪</h2>
-                <p class="link-desc">独特弹鼓设计的冲锋枪折纸模型，容量大，火力持续性强</p>
-                <span class="link-tag">枪械折纸</span>
-            </div>
-
-            <!-- 98K步枪 链接卡片 -->
-            <div class="link-card" id="kar98kLink">
-                <h2 class="link-title">【详细教程】98K - Kar98k步枪</h2>
-                <p class="link-desc">二战经典步枪折纸模型，拉栓式设计，历史感十足</p>
-                <span class="link-tag">枪械折纸</span>
-            </div>
         </div>
 
         <!-- 加载指示器 -->
@@ -421,13 +482,15 @@
         <div class="error-message" id="videoError">
             视频加载失败，请检查网络连接或使用下方的备用下载链接。
         </div>
+        
+        <!-- 网络提示 -->
+        <div class="network-alert" id="networkAlert">
+            <p>📶 网络连接较慢，视频可能需要一些时间加载，请耐心等待或稍后重试</p>
+        </div>
 
         <!-- 折纸空客A320 视频+文章区域（默认隐藏） -->
         <div class="content-section" id="a320Content">
-            <div class="button-group">
-                <button class="back-btn" id="a320Back">返回列表</button>
-                <a href="https://luoboya.top/lbbzzp/" class="home-btn">返回首页</a>
-            </div>
+            <button class="back-btn" id="a320Back">返回列表</button>
             <div class="video-container">
                 <video 
                     id="a320Video"
@@ -437,17 +500,9 @@
                     poster="images/A320.jpg"
                 >
                     您的浏览器不支持HTML5视频，请更新浏览器。
-                    <source src="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VhdjFQd2N0SFdkQm0tTVF5Wi1SY1VnQkZLMDhISldLMHhVQ1kwdW5xdXhDMnc_ZT1KU2JqQmI.mp4" type="video/mp4">
-                    <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VhdjFQd2N0SFdkQm0tTVF5Wi1SY1VnQkZLMDhISldLMHhVQ1kwdW5xdXhDMnc_ZT1KU2JqQmI.mp4">点击下载视频</a>
+                    <source src="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VhdjFQd2N0SFdkQm0tTVF5Wi1SY1VnQkZLMDhISldLMHhVQ1kwdW5xdXhDMnc_ZT1MMHgxaUo.mp4" type="video/mp4">
+                    <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VhdjFQd2N0SFdkQm0tTVF5Wi1SY1VnQkZLMDhISldLMHhVQ1kwdW5xdXhDMnc_ZT1MMHgxaUo.mp4">点击下载视频</a>
                 </video>
-            </div>
-            
-            <!-- OneDrive下载提示 -->
-            <div class="onedrive-alert">
-                <p>💡 如果视频加载缓慢或无法播放，建议使用下方链接下载到本地观看</p>
-                <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VhdjFQd2N0SFdkQm0tTVF5Wi1SY1VnQkZLMDhISldLMHhVQ1kwdW5xdXhDMnc_ZT1KU2JqQmI.mp4" class="download-btn" target="_blank">
-                    下载A320教程高清视频
-                </a>
             </div>
             
             <div class="post-content">
@@ -468,17 +523,14 @@
                 </div>
                 <div class="post-section" style="grid-column: 1/-1;">
                     <h3 class="post-section-title">关键提示</h3>
-                    <p style="font-size: 0.9rem;">建议开头直接将A4纸裁成三等分！</p>
+                    <p class="hint-text">建议开头直接将A4纸裁成三等分！</p>
                 </div>
             </div>
         </div>
 
         <!-- 折纸坦克 视频+文章区域（默认隐藏） -->
         <div class="content-section" id="tankContent">
-            <div class="button-group">
-                <button class="back-btn" id="tankBack">返回列表</button>
-                <a href="https://luoboya.top/lbbzzp/" class="home-btn">返回首页</a>
-            </div>
+            <button class="back-btn" id="tankBack">返回列表</button>
             <div class="video-container">
                 <video 
                     id="tankVideo"
@@ -488,17 +540,9 @@
                     poster="images/坦克.jpg"
                 >
                     您的浏览器不支持HTML5视频，请更新浏览器。
-                    <source src="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VZTTYwdmdacmFaSnZBZmVWRUYtNGMwQk9yY1V2a2FDblczWDBkTGs3U2twNmc_ZT1XU2diTXI.mp4" type="video/mp4">
-                    <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VZTTYwdmdacmFaSnZBZmVWRUYtNGMwQk9yY1V2a2FDblczWDBkTGs3U2twNmc_ZT1XU2diTXI.mp4">点击下载视频</a>
+                    <source src="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VZTTYwdmdacmFaSnZBZmVWRUYtNGMwQk9yY1V2a2FDblczWDBkTGs3U2twNmc_ZT01MXZpanc.mp4" type="video/mp4">
+                    <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VZTTYwdmdacmFaSnZBZmVWRUYtNGMwQk9yY1V2a2FDblczWDBkTGs3U2twNmc_ZT01MXZpanc.mp4">点击下载视频</a>
                 </video>
-            </div>
-            
-            <!-- OneDrive下载提示 -->
-            <div class="onedrive-alert">
-                <p>💡 如果视频加载缓慢或无法播放，建议使用下方链接下载到本地观看</p>
-                <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VZTTYwdmdacmFaSnZBZmVWRUYtNGMwQk9yY1V2a2FDblczWDBkTGs3U2twNmc_ZT1XU2diTXI.mp4" class="download-btn" target="_blank">
-                    下载坦克教程高清视频
-                </a>
             </div>
             
             <div class="post-content">
@@ -519,45 +563,33 @@
             </div>
         </div>
 
-        <!-- 以下为新增枪械的内容区域 -->
-        <!-- 歼10战斗机内容区域 -->
-        <div class="content-section" id="j10Content">
-            <div class="button-group">
-                <button class="back-btn" id="j10Back">返回列表</button>
-                <a href="https://luoboya.top/lbbzzp/" class="home-btn">返回首页</a>
-            </div>
+        <!-- 98K内容区域 -->
+        <div class="content-section" id="kar98kContent">
+            <button class="back-btn" id="kar98kBack">返回列表</button>
             <div class="video-container">
-                <video id="j10Video" class="post-video" controls preload="metadata" poster="images/歼10.jpg">
+                <video id="kar98kVideo" class="post-video" controls preload="metadata" poster="images/98K.jpg">
                     您的浏览器不支持HTML5视频，请更新浏览器。
-                    <source src="YOUR_J10_VIDEO_LINK" type="video/mp4">
-                    <a href="YOUR_J10_VIDEO_LINK">点击下载视频</a>
+                    <source src="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VjZGotOTRRS3RWQ3JVYVZDclZzSGtJQnFndVJWUTdCMUEzRWxsLThRTVJNTkE_ZT1YRzN6VFM.mp4" type="video/mp4">
+                    <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VjZGotOTRRS3RWQ3JVYVZDclZzSGtJQnFndVJWUTdCMUEzRWxsLThRTVJNTkE_ZT1YRzN6VFM.mp4">点击下载视频</a>
                 </video>
             </div>
+            
+            <!-- OneDrive下载提示 -->
+            <div class="onedrive-alert">
+                <p>💡 如果视频加载缓慢或无法播放，建议使用下方链接下载到本地观看</p>
+                <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zLm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VjZGotOTRRS3RWQ3JVYVZDclZzSGtJQnFndVJWUTdCMUEzRWxsLThRTVJNTkE_ZT1YRzN6VFM.mp4" class="download-btn" target="_blank">
+                    下载98K教程高清视频
+                </a>
+            </div>
+            
             <div class="post-content">
                 <div class="post-section">
-                    <h3 class="post-section-title">准备材料</h3>
-                    <ul class="post-list">
-                        <li class="post-list-item">A4纸1张</li>
-                        <li class="post-list-item">透明胶一点</li>
-                    </ul>
+                    <h3 class="post-section-title">备用下载链接</h3>
+                    <a href="https://pan.baidu.com/s/1mYfn3nYbhYlVugOnlS8pUQ?pwd=6666" class="download-link" target="_blank">
+                        百度云：https://pan.baidu.com/s/1mYfn3nYbhYlVugOnlS8pUQ
+                    </a>
+                    <div class="extract-code">提取码：6666</div>
                 </div>
-            </div>
-        </div>
-
-        <!-- M416内容区域 -->
-        <div class="content-section" id="m416Content">
-            <div class="button-group">
-                <button class="back-btn" id="m416Back">返回列表</button>
-                <a href="https://luoboya.top/lbbzzp/" class="home-btn">返回首页</a>
-            </div>
-            <div class="video-container">
-                <video id="m416Video" class="post-video" controls preload="metadata" poster="images/M416.jpg">
-                    您的浏览器不支持HTML5视频，请更新浏览器。
-                    <source src="YOUR_M416_VIDEO_LINK" type="video/mp4">
-                    <a href="YOUR_M416_VIDEO_LINK">点击下载视频</a>
-                </video>
-            </div>
-            <div class="post-content">
                 <div class="post-section">
                     <h3 class="post-section-title">准备材料</h3>
                     <ul class="post-list">
@@ -570,18 +602,31 @@
 
         <!-- AWM内容区域 -->
         <div class="content-section" id="awmContent">
-            <div class="button-group">
-                <button class="back-btn" id="awmBack">返回列表</button>
-                <a href="https://luoboya.top/lbbzzp/" class="home-btn">返回首页</a>
-            </div>
+            <button class="back-btn" id="awmBack">返回列表</button>
             <div class="video-container">
                 <video id="awmVideo" class="post-video" controls preload="metadata" poster="images/AWM.jpg">
                     您的浏览器不支持HTML5视频，请更新浏览器。
-                    <source src="YOUR_AWM_VIDEO_LINK" type="video/mp4">
-                    <a href="YOUR_AWM_VIDEO_LINK">点击下载视频</a>
+                    <source src="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VXU213aW1Pd2FSTHMzYVl6OGkwN29RQkRRcnRlZktGQXd6RGptSkxYMnRURWc_ZT0zaFM1Mk0.mp4" type="video/mp4">
+                    <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VXU213aW1Pd2FSTHMzYVl6OGkwN29RQkRRcnRlZktGQXd6RGptSkxYMnRURWc_ZT0zaFM1Mk0.mp4">点击下载视频</a>
                 </video>
             </div>
+            
+            <!-- OneDrive下载提示 -->
+            <div class="onedrive-alert">
+                <p>💡 如果视频加载缓慢或无法播放，建议使用下方链接下载到本地观看</p>
+                <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VXU213aW1Pd2FSTHMzYVl6OGkwN29RQkRRcnRlZktGQXd6RGptSkxYMnRURWc_ZT0zaFM1Mk0.mp4" class="download-btn" target="_blank">
+                    下载AWM教程高清视频
+                </a>
+            </div>
+            
             <div class="post-content">
+                <div class="post-section">
+                    <h3 class="post-section-title">备用下载链接</h3>
+                    <a href="https://pan.baidu.com/s/1YOERMiTsvMFoWShHss5HzA?pwd=6666" class="download-link" target="_blank">
+                        百度云：https://pan.baidu.com/s/1YOERMiTsvMFoWShHss5HzA
+                    </a>
+                    <div class="extract-code">提取码：6666</div>
+                </div>
                 <div class="post-section">
                     <h3 class="post-section-title">准备材料</h3>
                     <ul class="post-list">
@@ -592,24 +637,37 @@
             </div>
         </div>
 
-        <!-- UZI内容区域（需要两张A4纸） -->
-        <div class="content-section" id="uziContent">
-            <div class="button-group">
-                <button class="back-btn" id="uziBack">返回列表</button>
-                <a href="https://luoboya.top/lbbzzp/" class="home-btn">返回首页</a>
-            </div>
+        <!-- M416内容区域 -->
+        <div class="content-section" id="m416Content">
+            <button class="back-btn" id="m416Back">返回列表</button>
             <div class="video-container">
-                <video id="uziVideo" class="post-video" controls preload="metadata" poster="images/UZI.jpg">
+                <video id="m416Video" class="post-video" controls preload="metadata" poster="images/M416.jpg">
                     您的浏览器不支持HTML5视频，请更新浏览器。
-                    <source src="YOUR_UZI_VIDEO_LINK" type="video/mp4">
-                    <a href="YOUR_UZI_VIDEO_LINK">点击下载视频</a>
+                    <source src="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0ViNDBXcU1HV1FKRmtlQ2gtOVZBRlBrQkhSNnVsRkFvLWhWSVpKbzZONnJ2bGc_ZT1Pd3BrUVc.mp4" type="video/mp4">
+                    <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0ViNDBXcU1HV1FKRmtlQ2gtOVZBRlBrQkhSNnVsRkFvLWhWSVpKbzZONnJ2bGc_ZT1Pd3BrUVc.mp4">点击下载视频</a>
                 </video>
             </div>
+            
+            <!-- OneDrive下载提示 -->
+            <div class="onedrive-alert">
+                <p>💡 如果视频加载缓慢或无法播放，建议使用下方链接下载到本地观看</p>
+                <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0ViNDBXcU1HV1FKRmtlQ2gtOVZBRlBrQkhSNnVsRkFvLWhWSVpKbzZONnJ2bGc_ZT1Pd3BrUVc.mp4" class="download-btn" target="_blank">
+                    下载M416教程高清视频
+                </a>
+            </div>
+            
             <div class="post-content">
+                <div class="post-section">
+                    <h3 class="post-section-title">备用下载链接</h3>
+                    <a href="https://pan.baidu.com/s/1PJnjQKLd8KismzqNfLKhEg?pwd=6666" class="download-link" target="_blank">
+                        百度云：https://pan.baidu.com/s/1PJnjQKLd8KismzqNfLKhEg
+                    </a>
+                    <div class="extract-code">提取码：6666</div>
+                </div>
                 <div class="post-section">
                     <h3 class="post-section-title">准备材料</h3>
                     <ul class="post-list">
-                        <li class="post-list-item">A4纸2张</li>
+                        <li class="post-list-item">A4纸1张</li>
                         <li class="post-list-item">白胶1小支</li>
                     </ul>
                 </div>
@@ -618,18 +676,31 @@
 
         <!-- 野牛冲锋枪内容区域 -->
         <div class="content-section" id="bizonContent">
-            <div class="button-group">
-                <button class="back-btn" id="bizonBack">返回列表</button>
-                <a href="https://luoboya.top/lbbzzp/" class="home-btn">返回首页</a>
-            </div>
+            <button class="back-btn" id="bizonBack">返回列表</button>
             <div class="video-container">
                 <video id="bizonVideo" class="post-video" controls preload="metadata" poster="images/野牛.jpg">
                     您的浏览器不支持HTML5视频，请更新浏览器。
-                    <source src="YOUR_BIZON_VIDEO_LINK" type="video/mp4">
-                    <a href="YOUR_BIZON_VIDEO_LINK">点击下载视频</a>
+                    <source src="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VhaUl1ZWhTSWZaRXBtQ3lTLWVhT2o4QnBrMTRDNGx0UFhYUjlWNTZNZUlEYUE_ZT1kWWhiYWU.mp4" type="video/mp4">
+                    <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VhaUl1ZWhTSWZaRXBtQ3lTLWVhT2o4QnBrMTRDNGx0UFhYUjlWNTZNZUlEYUE_ZT1kWWhiYWU.mp4">点击下载视频</a>
                 </video>
             </div>
+            
+            <!-- OneDrive下载提示 -->
+            <div class="onedrive-alert">
+                <p>💡 如果视频加载缓慢或无法播放，建议使用下方链接下载到本地观看</p>
+                <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VhaUl1ZWhTSWZaRXBtQ3lTLWVhT2o4QnBrMTRDNGx0UFhYUjlWNTZNZUlEYUE_ZT1kWWhiYWU.mp4" class="download-btn" target="_blank">
+                    下载野牛教程高清视频
+                </a>
+            </div>
+            
             <div class="post-content">
+                <div class="post-section">
+                    <h3 class="post-section-title">备用下载链接</h3>
+                    <a href="https://pan.baidu.com/s/1eVsiGJUgPC42VmSSHzEpnQ?pwd=6666" class="download-link" target="_blank">
+                        百度云：https://pan.baidu.com/s/1eVsiGJUgPC42VmSSHzEpnQ
+                    </a>
+                    <div class="extract-code">提取码：6666</div>
+                </div>
                 <div class="post-section">
                     <h3 class="post-section-title">准备材料</h3>
                     <ul class="post-list">
@@ -642,18 +713,31 @@
 
         <!-- 左轮手枪内容区域（需要两张A4纸） -->
         <div class="content-section" id="revolverContent">
-            <div class="button-group">
-                <button class="back-btn" id="revolverBack">返回列表</button>
-                <a href="https://luoboya.top/lbbzzp/" class="home-btn">返回首页</a>
-            </div>
+            <button class="back-btn" id="revolverBack">返回列表</button>
             <div class="video-container">
                 <video id="revolverVideo" class="post-video" controls preload="metadata" poster="images/左轮手枪.jpg">
                     您的浏览器不支持HTML5视频，请更新浏览器。
-                    <source src="YOUR_REVOLVER_VIDEO_LINK" type="video/mp4">
-                    <a href="YOUR_REVOLVER_VIDEO_LINK">点击下载视频</a>
+                    <source src="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VjeVRtM1dSQ1FWQnFQNlNqV3o4SkFrQl9FWi02Q0t6Tnczc2hzb3NkVlJsdFE_ZT1rMDZyN0I.mp4" type="video/mp4">
+                    <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VjeVRtM1dSQ1FWQnFQNlNqV3o4SkFrQl9FWi02Q0t6Tnczc2hzb3NkVlJsdFE_ZT1rMDZyN0I.mp4">点击下载视频</a>
                 </video>
             </div>
+            
+            <!-- OneDrive下载提示 -->
+            <div class="onedrive-alert">
+                <p>💡 如果视频加载缓慢或无法播放，建议使用下方链接下载到本地观看</p>
+                <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VjeVRtM1dSQ1FWQnFQNlNqV3o4SkFrQl9FWi02Q0t6Tnczc2hzb3NkVlJsdFE_ZT1rMDZyN0I.mp4" class="download-btn" target="_blank">
+                    下载左轮手枪教程高清视频
+                </a>
+            </div>
+            
             <div class="post-content">
+                <div class="post-section">
+                    <h3 class="post-section-title">备用下载链接</h3>
+                    <a href="https://pan.baidu.com/s/1CkTffWpqqLJysg7wdA4xEQ?pwd=6666" class="download-link" target="_blank">
+                        百度云：https://pan.baidu.com/s/1CkTffWpqqLJysg7wdA4xEQ
+                    </a>
+                    <div class="extract-code">提取码：6666</div>
+                </div>
                 <div class="post-section">
                     <h3 class="post-section-title">准备材料</h3>
                     <ul class="post-list">
@@ -664,20 +748,33 @@
             </div>
         </div>
 
-        <!-- 98K内容区域 -->
-        <div class="content-section" id="kar98kContent">
-            <div class="button-group">
-                <button class="back-btn" id="kar98kBack">返回列表</button>
-                <a href="https://luoboya.top/lbbzzp/" class="home-btn">返回首页</a>
-            </div>
+        <!-- S686内容区域 -->
+        <div class="content-section" id="s686Content">
+            <button class="back-btn" id="s686Back">返回列表</button>
             <div class="video-container">
-                <video id="kar98kVideo" class="post-video" controls preload="metadata" poster="images/98K.jpg">
+                <video id="s686Video" class="post-video" controls preload="metadata" poster="images/S686.jpg">
                     您的浏览器不支持HTML5视频，请更新浏览器。
-                    <source src="YOUR_KAR98K_VIDEO_LINK" type="video/mp4">
-                    <a href="YOUR_KAR98K_VIDEO_LINK">点击下载视频</a>
+                    <source src="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VjUG1COFJZdlRKSGlFLVVNZHdBcTFBQmQ3VUFCWk9uY3d1TEJsTDAyZmZPN0E_ZT1vREtxNUk.mp4" type="video/mp4">
+                    <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VjUG1COFJZdlRKSGlFLVVNZHdBcTFBQmQ3VUFCWk9uY3d1TEJsTDAyZmZPN0E_ZT1vREtxNUk.mp4">点击下载视频</a>
                 </video>
             </div>
+            
+            <!-- OneDrive下载提示 -->
+            <div class="onedrive-alert">
+                <p>💡 如果视频加载缓慢或无法播放，建议使用下方链接下载到本地观看</p>
+                <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VjUG1COFJZdlRKSGlFLVVNZHdBcTFBQmQ3VUFCWk9uY3d1TEJsTDAyZmZPN0E_ZT1vREtxNUk.mp4" class="download-btn" target="_blank">
+                    下载S686教程高清视频
+                </a>
+            </div>
+            
             <div class="post-content">
+                <div class="post-section">
+                    <h3 class="post-section-title">备用下载链接</h3>
+                    <a href="https://pan.baidu.com/s/1jzqWsP_C03KSj-VKYYU-TQ?pwd=6666" class="download-link" target="_blank">
+                        百度云：https://pan.baidu.com/s/1jzqWsP_C03KSj-VKYYU-TQ
+                    </a>
+                    <div class="extract-code">提取码：6666</div>
+                </div>
                 <div class="post-section">
                     <h3 class="post-section-title">准备材料</h3>
                     <ul class="post-list">
@@ -688,24 +785,37 @@
             </div>
         </div>
 
-        <!-- S686内容区域 -->
-        <div class="content-section" id="s686Content">
-            <div class="button-group">
-                <button class="back-btn" id="s686Back">返回列表</button>
-                <a href="https://luoboya.top/lbbzzp/" class="home-btn">返回首页</a>
-            </div>
+        <!-- UZI内容区域（需要两张A4纸） -->
+        <div class="content-section" id="uziContent">
+            <button class="back-btn" id="uziBack">返回列表</button>
             <div class="video-container">
-                <video id="s686Video" class="post-video" controls preload="metadata" poster="images/S686.jpg">
+                <video id="uziVideo" class="post-video" controls preload="metadata" poster="images/UZI.jpg">
                     您的浏览器不支持HTML5视频，请更新浏览器。
-                    <source src="YOUR_S686_VIDEO_LINK" type="video/mp4">
-                    <a href="YOUR_S686_VIDEO_LINK">点击下载视频</a>
+                    <source src="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VWU21pSU1MckdkTHQxRng1S3RmMFBBQjdXUFV4d1VuaW0zSHJDQUhBczZmN0E_ZT1IVHNuYkg.mp4" type="video/mp4">
+                    <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VWU21pSU1MckdkTHQxRng1S3RmMFBBQjdXUFV4d1VuaW0zSHJDQUhBczZmN0E_ZT1IVHNuYkg.mp4">点击下载视频</a>
                 </video>
             </div>
+            
+            <!-- OneDrive下载提示 -->
+            <div class="onedrive-alert">
+                <p>💡 如果视频加载缓慢或无法播放，建议使用下方链接下载到本地观看</p>
+                <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VWU21pSU1MckdkTHQxRng1S3RmMFBBQjdXUFV4d1VuaW0zSHJDQUhBczZmN0E_ZT1IVHNuYkg.mp4" class="download-btn" target="_blank">
+                    下载UZI教程高清视频
+                </a>
+            </div>
+            
             <div class="post-content">
+                <div class="post-section">
+                    <h3 class="post-section-title">备用下载链接</h3>
+                    <a href="https://pan.baidu.com/s/14UviJej0YyiyR300hTAr-A?pwd=6666" class="download-link" target="_blank">
+                        百度云：https://pan.baidu.com/s/14UviJej0YyiyR300hTAr-A
+                    </a>
+                    <div class="extract-code">提取码：6666</div>
+                </div>
                 <div class="post-section">
                     <h3 class="post-section-title">准备材料</h3>
                     <ul class="post-list">
-                        <li class="post-list-item">A4纸1张</li>
+                        <li class="post-list-item">A4纸2张</li>
                         <li class="post-list-item">白胶1小支</li>
                     </ul>
                 </div>
@@ -740,11 +850,13 @@
         const linkList = document.getElementById('linkList');
         const videoLoader = document.getElementById('videoLoader');
         const videoError = document.getElementById('videoError');
+        const networkAlert = document.getElementById('networkAlert');
 
         // 视频加载状态管理
         function showLoader() {
             videoLoader.style.display = 'block';
             videoError.style.display = 'none';
+            networkAlert.style.display = 'none';
         }
         
         function hideLoader() {
@@ -754,6 +866,12 @@
         function showError() {
             videoError.style.display = 'block';
             videoLoader.style.display = 'none';
+            networkAlert.style.display = 'none';
+        }
+        
+        function showNetworkAlert() {
+            networkAlert.style.display = 'block';
+            videoError.style.display = 'none';
         }
 
         // 为每个链接添加点击事件
@@ -774,11 +892,20 @@
                         showLoader();
                         video.load();
                         
+                        // 设置超时检测网络状况
+                        let networkTimeout = setTimeout(() => {
+                            if (video.readyState < 2) {
+                                showNetworkAlert();
+                            }
+                        }, 5000);
+                        
                         video.addEventListener('loadeddata', () => {
+                            clearTimeout(networkTimeout);
                             hideLoader();
                         });
                         
                         video.addEventListener('error', () => {
+                            clearTimeout(networkTimeout);
                             showError();
                         });
                     }
@@ -790,6 +917,7 @@
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                     hideLoader();
                     videoError.style.display = 'none';
+                    networkAlert.style.display = 'none';
                 });
             } else {
                 console.error(`无法找到元素: ${linkId}, ${contentId}, 或 ${backBtnId}`);
@@ -799,14 +927,13 @@
         // 设置所有内容切换
         setupContentToggle('a320Link', 'a320Content', 'a320Back');
         setupContentToggle('tankLink', 'tankContent', 'tankBack');
-        setupContentToggle('j10Link', 'j10Content', 'j10Back');
-        setupContentToggle('m416Link', 'm416Content', 'm416Back');
+        setupContentToggle('kar98kLink', 'kar98kContent', 'kar98kBack');
         setupContentToggle('awmLink', 'awmContent', 'awmBack');
+        setupContentToggle('m416Link', 'm416Content', 'm416Back');
+        setupContentToggle('bizonLink', 'bizonContent', 'bizonBack');
+        setupContentToggle('revolverLink', 'revolverContent', 'revolverBack');
         setupContentToggle('s686Link', 's686Content', 's686Back');
         setupContentToggle('uziLink', 'uziContent', 'uziBack');
-        setupContentToggle('revolverLink', 'revolverContent', 'revolverBack');
-        setupContentToggle('bizonLink', 'bizonContent', 'bizonBack');
-        setupContentToggle('kar98kLink', 'kar98kContent', 'kar98kBack');
 
         // 3. 键盘快捷键支持
         document.addEventListener('keydown', (e) => {
