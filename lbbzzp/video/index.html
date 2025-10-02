@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="拉布布折纸铺 - 提供详细的折纸教程，包括空客A320和坦克等模型">
+    <meta name="description" content="拉布布折纸铺 - 提供详细的折纸教程，包括空客A320、坦克和各种枪械模型">
     <title>拉布布折纸铺 - 折纸教程分享</title>
     <style>
         /* 基础变量：明暗模式核心配色 */
@@ -91,6 +91,28 @@
             transform: translateX(20px);
         }
 
+        /* 返回首页按钮 */
+        .home-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background: var(--bg-card);
+            color: var(--text-title);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            margin-bottom: 30px;
+        }
+        .home-btn:hover {
+            background: var(--bg-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-light);
+        }
+
         /* B站式链接入口：高颜值卡片设计 */
         .link-list {
             display: grid;
@@ -174,24 +196,6 @@
         }
         .back-btn:hover {
             background: var(--accent-light);
-        }
-        .home-btn {
-            padding: 8px 16px;
-            background: var(--bg-card);
-            color: var(--text-title);
-            border: 1px solid var(--border-light);
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            margin-bottom: 20px;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .home-btn:hover {
-            background: var(--bg-hover);
-            transform: translateY(-2px);
         }
         .video-container {
             width: 100%;
@@ -332,6 +336,9 @@
             <div class="theme-toggle" id="themeToggle"></div>
         </div>
 
+        <!-- 返回首页按钮 -->
+        <a href="https://luoboya.top/lbbzzp/" class="home-btn">← 返回首页</a>
+
         <!-- 核心：B站式链接入口列表 -->
         <div class="link-list" id="linkList">
             <!-- 折纸空客A320 链接卡片 -->
@@ -346,6 +353,62 @@
                 <h2 class="link-title">【零基础教程】折纸坦克</h2>
                 <p class="link-desc">带可活动履带的趣味折纸，材料简单易获取，步骤拆解适合新手入门</p>
                 <span class="link-tag">机械类折纸</span>
+            </div>
+
+            <!-- 歼10战斗机 链接卡片 -->
+            <div class="link-card" id="j10Link">
+                <h2 class="link-title">【详细教程】歼10战斗机</h2>
+                <p class="link-desc">中国自主研发的先进战斗机折纸模型，结构精密，展现威武气势</p>
+                <span class="link-tag">战斗机折纸</span>
+            </div>
+
+            <!-- M416步枪 链接卡片 -->
+            <div class="link-card" id="m416Link">
+                <h2 class="link-title">【详细教程】M416 - M416突击步枪</h2>
+                <p class="link-desc">经典突击步枪折纸模型，结构精密，细节丰富，适合进阶玩家</p>
+                <span class="link-tag">枪械折纸</span>
+            </div>
+
+            <!-- AWM狙击枪 链接卡片 -->
+            <div class="link-card" id="awmLink">
+                <h2 class="link-title">【详细教程】AWM - AWM狙击步枪</h2>
+                <p class="link-desc">高精度狙击步枪折纸模型，长枪管设计，适合远程射击爱好者</p>
+                <span class="link-tag">枪械折纸</span>
+            </div>
+
+            <!-- S686霰弹枪 链接卡片 -->
+            <div class="link-card" id="s686Link">
+                <h2 class="link-title">【详细教程】S686 - S686霰弹枪</h2>
+                <p class="link-desc">双管霰弹枪折纸模型，威力强大，适合近距离战斗模拟</p>
+                <span class="link-tag">枪械折纸</span>
+            </div>
+
+            <!-- UZI冲锋枪 链接卡片 -->
+            <div class="link-card" id="uziLink">
+                <h2 class="link-title">【详细教程】UZI - UZI冲锋枪</h2>
+                <p class="link-desc">经典冲锋枪折纸模型，射速快，结构紧凑，需要两张A4纸</p>
+                <span class="link-tag">枪械折纸</span>
+            </div>
+
+            <!-- 左轮手枪 链接卡片 -->
+            <div class="link-card" id="revolverLink">
+                <h2 class="link-title">【详细教程】左轮手枪</h2>
+                <p class="link-desc">经典左轮手枪折纸模型，转轮结构，需要两张A4纸制作</p>
+                <span class="link-tag">枪械折纸</span>
+            </div>
+
+            <!-- 野牛冲锋枪 链接卡片 -->
+            <div class="link-card" id="bizonLink">
+                <h2 class="link-title">【详细教程】野牛冲锋枪</h2>
+                <p class="link-desc">独特弹鼓设计的冲锋枪折纸模型，容量大，火力持续性强</p>
+                <span class="link-tag">枪械折纸</span>
+            </div>
+
+            <!-- 98K步枪 链接卡片 -->
+            <div class="link-card" id="kar98kLink">
+                <h2 class="link-title">【详细教程】98K - Kar98k步枪</h2>
+                <p class="link-desc">二战经典步枪折纸模型，拉栓式设计，历史感十足</p>
+                <span class="link-tag">枪械折纸</span>
             </div>
         </div>
 
@@ -371,10 +434,9 @@
                     class="post-video" 
                     controls
                     preload="metadata"
-                    poster="images/a320-cover.jpg"
+                    poster="images/A320.jpg"
                 >
                     您的浏览器不支持HTML5视频，请更新浏览器。
-                    <!-- 替换为您的OneDrive视频直链 -->
                     <source src="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VhdjFQd2N0SFdkQm0tTVF5Wi1SY1VnQkZLMDhISldLMHhVQ1kwdW5xdXhDMnc_ZT1KU2JqQmI.mp4" type="video/mp4">
                     <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VhdjFQd2N0SFdkQm0tTVF5Wi1SY1VnQkZLMDhISldLMHhVQ1kwdW5xdXhDMnc_ZT1KU2JqQmI.mp4">点击下载视频</a>
                 </video>
@@ -423,10 +485,9 @@
                     class="post-video" 
                     controls
                     preload="metadata"
-                    poster="images/tank-cover.jpg"
+                    poster="images/坦克.jpg"
                 >
                     您的浏览器不支持HTML5视频，请更新浏览器。
-                    <!-- 替换为您的OneDrive视频直链 -->
                     <source src="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VZTTYwdmdacmFaSnZBZmVWRUYtNGMwQk9yY1V2a2FDblczWDBkTGs3U2twNmc_ZT1XU2diTXI.mp4" type="video/mp4">
                     <a href="https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3YvYy8wNjg4Y2ZkMGEyN2VhOTljL0VZTTYwdmdacmFaSnZBZmVWRUYtNGMwQk9yY1V2a2FDblczWDBkTGs3U2twNmc_ZT1XU2diTXI.mp4">点击下载视频</a>
                 </video>
@@ -448,6 +509,199 @@
                     </a>
                     <div class="extract-code">提取码：6666</div>
                 </div>
+                <div class="post-section">
+                    <h3 class="post-section-title">准备材料</h3>
+                    <ul class="post-list">
+                        <li class="post-list-item">A4纸1张</li>
+                        <li class="post-list-item">白胶1小支</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 以下为新增枪械的内容区域 -->
+        <!-- 歼10战斗机内容区域 -->
+        <div class="content-section" id="j10Content">
+            <div class="button-group">
+                <button class="back-btn" id="j10Back">返回列表</button>
+                <a href="https://luoboya.top/lbbzzp/" class="home-btn">返回首页</a>
+            </div>
+            <div class="video-container">
+                <video id="j10Video" class="post-video" controls preload="metadata" poster="images/歼10.jpg">
+                    您的浏览器不支持HTML5视频，请更新浏览器。
+                    <source src="YOUR_J10_VIDEO_LINK" type="video/mp4">
+                    <a href="YOUR_J10_VIDEO_LINK">点击下载视频</a>
+                </video>
+            </div>
+            <div class="post-content">
+                <div class="post-section">
+                    <h3 class="post-section-title">准备材料</h3>
+                    <ul class="post-list">
+                        <li class="post-list-item">A4纸1张</li>
+                        <li class="post-list-item">透明胶一点</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- M416内容区域 -->
+        <div class="content-section" id="m416Content">
+            <div class="button-group">
+                <button class="back-btn" id="m416Back">返回列表</button>
+                <a href="https://luoboya.top/lbbzzp/" class="home-btn">返回首页</a>
+            </div>
+            <div class="video-container">
+                <video id="m416Video" class="post-video" controls preload="metadata" poster="images/M416.jpg">
+                    您的浏览器不支持HTML5视频，请更新浏览器。
+                    <source src="YOUR_M416_VIDEO_LINK" type="video/mp4">
+                    <a href="YOUR_M416_VIDEO_LINK">点击下载视频</a>
+                </video>
+            </div>
+            <div class="post-content">
+                <div class="post-section">
+                    <h3 class="post-section-title">准备材料</h3>
+                    <ul class="post-list">
+                        <li class="post-list-item">A4纸1张</li>
+                        <li class="post-list-item">白胶1小支</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- AWM内容区域 -->
+        <div class="content-section" id="awmContent">
+            <div class="button-group">
+                <button class="back-btn" id="awmBack">返回列表</button>
+                <a href="https://luoboya.top/lbbzzp/" class="home-btn">返回首页</a>
+            </div>
+            <div class="video-container">
+                <video id="awmVideo" class="post-video" controls preload="metadata" poster="images/AWM.jpg">
+                    您的浏览器不支持HTML5视频，请更新浏览器。
+                    <source src="YOUR_AWM_VIDEO_LINK" type="video/mp4">
+                    <a href="YOUR_AWM_VIDEO_LINK">点击下载视频</a>
+                </video>
+            </div>
+            <div class="post-content">
+                <div class="post-section">
+                    <h3 class="post-section-title">准备材料</h3>
+                    <ul class="post-list">
+                        <li class="post-list-item">A4纸1张</li>
+                        <li class="post-list-item">白胶1小支</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- UZI内容区域（需要两张A4纸） -->
+        <div class="content-section" id="uziContent">
+            <div class="button-group">
+                <button class="back-btn" id="uziBack">返回列表</button>
+                <a href="https://luoboya.top/lbbzzp/" class="home-btn">返回首页</a>
+            </div>
+            <div class="video-container">
+                <video id="uziVideo" class="post-video" controls preload="metadata" poster="images/UZI.jpg">
+                    您的浏览器不支持HTML5视频，请更新浏览器。
+                    <source src="YOUR_UZI_VIDEO_LINK" type="video/mp4">
+                    <a href="YOUR_UZI_VIDEO_LINK">点击下载视频</a>
+                </video>
+            </div>
+            <div class="post-content">
+                <div class="post-section">
+                    <h3 class="post-section-title">准备材料</h3>
+                    <ul class="post-list">
+                        <li class="post-list-item">A4纸2张</li>
+                        <li class="post-list-item">白胶1小支</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 野牛冲锋枪内容区域 -->
+        <div class="content-section" id="bizonContent">
+            <div class="button-group">
+                <button class="back-btn" id="bizonBack">返回列表</button>
+                <a href="https://luoboya.top/lbbzzp/" class="home-btn">返回首页</a>
+            </div>
+            <div class="video-container">
+                <video id="bizonVideo" class="post-video" controls preload="metadata" poster="images/野牛.jpg">
+                    您的浏览器不支持HTML5视频，请更新浏览器。
+                    <source src="YOUR_BIZON_VIDEO_LINK" type="video/mp4">
+                    <a href="YOUR_BIZON_VIDEO_LINK">点击下载视频</a>
+                </video>
+            </div>
+            <div class="post-content">
+                <div class="post-section">
+                    <h3 class="post-section-title">准备材料</h3>
+                    <ul class="post-list">
+                        <li class="post-list-item">A4纸1张</li>
+                        <li class="post-list-item">白胶1小支</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 左轮手枪内容区域（需要两张A4纸） -->
+        <div class="content-section" id="revolverContent">
+            <div class="button-group">
+                <button class="back-btn" id="revolverBack">返回列表</button>
+                <a href="https://luoboya.top/lbbzzp/" class="home-btn">返回首页</a>
+            </div>
+            <div class="video-container">
+                <video id="revolverVideo" class="post-video" controls preload="metadata" poster="images/左轮手枪.jpg">
+                    您的浏览器不支持HTML5视频，请更新浏览器。
+                    <source src="YOUR_REVOLVER_VIDEO_LINK" type="video/mp4">
+                    <a href="YOUR_REVOLVER_VIDEO_LINK">点击下载视频</a>
+                </video>
+            </div>
+            <div class="post-content">
+                <div class="post-section">
+                    <h3 class="post-section-title">准备材料</h3>
+                    <ul class="post-list">
+                        <li class="post-list-item">A4纸2张</li>
+                        <li class="post-list-item">白胶1小支</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 98K内容区域 -->
+        <div class="content-section" id="kar98kContent">
+            <div class="button-group">
+                <button class="back-btn" id="kar98kBack">返回列表</button>
+                <a href="https://luoboya.top/lbbzzp/" class="home-btn">返回首页</a>
+            </div>
+            <div class="video-container">
+                <video id="kar98kVideo" class="post-video" controls preload="metadata" poster="images/98K.jpg">
+                    您的浏览器不支持HTML5视频，请更新浏览器。
+                    <source src="YOUR_KAR98K_VIDEO_LINK" type="video/mp4">
+                    <a href="YOUR_KAR98K_VIDEO_LINK">点击下载视频</a>
+                </video>
+            </div>
+            <div class="post-content">
+                <div class="post-section">
+                    <h3 class="post-section-title">准备材料</h3>
+                    <ul class="post-list">
+                        <li class="post-list-item">A4纸1张</li>
+                        <li class="post-list-item">白胶1小支</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- S686内容区域 -->
+        <div class="content-section" id="s686Content">
+            <div class="button-group">
+                <button class="back-btn" id="s686Back">返回列表</button>
+                <a href="https://luoboya.top/lbbzzp/" class="home-btn">返回首页</a>
+            </div>
+            <div class="video-container">
+                <video id="s686Video" class="post-video" controls preload="metadata" poster="images/S686.jpg">
+                    您的浏览器不支持HTML5视频，请更新浏览器。
+                    <source src="YOUR_S686_VIDEO_LINK" type="video/mp4">
+                    <a href="YOUR_S686_VIDEO_LINK">点击下载视频</a>
+                </video>
+            </div>
+            <div class="post-content">
                 <div class="post-section">
                     <h3 class="post-section-title">准备材料</h3>
                     <ul class="post-list">
@@ -484,12 +738,6 @@
 
         // 2. 链接入口与内容区域切换
         const linkList = document.getElementById('linkList');
-        const a320Link = document.getElementById('a320Link');
-        const tankLink = document.getElementById('tankLink');
-        const a320Content = document.getElementById('a320Content');
-        const tankContent = document.getElementById('tankContent');
-        const a320Back = document.getElementById('a320Back');
-        const tankBack = document.getElementById('tankBack');
         const videoLoader = document.getElementById('videoLoader');
         const videoError = document.getElementById('videoError');
 
@@ -508,76 +756,62 @@
             videoLoader.style.display = 'none';
         }
 
-        // 点击A320链接：显示内容，隐藏入口
-        a320Link.addEventListener('click', () => {
-            linkList.style.display = 'none';
-            a320Content.style.display = 'block';
-            // 滚动到顶部
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // 预加载视频
-            const a320Video = document.getElementById('a320Video');
-            showLoader();
-            a320Video.load();
-            
-            a320Video.addEventListener('loadeddata', () => {
+        // 为每个链接添加点击事件
+        function setupContentToggle(linkId, contentId, backBtnId) {
+            const link = document.getElementById(linkId);
+            const content = document.getElementById(contentId);
+            const backBtn = document.getElementById(backBtnId);
+
+            link.addEventListener('click', () => {
+                linkList.style.display = 'none';
+                content.style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // 预加载视频
+                const video = content.querySelector('video');
+                if (video) {
+                    showLoader();
+                    video.load();
+                    
+                    video.addEventListener('loadeddata', () => {
+                        hideLoader();
+                    });
+                    
+                    video.addEventListener('error', () => {
+                        showError();
+                    });
+                }
+            });
+
+            backBtn.addEventListener('click', () => {
+                content.style.display = 'none';
+                linkList.style.display = 'grid';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
                 hideLoader();
+                videoError.style.display = 'none';
             });
-            
-            a320Video.addEventListener('error', () => {
-                showError();
-            });
-        });
+        }
 
-        // 点击坦克链接：显示内容，隐藏入口
-        tankLink.addEventListener('click', () => {
-            linkList.style.display = 'none';
-            tankContent.style.display = 'block';
-            // 滚动到顶部
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // 预加载视频
-            const tankVideo = document.getElementById('tankVideo');
-            showLoader();
-            tankVideo.load();
-            
-            tankVideo.addEventListener('loadeddata', () => {
-                hideLoader();
-            });
-            
-            tankVideo.addEventListener('error', () => {
-                showError();
-            });
-        });
-
-        // 点击A320返回：显示入口，隐藏内容
-        a320Back.addEventListener('click', () => {
-            a320Content.style.display = 'none';
-            linkList.style.display = 'grid';
-            // 滚动到顶部
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            hideLoader();
-            videoError.style.display = 'none';
-        });
-
-        // 点击坦克返回：显示入口，隐藏内容
-        tankBack.addEventListener('click', () => {
-            tankContent.style.display = 'none';
-            linkList.style.display = 'grid';
-            // 滚动到顶部
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            hideLoader();
-            videoError.style.display = 'none';
-        });
+        // 设置所有内容切换
+        setupContentToggle('a320Link', 'a320Content', 'a320Back');
+        setupContentToggle('tankLink', 'tankContent', 'tankBack');
+        setupContentToggle('j10Link', 'j10Content', 'j10Back');
+        setupContentToggle('m416Link', 'm416Content', 'm416Back');
+        setupContentToggle('awmLink', 'awmContent', 'awmBack');
+        setupContentToggle('s686Link', 's686Content', 's686Back');
+        setupContentToggle('uziLink', 'uziContent', 'uziBack');
+        setupContentToggle('revolverLink', 'revolverContent', 'revolverBack');
+        setupContentToggle('bizonLink', 'bizonContent', 'bizonBack');
+        setupContentToggle('kar98kLink', 'kar98kContent', 'kar98kBack');
 
         // 3. 键盘快捷键支持
         document.addEventListener('keydown', (e) => {
             // ESC键返回列表
             if (e.key === 'Escape') {
-                if (a320Content.style.display === 'block') {
-                    a320Back.click();
-                } else if (tankContent.style.display === 'block') {
-                    tankBack.click();
+                const visibleContent = document.querySelector('.content-section[style*="display: block"]');
+                if (visibleContent) {
+                    const backBtn = visibleContent.querySelector('.back-btn');
+                    if (backBtn) backBtn.click();
                 }
             }
         });
