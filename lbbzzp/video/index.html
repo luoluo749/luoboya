@@ -762,34 +762,38 @@
             const content = document.getElementById(contentId);
             const backBtn = document.getElementById(backBtnId);
 
-            link.addEventListener('click', () => {
-                linkList.style.display = 'none';
-                content.style.display = 'block';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                
-                // 预加载视频
-                const video = content.querySelector('video');
-                if (video) {
-                    showLoader();
-                    video.load();
+            if (link && content && backBtn) {
+                link.addEventListener('click', () => {
+                    linkList.style.display = 'none';
+                    content.style.display = 'block';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                     
-                    video.addEventListener('loadeddata', () => {
-                        hideLoader();
-                    });
-                    
-                    video.addEventListener('error', () => {
-                        showError();
-                    });
-                }
-            });
+                    // 预加载视频
+                    const video = content.querySelector('video');
+                    if (video) {
+                        showLoader();
+                        video.load();
+                        
+                        video.addEventListener('loadeddata', () => {
+                            hideLoader();
+                        });
+                        
+                        video.addEventListener('error', () => {
+                            showError();
+                        });
+                    }
+                });
 
-            backBtn.addEventListener('click', () => {
-                content.style.display = 'none';
-                linkList.style.display = 'grid';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                hideLoader();
-                videoError.style.display = 'none';
-            });
+                backBtn.addEventListener('click', () => {
+                    content.style.display = 'none';
+                    linkList.style.display = 'grid';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    hideLoader();
+                    videoError.style.display = 'none';
+                });
+            } else {
+                console.error(`无法找到元素: ${linkId}, ${contentId}, 或 ${backBtnId}`);
+            }
         }
 
         // 设置所有内容切换
