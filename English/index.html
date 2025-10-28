@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>今日复习计划（永久保存版）</title>
+    <style>
+        body {
+            font-family: 微软雅黑;
+            padding: 20px;
+            background-color: #f9f3e9;
+        }
+        .box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ddd;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #e67e22;
+            text-align: center;
+            font-size: 24px;
+        }
+        .today-review {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+        }
+        .today-title {
+            color: #856404;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .today-item {
+            color: #721c24;
+            margin: 5px 0;
+            font-size: 15px;
+        }
+        .no-today {
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .input-area {
+            margin: 20px 0;
+        }
+        input {
+            padding: 10px;
+            width: 250px;
+            margin: 10px 5px;
+            border: 2px solid #e67e22;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #e67e22;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        .plan-item {
+            margin: 15px 0;
+            padding: 15px;
+            background: #fef5e7;
+            border-radius: 8px;
+            border-left: 4px solid #e67e22;
+        }
+        .review-day {
+            margin: 6px 0;
+            color: #333;
+            font-size: 14px;
+        }
+        .title {
+            color: #e67e22;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .tip {
+            color: #666;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>今日复习+10次计划（稳用版）</h1>
+
+        <!-- 显示本地真实日期，一眼确认 -->
+        <div class="today-review">
+            <div class="today-title">📅 今天（本地日期：<span id="localToday">${getLocalDateStr(new Date())}</span>）要复习的课：</div>
+            <div id="todayReviewList" class="no-today">
+                今天没有要复习的内容哦～
+            </div>
+        </div>
+
+        <div class="input-area">
+            <p>1. 开始学习日期（默认今天，不用改）：</p>
+            <input type="date" id="startDate" value="${getLocalDateStr(new Date())}">
+            <p>2. 课程名称（如“五年级语文第1课”）：</p>
+            <input type="text" id="planName" placeholder="输入课程名">
+            <br>
+            <button onclick="addNewPlan()">添加10次复习计划</button>
+            <button onclick="clearOldErrorData()">首次用：清除旧错误数据</button>
+        </div>
+
+        <div id="allPlans"></div>
+    </div>
+
+    <script>
+        const reviewIntervals = [1, 2, 3, 5, 7, 9, 12, 14, 17, 21]; // 10次间隔
+        const PLAN_KEY = "linkedReviewPlans";
+        const CLEANED_FLAG = "hasCleanedOldData"; // 标记是否清过旧数据
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const todayStr = getLocalDateStr(today);
+
+        // 核心：本地日期格式化（不涉及时区）
+        function getLocalDateStr(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+            return `${year}-${month}-${day}`;
+        }
+
+        // 页面打开逻辑（关键修正：只清一次旧数据，之后永不删）
+        window.onload = () => {
+            // 检查是否已经清过旧数据：没清过就清一次，清过就直接加载计划
+            const hasCleaned = localStorage.getItem(CLEANED_FLAG) === "true";
+            if (!hasCleaned) {
+                localStorage.removeItem(PLAN_KEY); // 清一次旧错误数据
+                localStorage.setItem(CLEANED_FLAG, "true"); // 标记“已清”，之后不再清
+            }
+            // 加载保存的计划（二次打开也能读到）
+            loadAllPlans();
+            showTodayReview();
+        };
+
+        // 新增计划（保存后永久保留，除非手动删）
+        function addNewPlan() {
+            const startInput = document.getElementById("startDate").value;
+            const planName = document.getElementById("planName").value.trim();
+
+            if (!startInput) { alert("请选开始日期～"); return; }
+            if (!planName) { alert("给课程起个名字吧～"); return; }
+
+            // 本地日期计算，不跑偏
+            const [y, m, d] = startInput.split('-').map(Number);
+            const startDate = new Date(y, m - 1, d);
+            startDate.setHours(0, 0, 0, 0);
+            const firstReviewBase = new Date(startDate);
+            firstReviewBase.setDate(firstReviewBase.getDate() + 1);
+
+            // 生成10次复习数据
+            const newPlan = {
+                id: Date.now(),
+                name: planName,
+                startDate: startInput,
+                reviews: reviewIntervals.map((interval, i) => {
+                    const reviewDate = new Date(firstReviewBase);
+                    reviewDate.setDate(firstReviewBase.getDate() + interval - 1);
+                    return {
+                        times: i + 1,
+                        date: getLocalDateStr(reviewDate),
+                        interval: interval
+                    };
+                })
+            };
+
+            // 保存到浏览器（永久存，二次打开能读到）
+            const allPlans = JSON.parse(localStorage.getItem(PLAN_KEY) || "[]");
+            allPlans.push(newPlan);
+            localStorage.setItem(PLAN_KEY, JSON.stringify(allPlans));
+
+            // 刷新显示
+            showAllPlans(allPlans);
+            showTodayReview();
+
+            // 重置输入框
+            document.getElementById("planName").value = "";
+        }
+
+        // 加载保存的计划（二次打开核心：从浏览器读取之前存的）
+        function loadAllPlans() {
+            const allPlans = JSON.parse(localStorage.getItem(PLAN_KEY) || "[]");
+            // 只保留未完成的计划（最后一次复习没到的）
+            const activePlans = allPlans.filter(plan => {
+                const [y, m, d] = plan.reviews[9].date.split('-').map(Number);
+                const lastDate = new Date(y, m - 1, d);
+                lastDate.setHours(0, 0, 0, 0);
+                return lastDate >= today;
+            });
+            // 更新保存的计划（清除已完成的，不占空间）
+            localStorage.setItem(PLAN_KEY, JSON.stringify(activePlans));
+            showAllPlans(activePlans);
+        }
+
+        // 显示所有计划
+        function showAllPlans(allPlans) {
+            const dom = document.getElementById("allPlans");
+            dom.innerHTML = "";
+
+            // 按开始日期排序，整齐不乱
+            allPlans.sort((a, b) => {
+                const aDate = new Date(a.startDate.split('-').map(Number)[0], a.startDate.split('-').map(Number)[1]-1, a.startDate.split('-').map(Number)[2]);
+                const bDate = new Date(b.startDate.split('-').map(Number)[0], b.startDate.split('-').map(Number)[1]-1, b.startDate.split('-').map(Number)[2]);
+                return aDate - bDate;
+            });
+
+            allPlans.forEach(plan => {
+                const planDom = document.createElement("div");
+                planDom.className = "plan-item";
+                planDom.innerHTML = `<div class="title">📚 ${plan.name}（开始：${plan.startDate}）</div>`;
+
+                plan.reviews.forEach(review => {
+                    const [y, m, d] = review.date.split('-').map(Number);
+                    const rDate = new Date(y, m - 1, d);
+                    const style = rDate < today ? "text-decoration: line-through; color: #999;" : "";
+                    planDom.innerHTML += `
+                        <div class="review-day" style="${style}">
+                            第${review.times}次：${review.date}（距开始第${review.interval}天）
+                        </div>
+                    `;
+                });
+
+                dom.appendChild(planDom);
+            });
+
+            if (allPlans.length === 0) {
+                dom.innerHTML = "<div class='tip'>暂无计划～ 输入课程名点「添加」吧！</div>";
+            }
+        }
+
+        // 显示今日复习（精准匹配）
+        function showTodayReview() {
+            const dom = document.getElementById("todayReviewList");
+            const allPlans = JSON.parse(localStorage.getItem(PLAN_KEY) || "[]");
+            const todayTasks = [];
+
+            allPlans.forEach(plan => {
+                plan.reviews.forEach(review => {
+                    if (review.date === todayStr) {
+                        todayTasks.push(`${plan.name}（第${review.times}次）`);
+                    }
+                });
+            });
+
+            if (todayTasks.length > 0) {
+                dom.innerHTML = todayTasks.map(t => `<div class="today-item">✅ ${t}</div>`).join('');
+                dom.className = "today-item";
+            } else {
+                dom.innerHTML = "今天没有要复习的内容哦～";
+                dom.className = "no-today";
+            }
+        }
+
+        // 手动清除旧数据（仅首次用，之后不用点）
+        function clearOldErrorData() {
+            localStorage.removeItem(PLAN_KEY);
+            localStorage.setItem(CLEANED_FLAG, "true");
+            alert("旧数据已清除！现在添加的计划会永久保存～");
+            loadAllPlans();
+            showTodayReview();
+        }
+    </script>
+</body>
+</html>
