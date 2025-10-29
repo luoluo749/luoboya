@@ -6,7 +6,7 @@
     <title>萝卜芽科技无限公司</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    
+
     <script>
         tailwind.config = {
             theme: {
@@ -28,58 +28,58 @@
             }
         }
     </script>
-    
+
     <style>
         body {
             background: linear-gradient(135deg, #0a192f 0%, #172a45 100%);
             min-height: 100vh;
             overflow-x: hidden;
         }
-        
+
         .text-gradient {
             background: linear-gradient(to right, #0066cc, #00aaff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
+
         .btn-glow {
             transition: all 0.3s;
         }
-        
+
         .btn-glow:hover {
             box-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
         }
-        
+
         .btn-glow:active {
             box-shadow: 0 0 25px rgba(0, 170, 255, 0.7);
         }
-        
+
         .bg-blur {
             backdrop-filter: blur(10px);
             background-color: rgba(255, 255, 255, 0.1);
         }
-        
+
         .logo-container {
             perspective: 1000px;
         }
-        
+
         .logo {
             transition: transform 0.6s;
             transform-style: preserve-3d;
         }
-        
+
         .logo-container:hover .logo {
             transform: rotateY(180deg);
         }
-        
+
         .btn-primary {
             background: linear-gradient(135deg, #0066cc 0%, #00aaff 100%);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
-        
+
         .btn-primary:after {
             content: '';
             position: absolute;
@@ -90,26 +90,11 @@
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
             transition: all 0.6s ease;
         }
-        
+
         .btn-primary:hover:after {
             left: 100%;
         }
-        
-        #coming-soon {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 25, 47, 0.95);
-            z-index: 100;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(8px);
-        }
-        
+
         .simple-particles {
             position: absolute;
             width: 100%;
@@ -119,54 +104,54 @@
             z-index: 0;
             overflow: hidden;
         }
-        
+
         .particle {
             position: absolute;
             background-color: #00aaff;
             border-radius: 50%;
             opacity: 0.3;
         }
-        
+
         .fade-in {
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInUp 0.8s ease forwards;
         }
-        
+
         .fade-in-delay-1 {
             animation-delay: 0.2s;
         }
-        
+
         .fade-in-delay-2 {
             animation-delay: 0.4s;
         }
-        
+
         .fade-in-delay-3 {
             animation-delay: 0.6s;
         }
-        
+
         .fade-in-delay-4 {
             animation-delay: 0.8s;
         }
-        
+
         @keyframes fadeInUp {
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-        
+
         .domain-link {
             transition: all 0.3s ease;
             border-bottom: 1px dotted rgba(0, 170, 255, 0.5);
         }
-        
+
         .domain-link:hover {
             color: #00aaff;
             border-bottom-color: #00aaff;
         }
-        
-        /* 原创公司标志设计 */
+
+        /* 优化后的公司标志设计 */
         .company-logo {
             width: 200px;
             height: 200px;
@@ -179,67 +164,80 @@
             overflow: hidden;
             box-shadow: 0 0 30px rgba(0, 170, 255, 0.5);
         }
-        
+
         .logo-core {
             width: 120px;
             height: 120px;
             background: white;
-            border-radius: 60% 40% 50% 50% / 60% 50% 50% 40%;
+            border-radius: 50%;
             position: relative;
-            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
         }
-        
-        .logo-core:before {
-            content: '';
+
+        .logo-leaf {
             position: absolute;
-            width: 40px;
-            height: 40px;
-            background: #00aaff;
-            border-radius: 50%;
-            top: 20px;
-            left: 20px;
+            width: 60px;
+            height: 100px;
+            background: linear-gradient(135deg, #0066cc 0%, #00aaff 100%);
+            border-radius: 50% 50% 50% 0;
+            transform-origin: bottom center;
+            animation: leaf-grow 3s ease-in-out infinite;
         }
-        
-        .logo-core:after {
-            content: '';
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            border: 8px solid transparent;
-            border-top-color: #00aaff;
-            border-right-color: #00aaff;
-            border-radius: 50%;
-            top: 10px;
-            left: 10px;
+
+        .logo-leaf:nth-child(1) {
+            transform: rotate(0deg);
+            animation-delay: 0s;
         }
-        
+
+        .logo-leaf:nth-child(2) {
+            transform: rotate(120deg);
+            animation-delay: 0.5s;
+        }
+
+        .logo-leaf:nth-child(3) {
+            transform: rotate(240deg);
+            animation-delay: 1s;
+        }
+
+        @keyframes leaf-grow {
+            0%, 100% { height: 60px; opacity: 0.8; }
+            50% { height: 80px; opacity: 1; }
+        }
+
         .logo-orbit {
             position: absolute;
-            width: 160px;
-            height: 160px;
             border: 2px dashed rgba(255, 255, 255, 0.7);
             border-radius: 50%;
             animation: rotate 20s linear infinite;
         }
-        
-        .logo-orbit:nth-child(2) {
+
+        .logo-orbit:nth-child(4) {
+            width: 160px;
+            height: 160px;
+            animation-duration: 20s;
+        }
+
+        .logo-orbit:nth-child(5) {
             width: 180px;
             height: 180px;
             animation-duration: 15s;
             animation-direction: reverse;
         }
-        
-        .logo-orbit:nth-child(3) {
+
+        .logo-orbit:nth-child(6) {
             width: 140px;
             height: 140px;
             animation-duration: 25s;
         }
-        
+
         @keyframes rotate {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-        
+
         .logo-spark {
             position: absolute;
             width: 8px;
@@ -247,37 +245,62 @@
             background: white;
             border-radius: 50%;
             box-shadow: 0 0 10px white;
+            animation: sparkle 2s infinite;
         }
-        
-        .logo-spark:nth-child(4) {
+
+        .logo-spark:nth-child(7) {
             top: 10px;
             left: 50%;
             margin-left: -4px;
+            animation-delay: 0s;
         }
-        
-        .logo-spark:nth-child(5) {
+
+        .logo-spark:nth-child(8) {
             bottom: 10px;
             left: 50%;
             margin-left: -4px;
+            animation-delay: 0.5s;
         }
-        
-        .logo-spark:nth-child(6) {
+
+        .logo-spark:nth-child(9) {
             left: 10px;
             top: 50%;
             margin-top: -4px;
+            animation-delay: 1s;
         }
-        
-        .logo-spark:nth-child(7) {
+
+        .logo-spark:nth-child(10) {
             right: 10px;
             top: 50%;
             margin-top: -4px;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .logo-center {
+            width: 30px;
+            height: 30px;
+            background: #0066cc;
+            border-radius: 50%;
+            z-index: 10;
+            box-shadow: 0 0 15px rgba(0, 102, 204, 0.8);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
     </style>
 </head>
 <body class="flex flex-col min-h-screen text-white">
     <!-- 粒子背景 -->
     <div class="simple-particles" id="simple-particles"></div>
-    
+
     <!-- 主内容 -->
     <div class="container mx-auto px-4 z-10 flex flex-col items-center justify-center flex-grow py-12">
         <!-- Logo -->
@@ -286,38 +309,43 @@
                 <div class="logo-orbit"></div>
                 <div class="logo-orbit"></div>
                 <div class="logo-orbit"></div>
+                <div class="logo-core">
+                    <div class="logo-leaf"></div>
+                    <div class="logo-leaf"></div>
+                    <div class="logo-leaf"></div>
+                    <div class="logo-center"></div>
+                </div>
                 <div class="logo-spark"></div>
                 <div class="logo-spark"></div>
                 <div class="logo-spark"></div>
                 <div class="logo-spark"></div>
-                <div class="logo-core"></div>
             </div>
         </div>
-        
+
         <!-- 公司名称 -->
         <h1 class="text-4xl md:text-6xl font-bold mb-2 text-gradient fade-in fade-in-delay-1">萝卜芽科技无限公司</h1>
         <p class="text-xl md:text-2xl text-gray-300 mb-4 fade-in fade-in-delay-2">探索科技无限可能</p>
-        
+
         <!-- 域名显示 -->
         <div class="mb-12 fade-in fade-in-delay-3">
             <a href="https://luoboya.top" target="_blank" class="domain-link text-lg text-gray-300 hover:text-secondary">
                 luoboya.top
             </a>
         </div>
-        
+
         <!-- 按钮容器 -->
         <div class="flex flex-col sm:flex-row gap-4 w-full max-w-lg mx-auto flex-wrap justify-center fade-in fade-in-delay-4">
             <!-- 拉布布折纸铺按钮 -->
             <a href="https://luoboya.top/lbbzzp/" target="_blank" class="btn-primary btn-glow py-4 px-6 rounded-full text-lg font-semibold text-white shadow-lg hover:scale-105 active:scale-95 min-w-[180px] text-center">
                 <i class="fa fa-paper-plane mr-2"></i>拉布布折纸铺
             </a>
-            
-            <!-- HTML在线游戏按钮 -->
-            <button id="btn-games" class="btn-primary btn-glow py-4 px-6 rounded-full text-lg font-semibold text-white shadow-lg hover:scale-105 active:scale-95 min-w-[180px]">
+
+            <!-- HTML在线游戏按钮 - 已修改为直接跳转 -->
+            <a href="https://game.luoboya.top" target="_blank" class="btn-primary btn-glow py-4 px-6 rounded-full text-lg font-semibold text-white shadow-lg hover:scale-105 active:scale-95 min-w-[180px] text-center">
                 <i class="fa fa-gamepad mr-2"></i>HTML在线游戏
-            </button>
+            </a>
         </div>
-        
+
         <!-- 公司简介 -->
         <div class="mt-16 max-w-2xl text-center bg-blur rounded-2xl p-8 backdrop-blur-md fade-in">
             <h2 class="text-2xl font-bold mb-4 text-gradient">关于我们</h2>
@@ -329,7 +357,7 @@
             </p>
         </div>
     </div>
-    
+
     <!-- 底部版权标识 -->
     <footer class="py-6 border-t border-gray-800 mt-auto">
         <div class="container mx-auto px-4 text-center">
@@ -339,54 +367,33 @@
             </p>
         </div>
     </footer>
-    
-    <!-- 敬请期待区域（默认隐藏） -->
-    <div id="coming-soon">
-        <div class="text-center p-8 max-w-md mx-auto bg-blur rounded-2xl">
-            <h2 class="text-4xl font-bold mb-6 text-gradient">敬请期待</h2>
-            <p class="text-xl text-gray-300 mb-8">HTML在线游戏功能正在开发中，即将上线！</p>
-            <button id="btn-close" class="btn-primary btn-glow py-3 px-8 rounded-full text-lg font-semibold text-white shadow-lg hover:scale-105 active:scale-95">
-                返回首页
-            </button>
-        </div>
-    </div>
-    
+
     <script>
         // 创建简单粒子背景
         function createSimpleParticles() {
             const container = document.getElementById('simple-particles');
             const particleCount = 30;
-            
+
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
-                
+
                 // 随机大小
                 const size = Math.random() * 6 + 2;
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
-                
+
                 // 随机位置
                 particle.style.left = `${Math.random() * 100}%`;
                 particle.style.top = `${Math.random() * 100}%`;
-                
+
                 container.appendChild(particle);
             }
         }
-        
+
         // 初始化简单粒子背景
         document.addEventListener('DOMContentLoaded', function() {
             createSimpleParticles();
-        });
-        
-        // HTML在线游戏：显示敬请期待区域
-        document.getElementById('btn-games').addEventListener('click', function() {
-            document.getElementById('coming-soon').style.display = 'flex';
-        });
-        
-        // 关闭敬请期待区域
-        document.getElementById('btn-close').addEventListener('click', function() {
-            document.getElementById('coming-soon').style.display = 'none';
         });
     </script>
 </body>
