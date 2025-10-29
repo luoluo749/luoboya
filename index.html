@@ -151,149 +151,14 @@
             border-bottom-color: #00aaff;
         }
 
-        /* 优化后的公司标志设计 */
-        .company-logo {
+        /* 图片Logo样式 */
+        .logo-image {
             width: 200px;
             height: 200px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #0066cc 0%, #00aaff 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
+            object-fit: cover;
             box-shadow: 0 0 30px rgba(0, 170, 255, 0.5);
-        }
-
-        .logo-core {
-            width: 120px;
-            height: 120px;
-            background: white;
-            border-radius: 50%;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .logo-leaf {
-            position: absolute;
-            width: 60px;
-            height: 100px;
-            background: linear-gradient(135deg, #0066cc 0%, #00aaff 100%);
-            border-radius: 50% 50% 50% 0;
-            transform-origin: bottom center;
-            animation: leaf-grow 3s ease-in-out infinite;
-        }
-
-        .logo-leaf:nth-child(1) {
-            transform: rotate(0deg);
-            animation-delay: 0s;
-        }
-
-        .logo-leaf:nth-child(2) {
-            transform: rotate(120deg);
-            animation-delay: 0.5s;
-        }
-
-        .logo-leaf:nth-child(3) {
-            transform: rotate(240deg);
-            animation-delay: 1s;
-        }
-
-        @keyframes leaf-grow {
-            0%, 100% { height: 60px; opacity: 0.8; }
-            50% { height: 80px; opacity: 1; }
-        }
-
-        .logo-orbit {
-            position: absolute;
-            border: 2px dashed rgba(255, 255, 255, 0.7);
-            border-radius: 50%;
-            animation: rotate 20s linear infinite;
-        }
-
-        .logo-orbit:nth-child(4) {
-            width: 160px;
-            height: 160px;
-            animation-duration: 20s;
-        }
-
-        .logo-orbit:nth-child(5) {
-            width: 180px;
-            height: 180px;
-            animation-duration: 15s;
-            animation-direction: reverse;
-        }
-
-        .logo-orbit:nth-child(6) {
-            width: 140px;
-            height: 140px;
-            animation-duration: 25s;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .logo-spark {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 0 0 10px white;
-            animation: sparkle 2s infinite;
-        }
-
-        .logo-spark:nth-child(7) {
-            top: 10px;
-            left: 50%;
-            margin-left: -4px;
-            animation-delay: 0s;
-        }
-
-        .logo-spark:nth-child(8) {
-            bottom: 10px;
-            left: 50%;
-            margin-left: -4px;
-            animation-delay: 0.5s;
-        }
-
-        .logo-spark:nth-child(9) {
-            left: 10px;
-            top: 50%;
-            margin-top: -4px;
-            animation-delay: 1s;
-        }
-
-        .logo-spark:nth-child(10) {
-            right: 10px;
-            top: 50%;
-            margin-top: -4px;
-            animation-delay: 1.5s;
-        }
-
-        @keyframes sparkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
-
-        .logo-center {
-            width: 30px;
-            height: 30px;
-            background: #0066cc;
-            border-radius: 50%;
-            z-index: 10;
-            box-shadow: 0 0 15px rgba(0, 102, 204, 0.8);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            border: 3px solid rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
@@ -303,23 +168,9 @@
 
     <!-- 主内容 -->
     <div class="container mx-auto px-4 z-10 flex flex-col items-center justify-center flex-grow py-12">
-        <!-- Logo -->
+        <!-- Logo - 已修改为使用图片 -->
         <div class="logo-container mb-8 fade-in">
-            <div class="company-logo logo">
-                <div class="logo-orbit"></div>
-                <div class="logo-orbit"></div>
-                <div class="logo-orbit"></div>
-                <div class="logo-core">
-                    <div class="logo-leaf"></div>
-                    <div class="logo-leaf"></div>
-                    <div class="logo-leaf"></div>
-                    <div class="logo-center"></div>
-                </div>
-                <div class="logo-spark"></div>
-                <div class="logo-spark"></div>
-                <div class="logo-spark"></div>
-                <div class="logo-spark"></div>
-            </div>
+            <img src="picture.jpg" alt="萝卜芽科技" class="logo logo-image">
         </div>
 
         <!-- 公司名称 -->
