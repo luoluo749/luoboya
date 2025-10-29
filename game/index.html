@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏中心</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+            z-index: 10;
+        }
+        
+        .header {
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #ff0080, #00ffff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(255, 0, 128, 0.5);
+            letter-spacing: 2px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a0a0c0;
+            margin-bottom: 10px;
+        }
+        
+        .games-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .game-card {
+            width: 320px;
+            height: 420px;
+            background: rgba(20, 20, 40, 0.7);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.4s, box-shadow 0.4s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(100, 100, 255, 0.2);
+        }
+        
+        .game-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 15px 40px rgba(0, 200, 255, 0.3);
+        }
+        
+        .game-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .snake-image {
+            background: linear-gradient(45deg, #0f9b0f, #3cba54);
+        }
+        
+        .ball-image {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+        }
+        
+        .game-icon {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(30, 30, 60, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .game-content {
+            padding: 50px 25px 25px;
+            text-align: center;
+        }
+        
+        .game-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .snake-title {
+            color: #3cba54;
+        }
+        
+        .ball-title {
+            color: #ff4b2b;
+        }
+        
+        .game-description {
+            color: #b0b0d0;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        
+        .play-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 114, 255, 0.4);
+            text-decoration: none;
+        }
+        
+        .play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 114, 255, 0.6);
+        }
+        
+        .snake-btn {
+            background: linear-gradient(90deg, #3cba54, #0f9b0f);
+            box-shadow: 0 5px 15px rgba(15, 155, 15, 0.4);
+        }
+        
+        .ball-btn {
+            background: linear-gradient(90deg, #ff416c, #ff4b2b);
+            box-shadow: 0 5px 15px rgba(255, 75, 43, 0.4);
+        }
+        
+        .footer {
+            margin-top: 60px;
+            color: #7070a0;
+            font-size: 0.9rem;
+        }
+        
+        /* 粒子背景 */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .games-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 粒子背景 -->
+    <div id="particles-js"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>游戏中心</h1>
+            <p class="subtitle">选择您喜欢的游戏开始冒险</p>
+        </div>
+        
+        <div class="games-container">
+            <!-- 贪吃蛇游戏卡片 -->
+            <div class="game-card">
+                <div class="game-image snake-image">
+                    <div class="game-icon">🐍</div>
+                </div>
+                <div class="game-content">
+                    <h2 class="game-title snake-title">基础版贪吃蛇</h2>
+                    <p class="game-description">
+                        经典的贪吃蛇游戏，控制蛇吃掉食物，让蛇变得越来越长，但要小心不要撞到墙壁或自己的身体！
+                    </p>
+                    <a href="https://game.luoboya.top/jcbtcs/" class="play-btn snake-btn">开始游戏</a>
+                </div>
+            </div>
+            
+            <!-- 躲避小球游戏卡片 -->
+            <div class="game-card">
+                <div class="game-image ball-image">
+                    <div class="game-icon">⚡</div>
+                </div>
+                <div class="game-content">
+                    <h2 class="game-title ball-title">躲避小球</h2>
+                    <p class="game-description">
+                        在充满危险小球的空间中灵活移动，躲避不断袭来的小球，看看你能坚持多久！
+                    </p>
+                    <a href="https://game.luoboya.top/dbxq/" class="play-btn ball-btn">开始游戏</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2023 游戏中心 | 享受游戏的乐趣</p>
+        </div>
+    </div>
+
+    <!-- 粒子效果库 -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // 初始化粒子背景
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#ffffff" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ffffff",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                }
+            }
+        });
+    </script>
+</body>
+</html>
