@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>今日复习计划（永久保存版）</title>
+    <title>今日复习计划（服务器版）</title>
     <style>
         body {
             font-family: 微软雅黑;
@@ -90,24 +90,23 @@
 </head>
 <body>
     <div class="box">
-        <h1>今日复习+10次计划（稳用版）</h1>
+        <h1>今日复习+10次计划（服务器版）</h1>
 
-        <!-- 显示本地真实日期，一眼确认 -->
         <div class="today-review">
             <div class="today-title">📅 今天（本地日期：<span id="localToday">${getLocalDateStr(new Date())}</span>）要复习的课：</div>
             <div id="todayReviewList" class="no-today">
-                今天没有要复习的内容哦～
+                正在加载复习计划...
             </div>
         </div>
 
         <div class="input-area">
-            <p>1. 开始学习日期（默认今天，不用改）：</p>
+            <p>1. 开始学习日期（默认今天）：</p>
             <input type="date" id="startDate" value="${getLocalDateStr(new Date())}">
             <p>2. 课程名称（如“五年级语文第1课”）：</p>
             <input type="text" id="planName" placeholder="输入课程名">
             <br>
             <button onclick="addNewPlan()">添加10次复习计划</button>
-            <button onclick="clearOldErrorData()">首次用：清除旧错误数据</button>
+            <button onclick="exportToTxt()">导出全部计划到TXT文件</button>
         </div>
 
         <div id="allPlans"></div>
@@ -116,7 +115,6 @@
     <script>
         const reviewIntervals = [1, 2, 3, 5, 7, 9, 12, 14, 17, 21]; // 10次间隔
         const PLAN_KEY = "linkedReviewPlans";
-        const CLEANED_FLAG = "hasCleanedOldData"; // 标记是否清过旧数据
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const todayStr = getLocalDateStr(today);
@@ -129,20 +127,104 @@
             return `${year}-${month}-${day}`;
         }
 
-        // 页面打开逻辑（关键修正：只清一次旧数据，之后永不删）
+        // 页面打开逻辑
         window.onload = () => {
-            // 检查是否已经清过旧数据：没清过就清一次，清过就直接加载计划
-            const hasCleaned = localStorage.getItem(CLEANED_FLAG) === "true";
-            if (!hasCleaned) {
-                localStorage.removeItem(PLAN_KEY); // 清一次旧错误数据
-                localStorage.setItem(CLEANED_FLAG, "true"); // 标记“已清”，之后不再清
-            }
-            // 加载保存的计划（二次打开也能读到）
-            loadAllPlans();
-            showTodayReview();
+            document.getElementById('localToday').textContent = getLocalDateStr(today);
+            // 先尝试从服务器加载计划
+            loadPlansFromServer();
         };
 
-        // 新增计划（保存后永久保留，除非手动删）
+        // 从服务器加载计划（从"课程"文件夹读取all_plans.txt）
+        function loadPlansFromServer() {
+            // 路径是 '课程/all_plans.txt'，表示在"课程"文件夹里
+            fetch('课程/all_plans.txt')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('服务器上找不到计划文件');
+                    }
+                    return response.text();
+                })
+                .then(txtContent => {
+                    parseAndDisplayServerPlans(txtContent);
+                    console.log('成功从服务器加载计划');
+                })
+                .catch(error => {
+                    console.error('从服务器加载失败，尝试加载本地计划:', error);
+                    loadLocalPlans();
+                });
+        }
+
+        // 解析服务器TXT内容并显示
+        function parseAndDisplayServerPlans(txtContent) {
+            const blocks = txtContent.split('===').map(block => block.trim()).filter(block => block);
+            const serverPlans = [];
+
+            blocks.forEach(block => {
+                const lines = block.split('\n').map(line => line.trim()).filter(line => line);
+                if (lines.length === 0) return;
+
+                const plan = {
+                    id: Date.now() + Math.random(),
+                    name: '',
+                    startDate: '',
+                    reviews: []
+                };
+
+                let inReviewSection = false;
+
+                lines.forEach(line => {
+                    if (line.startsWith('课程:')) {
+                        plan.name = line.replace('课程: ', '');
+                    } else if (line.startsWith('开始日期:')) {
+                        plan.startDate = line.replace('开始日期: ', '');
+                    } else if (line === '复习安排:') {
+                        inReviewSection = true;
+                    } else if (inReviewSection && line.match(/^第(\d+)次:/)) {
+                        const parts = line.split(': ');
+                        const times = parseInt(parts[0].replace('第', '').replace('次', ''));
+                        const datePart = parts[1].split(' (')[0];
+                        const intervalMatch = parts[1].match(/第(\d+)天/);
+                        const interval = intervalMatch ? parseInt(intervalMatch[1]) : 0;
+                        
+                        plan.reviews.push({
+                            times: times,
+                            date: datePart,
+                            interval: interval
+                        });
+                    }
+                });
+
+                if (plan.name && plan.startDate && plan.reviews.length > 0) {
+                    serverPlans.push(plan);
+                }
+            });
+
+            if (serverPlans.length > 0) {
+                // 按开始日期排序
+                serverPlans.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+                showAllPlans(serverPlans);
+                showTodayReview(serverPlans);
+            } else {
+                console.log('服务器文件格式错误，加载本地计划');
+                loadLocalPlans();
+            }
+        }
+
+        // 加载本地存储的计划
+        function loadLocalPlans() {
+            const allPlans = JSON.parse(localStorage.getItem(PLAN_KEY) || "[]");
+            // 只保留未完成的计划
+            const activePlans = allPlans.filter(plan => {
+                if (plan.reviews.length === 0) return false;
+                const lastReviewDate = new Date(plan.reviews[plan.reviews.length - 1].date);
+                lastReviewDate.setHours(0, 0, 0, 0);
+                return lastReviewDate >= today;
+            });
+            showAllPlans(activePlans);
+            showTodayReview(activePlans);
+        }
+
+        // 新增计划（保存到本地存储）
         function addNewPlan() {
             const startInput = document.getElementById("startDate").value;
             const planName = document.getElementById("planName").value.trim();
@@ -150,14 +232,12 @@
             if (!startInput) { alert("请选开始日期～"); return; }
             if (!planName) { alert("给课程起个名字吧～"); return; }
 
-            // 本地日期计算，不跑偏
             const [y, m, d] = startInput.split('-').map(Number);
             const startDate = new Date(y, m - 1, d);
             startDate.setHours(0, 0, 0, 0);
             const firstReviewBase = new Date(startDate);
             firstReviewBase.setDate(firstReviewBase.getDate() + 1);
 
-            // 生成10次复习数据
             const newPlan = {
                 id: Date.now(),
                 name: planName,
@@ -173,32 +253,14 @@
                 })
             };
 
-            // 保存到浏览器（永久存，二次打开能读到）
             const allPlans = JSON.parse(localStorage.getItem(PLAN_KEY) || "[]");
             allPlans.push(newPlan);
             localStorage.setItem(PLAN_KEY, JSON.stringify(allPlans));
 
-            // 刷新显示
             showAllPlans(allPlans);
-            showTodayReview();
+            showTodayReview(allPlans);
 
-            // 重置输入框
             document.getElementById("planName").value = "";
-        }
-
-        // 加载保存的计划（二次打开核心：从浏览器读取之前存的）
-        function loadAllPlans() {
-            const allPlans = JSON.parse(localStorage.getItem(PLAN_KEY) || "[]");
-            // 只保留未完成的计划（最后一次复习没到的）
-            const activePlans = allPlans.filter(plan => {
-                const [y, m, d] = plan.reviews[9].date.split('-').map(Number);
-                const lastDate = new Date(y, m - 1, d);
-                lastDate.setHours(0, 0, 0, 0);
-                return lastDate >= today;
-            });
-            // 更新保存的计划（清除已完成的，不占空间）
-            localStorage.setItem(PLAN_KEY, JSON.stringify(activePlans));
-            showAllPlans(activePlans);
         }
 
         // 显示所有计划
@@ -206,12 +268,13 @@
             const dom = document.getElementById("allPlans");
             dom.innerHTML = "";
 
-            // 按开始日期排序，整齐不乱
-            allPlans.sort((a, b) => {
-                const aDate = new Date(a.startDate.split('-').map(Number)[0], a.startDate.split('-').map(Number)[1]-1, a.startDate.split('-').map(Number)[2]);
-                const bDate = new Date(b.startDate.split('-').map(Number)[0], b.startDate.split('-').map(Number)[1]-1, b.startDate.split('-').map(Number)[2]);
-                return aDate - bDate;
-            });
+            if (allPlans.length === 0) {
+                dom.innerHTML = "<div class='tip'>暂无计划～ 输入课程名点「添加」吧！</div>";
+                return;
+            }
+
+            // 按开始日期排序
+            allPlans.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
 
             allPlans.forEach(plan => {
                 const planDom = document.createElement("div");
@@ -219,28 +282,32 @@
                 planDom.innerHTML = `<div class="title">📚 ${plan.name}（开始：${plan.startDate}）</div>`;
 
                 plan.reviews.forEach(review => {
-                    const [y, m, d] = review.date.split('-').map(Number);
-                    const rDate = new Date(y, m - 1, d);
-                    const style = rDate < today ? "text-decoration: line-through; color: #999;" : "";
+                    const reviewDateObj = new Date(review.date.split('-')[0], review.date.split('-')[1]-1, review.date.split('-')[2]);
+                    const isPast = reviewDateObj < today;
+                    const isToday = review.date === todayStr;
+                    let style = "";
+                    if (isPast) style = "text-decoration: line-through; color: #999;";
+                    if (isToday) style = "background-color: #ffeeba; font-weight: bold;";
+                    
                     planDom.innerHTML += `
                         <div class="review-day" style="${style}">
                             第${review.times}次：${review.date}（距开始第${review.interval}天）
+                            ${isToday ? ' 🚨 今日复习' : ''}
                         </div>
                     `;
                 });
 
                 dom.appendChild(planDom);
             });
-
-            if (allPlans.length === 0) {
-                dom.innerHTML = "<div class='tip'>暂无计划～ 输入课程名点「添加」吧！</div>";
-            }
         }
 
-        // 显示今日复习（精准匹配）
-        function showTodayReview() {
+        // 显示今日复习
+        function showTodayReview(allPlans = null) {
             const dom = document.getElementById("todayReviewList");
-            const allPlans = JSON.parse(localStorage.getItem(PLAN_KEY) || "[]");
+            if (!allPlans) {
+                allPlans = JSON.parse(localStorage.getItem(PLAN_KEY) || "[]");
+            }
+            
             const todayTasks = [];
 
             allPlans.forEach(plan => {
@@ -260,13 +327,41 @@
             }
         }
 
-        // 手动清除旧数据（仅首次用，之后不用点）
-        function clearOldErrorData() {
-            localStorage.removeItem(PLAN_KEY);
-            localStorage.setItem(CLEANED_FLAG, "true");
-            alert("旧数据已清除！现在添加的计划会永久保存～");
-            loadAllPlans();
-            showTodayReview();
+        // 导出全部计划到TXT文件（用于上传到服务器）
+        function exportToTxt() {
+            const allPlans = JSON.parse(localStorage.getItem(PLAN_KEY) || "[]");
+            if (allPlans.length === 0) {
+                alert("没有可导出的计划！");
+                return;
+            }
+
+            // 按开始日期排序
+            allPlans.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+
+            // 构建TXT内容，格式与服务器文件兼容
+            let txtContent = "";
+            allPlans.forEach((plan, index) => {
+                if (index > 0) txtContent += "===\n"; // 用===分隔不同计划
+                txtContent += `课程: ${plan.name}\n`;
+                txtContent += `开始日期: ${plan.startDate}\n`;
+                txtContent += "复习安排:\n";
+                plan.reviews.forEach(review => {
+                    txtContent += `  第${review.times}次: ${review.date} (距开始第${review.interval}天)\n`;
+                });
+            });
+
+            // 创建并下载文件
+            const blob = new Blob([txtContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `all_plans.txt`; // 固定文件名，方便上传
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            alert("all_plans.txt 文件已下载！请将它上传到服务器的\"课程\"文件夹里。");
         }
     </script>
 </body>
