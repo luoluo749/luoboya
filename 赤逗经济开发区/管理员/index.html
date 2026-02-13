@@ -5,45 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>赤逗经济开发区 · 管理员终端</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #1e3a47;
+            background: #1a3e46;
             font-family: 'Segoe UI', Roboto, monospace;
-            padding: 2rem;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            padding: 2rem;
         }
-        .admin-panel {
-            max-width: 1400px;
+        .admin-wrap {
+            max-width: 1500px;
             width: 100%;
             background: #ecf0f3;
-            border-radius: 36px;
-            padding: 2rem;
+            border-radius: 40px;
+            padding: 2.2rem;
             box-shadow: 0 20px 30px rgba(0,0,0,0.5);
-            border: 1px solid #a5c9ca;
         }
         .login-area {
             background: white;
-            border-radius: 24px;
+            border-radius: 28px;
             padding: 2.5rem;
             text-align: center;
-            box-shadow: inset 0 2px 8px rgba(0,0,0,0.03);
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);
         }
         .login-title {
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: #0b4e5c;
-            margin-bottom: 0.5rem;
             font-weight: 700;
+            margin-bottom: 0.8rem;
         }
         .password-hint {
             background: #fef0d9;
             padding: 1rem;
-            border-radius: 50px;
+            border-radius: 60px;
             color: #7d5a2a;
-            margin: 1.5rem 0;
             font-size: 1.2rem;
+            margin: 2rem 0;
             border: 2px dashed #b38f4a;
         }
         .password-input {
@@ -84,52 +83,61 @@
             border-bottom-width: 2px;
             transform: translateY(3px);
         }
-        .btn-danger {
-            background: #6f8f8c;
-            border-bottom-color: #3e5552;
-            cursor: not-allowed;
-            opacity: 0.7;
+        .btn-secondary {
+            background: #476b6f;
+            border-bottom-color: #2d4649;
         }
         .records-area {
-            margin-top: 2rem;
             background: white;
             border-radius: 28px;
             padding: 2rem;
-            box-shadow: 0 8px 0 #b0c9d0;
+            margin-top: 2rem;
+            box-shadow: 0 8px 0 #a0bcc2;
         }
-        .area-title {
+        .area-header {
             display: flex;
             justify-content: space-between;
             align-items: baseline;
-            margin-bottom: 1.5rem;
-            color: #0b4e5c;
+            margin-bottom: 1.8rem;
             border-bottom: 3px solid #7ab3c0;
-            padding-bottom: 0.6rem;
+            padding-bottom: 0.7rem;
+        }
+        .area-header h2 {
+            color: #0b4e5c;
+            font-size: 1.8rem;
+        }
+        .badge {
+            background: #1d6b6f;
+            color: white;
+            padding: 0.4rem 1.4rem;
+            border-radius: 50px;
+            font-weight: 600;
         }
         .table-responsive {
             overflow-x: auto;
             border-radius: 18px;
+            margin-bottom: 1.2rem;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            background: #fdfefe;
+            background: white;
             border-radius: 16px;
+            font-size: 0.9rem;
         }
         th {
             background: #1e6a75;
             color: white;
-            padding: 0.9rem 0.5rem;
+            padding: 0.9rem 0.4rem;
             font-weight: 600;
             white-space: nowrap;
         }
         td {
-            padding: 0.8rem 0.5rem;
+            padding: 0.8rem 0.4rem;
             border-bottom: 1px solid #cde3e7;
             text-align: center;
             word-break: break-word;
         }
-        tr:last-child td { border-bottom: none; }
         .mac-badge {
             background: #2e6270;
             color: white;
@@ -137,6 +145,15 @@
             border-radius: 30px;
             font-family: monospace;
             font-size: 0.8rem;
+            display: inline-block;
+        }
+        .device-tag {
+            background: #3a6e8c;
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
             display: inline-block;
         }
         .null-msg {
@@ -147,45 +164,43 @@
         }
         .footer-note {
             margin-top: 1.5rem;
-            color: #3f5c63;
+            color: #2d5a61;
             font-size: 0.85rem;
             text-align: right;
         }
     </style>
 </head>
 <body>
-    <div class="admin-panel">
-        <!-- 登录区域，初始显示 -->
-        <div id="loginBlock" class="login-area">
-            <div class="login-title">🔐 管理员专用</div>
+    <div class="admin-wrap">
+        <!-- 登录界面 -->
+        <div id="loginPanel" class="login-area">
+            <div class="login-title">🔐 管理员控制台</div>
             <div class="password-hint">
                 ⚠️ 请输入6个空格作为密码<br>
-                <span style="font-size:1.5rem; letter-spacing:8px;">␣␣␣␣␣␣</span>
+                <span style="font-size:2rem; letter-spacing:12px;">␣␣␣␣␣␣</span>
             </div>
             <div class="password-input">
                 <input type="password" id="adminPwd" class="pwd-field" placeholder="六个空格" maxlength="6" autocomplete="off">
-                <button id="loginBtn" class="btn">进入终端</button>
+                <button id="loginBtn" class="btn">进入系统</button>
             </div>
-            <div id="loginError" style="color: #b33; margin-top: 1rem; min-height: 2rem;"></div>
+            <div id="loginError" style="color: #b33; margin-top: 1.5rem; min-height: 2rem; font-size: 1.1rem;"></div>
         </div>
 
-        <!-- 记录展示区域（初始隐藏） -->
-        <div id="recordsBlock" style="display: none;">
+        <!-- 记录面板（只读，无任何删除功能） -->
+        <div id="recordsPanel" style="display: none;">
             <div class="records-area">
-                <div class="area-title">
-                    <h2 style="font-size: 1.8rem;">📋 全部入网记录（只读）</h2>
-                    <span style="background: #1d6b6f; color: white; padding: 0.4rem 1.2rem; border-radius: 50px;">
-                        🗂️ 共 <span id="recordCount">0</span> 条记录
-                    </span>
+                <div class="area-header">
+                    <h2>📋 历史入网记录（只读）</h2>
+                    <span class="badge">总条数: <span id="recordCount">0</span></span>
                 </div>
-                <div class="table-responsive" id="recordTableContainer">
-                    <!-- 表格由JS动态渲染 -->
+                <div class="table-responsive" id="tableContainer">
+                    <!-- JS动态渲染 -->
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem;">
+                    <button id="logoutBtn" class="btn btn-secondary">⬅️ 退出登录</button>
                 </div>
                 <div class="footer-note">
-                    * 所有数据来源于本地存储（模拟相对目录文件），管理员仅可查看，不可删除或修改。
-                </div>
-                <div style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: flex-end;">
-                    <button id="logoutBtn" class="btn" style="background: #476b6f;">⬅️ 退出登录</button>
+                    * 所有数据来源于本地存储（模拟相对目录），管理员仅可查看，不可删除/修改。
                 </div>
             </div>
         </div>
@@ -194,17 +209,16 @@
     <script>
         (function() {
             const STORAGE_KEY = 'chidou_network_records';
-            // 密码：6个空格
-            const ADMIN_PASSWORD = '      ';  // 六个空格
+            const ADMIN_PASSWORD = '      '; // 6个空格
 
-            const loginBlock = document.getElementById('loginBlock');
-            const recordsBlock = document.getElementById('recordsBlock');
-            const adminPwd = document.getElementById('adminPwd');
+            const loginPanel = document.getElementById('loginPanel');
+            const recordsPanel = document.getElementById('recordsPanel');
+            const pwdInput = document.getElementById('adminPwd');
             const loginBtn = document.getElementById('loginBtn');
             const loginError = document.getElementById('loginError');
             const logoutBtn = document.getElementById('logoutBtn');
             const recordCountSpan = document.getElementById('recordCount');
-            const tableContainer = document.getElementById('recordTableContainer');
+            const tableContainer = document.getElementById('tableContainer');
 
             // 获取记录
             function getRecords() {
@@ -212,7 +226,7 @@
                 return data ? JSON.parse(data) : [];
             }
 
-            // 渲染表格（纯展示，没有任何删除/编辑控件）
+            // 渲染表格（纯展示，无任何删除/编辑按钮）
             function renderRecords() {
                 const records = getRecords();
                 recordCountSpan.innerText = records.length;
@@ -222,8 +236,8 @@
                     return;
                 }
 
-                // 按时间倒序（最近的在最上面）
-                const sorted = [...records].sort((a,b) => (a.time < b.time ? 1 : -1));
+                // 按时间倒序（最新的在上）
+                const sorted = [...records].sort((a, b) => (a.time < b.time ? 1 : -1));
 
                 let html = `<table>
                     <thead>
@@ -231,8 +245,9 @@
                             <th>手机号</th>
                             <th>所属关系</th>
                             <th>原因</th>
-                            <th>分配 IP</th>
-                            <th>MAC 地址</th>
+                            <th>IP地址</th>
+                            <th>MAC地址</th>
+                            <th>设备类型</th>
                             <th>连接时间</th>
                         </tr>
                     </thead>
@@ -245,6 +260,7 @@
                         <td>${escapeHtml(rec.reason || '')}</td>
                         <td style="font-weight:600; color:#0e5e6b;">${escapeHtml(rec.ip || '')}</td>
                         <td><span class="mac-badge">${escapeHtml(rec.mac || '')}</span></td>
+                        <td><span class="device-tag">${escapeHtml(rec.device || '未知')}</span></td>
                         <td>${escapeHtml(rec.time || '')}</td>
                     </tr>`;
                 });
@@ -253,7 +269,6 @@
                 tableContainer.innerHTML = html;
             }
 
-            // 简单的防XSS
             function escapeHtml(unsafe) {
                 if (!unsafe) return '';
                 return unsafe
@@ -265,38 +280,35 @@
             }
 
             // 登录验证
-            function handleLogin() {
-                const pwd = adminPwd.value;
+            function doLogin() {
+                const pwd = pwdInput.value;
                 if (pwd === ADMIN_PASSWORD) {
-                    loginBlock.style.display = 'none';
-                    recordsBlock.style.display = 'block';
+                    loginPanel.style.display = 'none';
+                    recordsPanel.style.display = 'block';
                     renderRecords();
                     loginError.innerText = '';
                 } else {
                     loginError.innerText = '❌ 密码错误，请重新输入（6个空格）';
-                    adminPwd.value = '';
-                    adminPwd.focus();
+                    pwdInput.value = '';
+                    pwdInput.focus();
                 }
             }
 
-            loginBtn.addEventListener('click', handleLogin);
-            adminPwd.addEventListener('keypress', (e) => {
+            loginBtn.addEventListener('click', doLogin);
+            pwdInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
-                    handleLogin();
+                    doLogin();
                 }
             });
 
             // 退出登录
             logoutBtn.addEventListener('click', () => {
-                recordsBlock.style.display = 'none';
-                loginBlock.style.display = 'block';
-                adminPwd.value = '';
+                recordsPanel.style.display = 'none';
+                loginPanel.style.display = 'block';
+                pwdInput.value = '';
                 loginError.innerText = '';
             });
-
-            // 如果直接访问记录区块（比如之前登录过），但刷新后恢复登录界面。无需额外操作。
-            // 确保初始状态正确
         })();
     </script>
 </body>
