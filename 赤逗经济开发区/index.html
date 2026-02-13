@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>赤逗经济开发区 · 用户入网</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: linear-gradient(145deg, #e9f2f5 0%, #d4e3ec 100%);
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1300px;
+            width: 100%;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 40px;
+            padding: 2rem;
+            box-shadow: 0 20px 35px rgba(0,30,50,0.2);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+        .network-header {
+            background: #0b4e5c;
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 0 #062a30;
+        }
+        .network-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .network-name span {
+            background: #ffc107;
+            color: #0b4e5c;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-size: 1rem;
+        }
+        .network-password {
+            background: #1e2f3a;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border: 1px solid #96d9e0;
+        }
+        .form-card {
+            background: white;
+            border-radius: 28px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 0 #b0c9d0;
+            border: 1px solid #cddce0;
+        }
+        .form-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #0b4e5c;
+            margin-bottom: 1.8rem;
+            border-bottom: 3px dashed #7ab3c0;
+            padding-bottom: 0.8rem;
+        }
+        .input-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.5rem;
+        }
+        @media (max-width: 850px) {
+            .input-grid { grid-template-columns: 1fr; }
+        }
+        .input-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .input-item label {
+            font-weight: 600;
+            color: #1d5a64;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .input-field {
+            background: #f5fbfd;
+            border: 2px solid #bfdbe0;
+            border-radius: 20px;
+            padding: 0.8rem 1.2rem;
+            font-size: 1rem;
+            transition: 0.2s;
+            width: 100%;
+        }
+        .input-field:focus {
+            border-color: #0f7e8c;
+            background: white;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(15,126,140,0.2);
+        }
+        .btn {
+            border: none;
+            background: #1f8a9c;
+            color: white;
+            font-weight: 700;
+            padding: 0.9rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            border-bottom: 5px solid #0e525e;
+            transition: 0.1s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: auto;
+        }
+        .btn:active {
+            border-bottom-width: 2px;
+            transform: translateY(3px);
+        }
+        .ip-status {
+            background: #263b40;
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            display: inline-flex;
+            gap: 15px;
+            font-weight: 500;
+            margin-top: 1rem;
+        }
+        .msg-area {
+            background: #fef6dd;
+            border-left: 8px solid #e6b12e;
+            border-radius: 16px;
+            padding: 1rem 1.8rem;
+            margin: 1.5rem 0 0.5rem;
+            color: #2d4e55;
+        }
+        .footer {
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: #2c6a75;
+            text-align: right;
+            border-top: 1px solid #b0d3da;
+            padding-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 网络身份标识 -->
+        <div class="network-header">
+            <div class="network-name">
+                📶 赤逗经济开发区
+                <span>官方专网</span>
+            </div>
+            <div class="network-password">
+                🔑 密码: 20268888
+            </div>
+        </div>
+
+        <!-- 入网申请卡片 -->
+        <div class="form-card">
+            <div class="form-title">
+                📋 设备接入申请
+            </div>
+            <div class="input-grid">
+                <div class="input-item">
+                    <label>📱 手机号码 <span style="color:#c0392b;">*</span></label>
+                    <input type="tel" id="phone" class="input-field" placeholder="必填" value="">
+                </div>
+                <div class="input-item">
+                    <label>🏢 所属关系</label>
+                    <input type="text" id="affiliation" class="input-field" placeholder="选填 (例: 办公室)" value="">
+                </div>
+                <div class="input-item">
+                    <label>📝 原因</label>
+                    <input type="text" id="reason" class="input-field" placeholder="选填 (例: 日常办公)" value="">
+                </div>
+            </div>
+            <div style="display: flex; justify-content: flex-end; margin-top: 2rem;">
+                <button id="connectBtn" class="btn">
+                    ⚡ 立即连接赤逗网络
+                </button>
+            </div>
+        </div>
+
+        <!-- IP池状态 & 消息区 -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <div class="ip-status" id="ipStatus">
+                📡 已用 IP: <span id="usedCount">0</span>/100 &nbsp;&nbsp; 下一IP: <span id="nextIp">192.168.0.100</span>
+            </div>
+            <span style="color:#1d5a64; background: #e2f0f3; padding: 0.4rem 1.2rem; border-radius: 30px;">
+                💾 记录自动保存至本地
+            </span>
+        </div>
+
+        <div id="messageBox" class="msg-area">
+            💡 请输入手机号，点击连接。失败时请重试。
+        </div>
+        <div class="footer">
+            ⚙️ 网络名称: 赤逗经济开发区 · 密码: 20268888 · IP池: 192.168.0.100~199 (最多100台)
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ---------- 常量 ----------
+            const STORAGE_KEY = 'chidou_network_records';
+            const IP_START = 100;
+            const MAX_DEVICES = 100;
+
+            // ---------- DOM ----------
+            const phoneInput = document.getElementById('phone');
+            const affInput = document.getElementById('affiliation');
+            const reasonInput = document.getElementById('reason');
+            const connectBtn = document.getElementById('connectBtn');
+            const msgBox = document.getElementById('messageBox');
+            const usedCountSpan = document.getElementById('usedCount');
+            const nextIpSpan = document.getElementById('nextIp');
+
+            // ---------- 工具函数 ----------
+            function getRecords() {
+                const data = localStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : [];
+            }
+
+            function saveRecords(records) {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+            }
+
+            function generateMAC() {
+                const hex = '0123456789ABCDEF';
+                let mac = '';
+                for (let i = 0; i < 6; i++) {
+                    let byte = '';
+                    for (let j = 0; j < 2; j++) byte += hex[Math.floor(Math.random() * 16)];
+                    mac += (i ? ':' : '') + byte;
+                }
+                return mac;
+            }
+
+            function currentTime() {
+                const d = new Date();
+                return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
+            }
+
+            // 更新IP状态显示
+            function updateIpStatus() {
+                const records = getRecords();
+                const count = records.length;
+                usedCountSpan.innerText = count;
+                if (count < MAX_DEVICES) {
+                    nextIpSpan.innerText = `192.168.0.${IP_START + count}`;
+                } else {
+                    nextIpSpan.innerText = '无可用IP';
+                }
+            }
+
+            // 初始化显示
+            updateIpStatus();
+
+            // ---------- 连接逻辑 ----------
+            function attemptConnect() {
+                const phone = phoneInput.value.trim();
+                if (!phone) {
+                    msgBox.innerHTML = '⚠️ 手机号码不能为空，请输入。';
+                    return;
+                }
+
+                const records = getRecords();
+                if (records.length >= MAX_DEVICES) {
+                    msgBox.innerHTML = '❌ 网络连接失败，IP地址池已满（最多100台），请重新尝试。';
+                    return;
+                }
+
+                // 分配IP
+                const newIndex = IP_START + records.length;
+                const newIp = `192.168.0.${newIndex}`;
+                const newMac = generateMAC();
+                const time = currentTime();
+
+                const newRecord = {
+                    phone: phone,
+                    affiliation: affInput.value.trim() || '(未填)',
+                    reason: reasonInput.value.trim() || '(未填)',
+                    ip: newIp,
+                    mac: newMac,
+                    time: time
+                };
+
+                records.push(newRecord);
+                saveRecords(records);
+
+                // 更新UI
+                updateIpStatus();
+                msgBox.innerHTML = `✅ 连接成功！设备 ${phone} 已接入，IP: ${newIp} ，MAC: ${newMac} 。记录已保存。`;
+
+                // 可选：清空手机号方便连续录入，但保留其他字段 (根据习惯，可不清空)
+                phoneInput.value = '';  // 清空手机，避免重复提交同一号
+                // 保留所属关系和原因，可继续用
+            }
+
+            connectBtn.addEventListener('click', attemptConnect);
+
+            // 回车触发连接
+            [phoneInput, affInput, reasonInput].forEach(i => {
+                i.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        attemptConnect();
+                    }
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
