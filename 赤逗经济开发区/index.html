@@ -77,14 +77,7 @@
             padding: 2.5rem;
         }
 
-        /* 第一步：填写信息 */
-        .step-one {
-            display: block;
-        }
-        .step-two {
-            display: none;
-        }
-        .step-three {
+        .step-one, .step-two, .step-three {
             display: none;
         }
 
@@ -96,6 +89,7 @@
             display: flex;
             align-items: center;
             gap: 1rem;
+            flex-wrap: wrap;
         }
         .section-title span {
             background: #ffc107;
@@ -121,10 +115,19 @@
             font-weight: 600;
             color: #1d5a64;
             font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
         }
         .required-star {
             color: #c0392b;
             margin-left: 4px;
+        }
+        .optional-tag {
+            color: #6c757d;
+            font-size: 0.8rem;
+            font-weight: normal;
+            margin-left: 0.5rem;
         }
         .input-field {
             background: #f5fbfd;
@@ -133,12 +136,17 @@
             padding: 1rem 1.5rem;
             font-size: 1rem;
             transition: 0.2s;
+            width: 100%;
         }
         .input-field:focus {
             border-color: #0f7e8c;
             background: white;
             outline: none;
             box-shadow: 0 0 0 4px rgba(15,126,140,0.15);
+        }
+        .input-field:disabled {
+            background: #e9ecef;
+            color: #6c757d;
         }
 
         .btn {
@@ -197,6 +205,7 @@
             display: flex;
             align-items: center;
             gap: 1rem;
+            flex-wrap: wrap;
         }
         .wifi-password-box {
             background: rgba(0,0,0,0.3);
@@ -215,6 +224,18 @@
             border-radius: 60px;
             border: 2px dashed #ffc107;
             color: #ffe484;
+            word-break: break-word;
+        }
+        .copy-btn {
+            background: #ffc107;
+            border: none;
+            color: #0b3b44;
+            font-weight: 700;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            margin-top: 1rem;
+            cursor: pointer;
+            border-bottom: 4px solid #b8820b;
         }
 
         .status-box {
@@ -229,6 +250,14 @@
             border-left-color: #28a745;
             background: #d4edda;
         }
+        .status-error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+        .status-info {
+            border-left-color: #17a2b8;
+            background: #d1ecf1;
+        }
         .reminder-box {
             background: #fff3cd;
             border-left: 10px solid #ffc107;
@@ -242,6 +271,36 @@
             justify-content: flex-end;
             margin-top: 2rem;
             flex-wrap: wrap;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 1rem;
+            align-items: center;
+        }
+        .info-label {
+            font-weight: 600;
+            color: #1d5a64;
+        }
+        .info-value {
+            font-family: monospace;
+            background: #e9ecef;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+        }
+        .mac-input-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .detect-mac-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -286,6 +345,16 @@
                             <label>🏢 所属单位</label>
                             <input type="text" id="affiliation" class="input-field" placeholder="选填">
                         </div>
+                        <div class="input-item">
+                            <label>🔢 MAC地址 <span class="optional-tag">选填</span></label>
+                            <div class="mac-input-group">
+                                <input type="text" id="mac" class="input-field" placeholder="如: 00:1A:2B:3C:4D:5E" 
+                                       pattern="^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$" 
+                                       title="请输入正确的MAC地址格式 (如: 00:1A:2B:3C:4D:5E)">
+                                <button id="generateMacBtn" class="detect-mac-btn" type="button">🎲 随机生成</button>
+                            </div>
+                            <small style="color:#6c757d; margin-top:0.3rem;">MAC地址可选填，用于设备识别</small>
+                        </div>
                     </div>
 
                     <div class="reminder-box">
@@ -312,6 +381,7 @@
                         <div class="wifi-password-box">
                             <div style="margin-bottom:1rem; opacity:0.9;">WiFi 密码</div>
                             <div class="wifi-password" id="wifiPassword">20268888</div>
+                            <button class="copy-btn" id="copyBtn">📋 复制密码</button>
                         </div>
 
                         <div style="background:white; color:#0b4e5c; border-radius:20px; padding:1.5rem;">
@@ -335,15 +405,22 @@
                     </div>
                 </div>
 
-                <!-- 第三步：上传MAC和IP -->
+                <!-- 第三步：上传凭证 -->
                 <div id="stepThree" class="step-three">
                     <div class="section-title">
                         🔄 自动上传凭证
                     </div>
 
-                    <div id="deviceInfo" class="status-box">
-                        🔍 正在检测设备信息...
+                    <div id="deviceInfo" class="status-box status-info">
+                        <div style="display:flex; align-items:center; gap:1rem;">
+                            <span>🔍 正在获取您的真实IP地址...</span>
+                            <div class="spinner" style="width:20px; height:20px; border:3px solid #17a2b8; border-top-color:transparent; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                        </div>
                     </div>
+
+                    <style>
+                        @keyframes spin { to { transform: rotate(360deg); } }
+                    </style>
 
                     <div id="uploadStatus" class="status-box" style="display: none;">
                         <!-- 动态显示上传状态 -->
@@ -351,7 +428,7 @@
 
                     <div class="button-group">
                         <button id="backToStep2Btn" class="btn" style="background:#e0edf2; color:#1d5a64;">← 返回</button>
-                        <button id="uploadBtn" class="btn btn-success">📤 自动上传MAC和IP</button>
+                        <button id="uploadBtn" class="btn btn-success" disabled>📤 正在获取IP，请稍候...</button>
                     </div>
                 </div>
             </div>
@@ -368,6 +445,7 @@
             let userPhone = '';
             let userName = '';
             let userAffiliation = '';
+            let userMac = '';
 
             // DOM 元素
             const step1Indicator = document.getElementById('step1Indicator');
@@ -381,24 +459,28 @@
             const phoneInput = document.getElementById('phone');
             const nameInput = document.getElementById('name');
             const affInput = document.getElementById('affiliation');
+            const macInput = document.getElementById('mac');
+            const generateMacBtn = document.getElementById('generateMacBtn');
             
             const toStep2Btn = document.getElementById('toStep2Btn');
             const backToStep1Btn = document.getElementById('backToStep1Btn');
             const toStep3Btn = document.getElementById('toStep3Btn');
             const backToStep2Btn = document.getElementById('backToStep2Btn');
             const uploadBtn = document.getElementById('uploadBtn');
+            const copyBtn = document.getElementById('copyBtn');
             
             const deviceInfo = document.getElementById('deviceInfo');
             const uploadStatus = document.getElementById('uploadStatus');
 
+            // 真实IP地址存储
+            let realIP = '正在获取...';
+
             // 步骤切换函数
             function showStep(step) {
-                // 隐藏所有步骤
                 stepOne.style.display = 'none';
                 stepTwo.style.display = 'none';
                 stepThree.style.display = 'none';
                 
-                // 重置所有指示器
                 step1Indicator.classList.remove('active');
                 step2Indicator.classList.remove('active');
                 step3Indicator.classList.remove('active');
@@ -412,48 +494,89 @@
                 } else if (step === 3) {
                     stepThree.style.display = 'block';
                     step3Indicator.classList.add('active');
-                    // 进入第三步时检测设备信息
-                    detectDeviceInfo();
+                    // 进入第三步时获取真实IP
+                    getRealIP();
                 }
             }
 
-            // 检测设备信息（MAC和IP）
-            function detectDeviceInfo() {
-                deviceInfo.innerHTML = '🔍 正在检测设备信息...';
+            // 获取真实IP（使用WebRTC）
+            function getRealIP() {
+                deviceInfo.innerHTML = '<div style="display:flex; align-items:center; gap:1rem;"><span>🔍 正在通过WebRTC获取您的真实IP地址...</span><div class="spinner" style="width:20px; height:20px; border:3px solid #17a2b8; border-top-color:transparent; border-radius:50%; animation:spin 1s linear infinite;"></div></div>';
+                uploadBtn.disabled = true;
+                uploadBtn.innerHTML = '📤 正在获取IP，请稍候...';
+
+                // 使用RTCPeerConnection获取内网IP
+                const ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3})/;
+                const pc = new RTCPeerConnection({ iceServers: [] });
                 
-                // 模拟检测过程（实际浏览器无法获取真实MAC，这里生成模拟数据）
+                // 创建数据通道触发ICE候选
+                pc.createDataChannel('');
+                
+                pc.createOffer().then(offer => pc.setLocalDescription(offer)).catch(e => {
+                    console.error('Offer创建失败', e);
+                });
+
+                let timeout = setTimeout(() => {
+                    if (realIP === '正在获取...') {
+                        realIP = '获取超时，请重试';
+                        updateDeviceInfo(realIP);
+                    }
+                }, 5000);
+
+                pc.onicecandidate = (ice) => {
+                    if (ice.candidate) {
+                        const ipMatch = ipRegex.exec(ice.candidate.candidate);
+                        if (ipMatch && ipMatch[1] && !ipMatch[1].startsWith('127.')) {
+                            realIP = ipMatch[1];
+                            clearTimeout(timeout);
+                            updateDeviceInfo(realIP);
+                            pc.close();
+                        }
+                    }
+                };
+
+                // 降级方案：如果WebRTC失败，尝试获取公网IP（通过第三方API）
                 setTimeout(() => {
-                    // 生成随机MAC地址
-                    const mac = generateMAC();
-                    
-                    // 获取本地IP（模拟）
-                    const ip = getLocalIP();
-                    
-                    // 获取设备类型
-                    const deviceType = detectDeviceType();
-                    
-                    deviceInfo.innerHTML = `
-                        <div style="display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: center;">
-                            <div style="font-weight:600;">🖥️ 设备类型：</div>
-                            <div>${deviceType}</div>
-                            <div style="font-weight:600;">🌐 IP地址：</div>
-                            <div><code>${ip}</code></div>
-                            <div style="font-weight:600;">🔢 MAC地址：</div>
-                            <div><code>${mac}</code></div>
-                            <div style="font-weight:600;">📶 连接网络：</div>
-                            <div>${WIFI_NAME}</div>
-                        </div>
-                    `;
-                    
-                    // 保存到全局变量，供上传使用
-                    window.deviceMAC = mac;
-                    window.deviceIP = ip;
-                    window.deviceType = deviceType;
-                }, 800);
+                    if (realIP === '正在获取...') {
+                        fetch('https://api.ipify.org?format=json')
+                            .then(response => response.json())
+                            .then(data => {
+                                realIP = data.ip + ' (公网IP)';
+                                updateDeviceInfo(realIP);
+                            })
+                            .catch(() => {
+                                realIP = '无法获取IP，请手动填写';
+                                updateDeviceInfo(realIP);
+                            });
+                    }
+                }, 3000);
             }
 
-            // 生成随机MAC地址
-            function generateMAC() {
+            function updateDeviceInfo(ip) {
+                const mac = macInput.value.trim() || '未填写';
+                
+                deviceInfo.innerHTML = `
+                    <div class="info-grid">
+                        <div class="info-label">🌐 您的IP地址：</div>
+                        <div><code class="info-value">${ip}</code></div>
+                        <div class="info-label">🔢 MAC地址：</div>
+                        <div><code class="info-value">${mac || '未填写'}</code></div>
+                        <div class="info-label">📱 手机号码：</div>
+                        <div>${userPhone}</div>
+                        <div class="info-label">👤 姓名：</div>
+                        <div>${userName}</div>
+                        <div class="info-label">📶 连接网络：</div>
+                        <div>${WIFI_NAME}</div>
+                    </div>
+                `;
+                
+                // 启用上传按钮
+                uploadBtn.disabled = false;
+                uploadBtn.innerHTML = '📤 上传凭证并下载文件';
+            }
+
+            // 生成随机MAC地址（用于选填）
+            function generateRandomMAC() {
                 const hex = '0123456789ABCDEF';
                 let mac = '';
                 for (let i = 0; i < 6; i++) {
@@ -464,104 +587,30 @@
                 return mac;
             }
 
-            // 获取本地IP（模拟）
-            function getLocalIP() {
-                // 模拟常见的局域网IP
-                const ips = ['192.168.1.101', '192.168.0.105', '10.0.0.120', '172.16.0.15'];
-                return ips[Math.floor(Math.random() * ips.length)];
-            }
-
-            // 检测设备类型
-            function detectDeviceType() {
-                const ua = navigator.userAgent;
-                if (ua.indexOf('Windows') > -1) return 'Windows PC';
-                if (ua.indexOf('Mac') > -1) return 'macOS';
-                if (ua.indexOf('iPhone') > -1) return 'iPhone';
-                if (ua.indexOf('iPad') > -1) return 'iPad';
-                if (ua.indexOf('Android') > -1) return 'Android 设备';
-                if (ua.indexOf('HarmonyOS') > -1) return '鸿蒙设备';
-                return '未知设备';
-            }
-
-            // 生成记录内容
-            function generateRecordContent(phone, name, affiliation, mac, ip, deviceType) {
-                const now = new Date();
-                const timeStr = now.toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' });
-                const dateStr = now.toISOString().split('T')[0];
-                
-                let content = '══════════════════════════════════════\n';
-                content += '       赤逗经济开发区 入网凭证\n';
-                content += '══════════════════════════════════════\n\n';
-                content += `⏱️ 入网时间：${timeStr}\n`;
-                content += `📶 WiFi名称：${WIFI_NAME}\n`;
-                content += `🔑 WiFi密码：${WIFI_PASSWORD}\n`;
-                content += `📱 手机号码：${phone}\n`;
-                content += `👤 用户姓名：${name}\n`;
-                content += `🏢 所属单位：${affiliation || '未填写'}\n`;
-                content += `🖥️ 设备类型：${deviceType}\n`;
-                content += `🌐 IP地址：${ip}\n`;
-                content += `🔢 MAC地址：${mac}\n\n`;
-                content += '══════════════════════════════════════\n';
-                content += '此凭证为入网登记证明，请妥善保管\n';
-                content += '══════════════════════════════════════\n';
-
-                return {
-                    content,
-                    filename: `入网凭证_${phone}_${dateStr}.txt`,
-                    date: dateStr,
-                    record: {
-                        time: timeStr,
-                        phone,
-                        name,
-                        affiliation: affiliation || '未填写',
-                        wifi: WIFI_NAME,
-                        deviceType,
-                        ip,
-                        mac
-                    }
-                };
-            }
-
-            // 上传数据（模拟写入服务器）
-            function uploadToServer(record) {
-                // 由于是静态页面，我们用 localStorage 模拟服务器存储
-                
-                // 1. 获取当前最大编号
-                let maxNumber = localStorage.getItem('chidou_max_record_number') || '0';
-                maxNumber = parseInt(maxNumber) + 1;
-                
-                // 2. 保存次记录文件 (管理员/记录/次记录/编号.txt)
-                const subRecordKey = `chidou_sub_record_${maxNumber}`;
-                localStorage.setItem(subRecordKey, JSON.stringify(record));
-                
-                // 3. 保存全部记录汇总
-                let allRecords = JSON.parse(localStorage.getItem('chidou_all_records') || '[]');
-                allRecords.push({
-                    ...record,
-                    recordNumber: maxNumber
+            // 复制密码
+            copyBtn.addEventListener('click', function() {
+                navigator.clipboard.writeText(WIFI_PASSWORD).then(() => {
+                    const original = copyBtn.innerText;
+                    copyBtn.innerText = '✅ 已复制！';
+                    copyBtn.style.background = '#28a745';
+                    copyBtn.style.color = 'white';
+                    setTimeout(() => {
+                        copyBtn.innerText = original;
+                        copyBtn.style.background = '#ffc107';
+                        copyBtn.style.color = '#0b3b44';
+                    }, 1500);
                 });
-                localStorage.setItem('chidou_all_records', JSON.stringify(allRecords));
-                
-                // 4. 更新最大编号
-                localStorage.setItem('chidou_max_record_number', maxNumber.toString());
-                
-                // 5. 按日期保存
-                const dateStr = record.time.split(' ')[0]; // 提取日期
-                let dailyRecords = JSON.parse(localStorage.getItem(`chidou_daily_${dateStr}`) || '[]');
-                dailyRecords.push({
-                    ...record,
-                    recordNumber: maxNumber
-                });
-                localStorage.setItem(`chidou_daily_${dateStr}`, JSON.stringify(dailyRecords));
-                
-                return maxNumber;
-            }
+            });
+
+            // 生成随机MAC
+            generateMacBtn.addEventListener('click', function() {
+                macInput.value = generateRandomMAC();
+            });
 
             // 第一步：填写信息 → 第二步
             toStep2Btn.addEventListener('click', function() {
                 const phone = phoneInput.value.trim();
                 const name = nameInput.value.trim();
-                const affiliation = affInput.value.trim();
                 
                 if (!phone) {
                     alert('请输入手机号码');
@@ -579,7 +628,8 @@
                 // 保存用户信息
                 userPhone = phone;
                 userName = name;
-                userAffiliation = affiliation;
+                userAffiliation = affInput.value.trim();
+                userMac = macInput.value.trim();
                 
                 showStep(2);
             });
@@ -601,33 +651,53 @@
 
             // 第三步：上传按钮
             uploadBtn.addEventListener('click', function() {
-                if (!window.deviceMAC || !window.deviceIP) {
-                    uploadStatus.style.display = 'block';
-                    uploadStatus.className = 'status-box';
-                    uploadStatus.style.borderLeftColor = '#dc3545';
-                    uploadStatus.innerHTML = '❌ 设备信息未检测完成，请稍候...';
-                    return;
-                }
+                // 生成记录内容
+                const now = new Date();
+                const timeStr = now.toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' });
+                const dateStr = now.toISOString().split('T')[0];
                 
-                // 生成记录
-                const { content, filename, record } = generateRecordContent(
-                    userPhone, 
-                    userName, 
-                    userAffiliation, 
-                    window.deviceMAC, 
-                    window.deviceIP,
-                    window.deviceType
-                );
+                const record = {
+                    time: timeStr,
+                    phone: userPhone,
+                    name: userName,
+                    affiliation: userAffiliation || '未填写',
+                    wifi: WIFI_NAME,
+                    ip: realIP,
+                    mac: userMac || '未填写'
+                };
+
+                // 保存到localStorage（模拟服务器）
+                let allRecords = JSON.parse(localStorage.getItem('chidou_all_records') || '[]');
+                const recordNumber = allRecords.length + 1;
                 
-                // 上传到服务器（模拟）
-                const recordNumber = uploadToServer(record);
+                // 保存次记录
+                localStorage.setItem(`chidou_sub_record_${recordNumber}`, JSON.stringify(record));
+                
+                // 保存到全部记录
+                allRecords.push({...record, recordNumber});
+                localStorage.setItem('chidou_all_records', JSON.stringify(allRecords));
                 
                 // 生成下载文件
+                let content = '══════════════════════════════════════\n';
+                content += '       赤逗经济开发区 入网凭证\n';
+                content += '══════════════════════════════════════\n\n';
+                content += `⏱️ 入网时间：${timeStr}\n`;
+                content += `📶 WiFi名称：${WIFI_NAME}\n`;
+                content += `🔑 WiFi密码：${WIFI_PASSWORD}\n`;
+                content += `📱 手机号码：${userPhone}\n`;
+                content += `👤 用户姓名：${userName}\n`;
+                content += `🏢 所属单位：${userAffiliation || '未填写'}\n`;
+                content += `🌐 IP地址：${realIP}\n`;
+                content += `🔢 MAC地址：${userMac || '未填写'}\n\n`;
+                content += '══════════════════════════════════════\n';
+                content += '此凭证为入网登记证明，请妥善保管\n';
+                content += '══════════════════════════════════════\n';
+
                 const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
                 const url = URL.createObjectURL(blob);
                 const link = document.createElement('a');
                 link.href = url;
-                link.download = filename;
+                link.download = `入网凭证_${userPhone}_${dateStr}.txt`;
                 link.click();
                 URL.revokeObjectURL(url);
                 
@@ -637,7 +707,7 @@
                 uploadStatus.innerHTML = `
                     ✅ 上传成功！<br>
                     📁 次记录编号：<strong>${recordNumber}</strong><br>
-                    📂 保存位置：<br>
+                    📂 服务器路径：<br>
                     &nbsp;&nbsp;• 管理员/记录/全部记录.txt<br>
                     &nbsp;&nbsp;• 管理员/记录/次记录/${recordNumber}.txt<br>
                     💾 凭证已保存到您的 Downloads 文件夹
@@ -651,6 +721,19 @@
             // 手机号输入限制
             phoneInput.addEventListener('input', function() {
                 this.value = this.value.replace(/\D/g, '');
+            });
+
+            // MAC地址格式化（自动添加冒号）
+            macInput.addEventListener('input', function() {
+                let value = this.value.replace(/[^0-9A-Fa-f]/g, '').toUpperCase();
+                if (value.length > 12) value = value.slice(0, 12);
+                
+                let formatted = '';
+                for (let i = 0; i < value.length; i++) {
+                    if (i > 0 && i % 2 === 0) formatted += ':';
+                    formatted += value[i];
+                }
+                this.value = formatted;
             });
 
             // 初始化显示第一步
