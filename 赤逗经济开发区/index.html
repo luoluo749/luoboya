@@ -1,317 +1,458 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>赤逗经济开发区 · 用户入网</title>
+    <title>赤逗经济开发区 · 官方入网</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background: linear-gradient(145deg, #e6f2f5 0%, #d0e3e9 100%);
+            background: linear-gradient(145deg, #1a4b58 0%, #0d3b45 100%);
             font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-            padding: 2rem 1.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
         }
+
         .container {
-            max-width: 1300px;
+            max-width: 900px;
             width: 100%;
-            background: rgba(255,255,255,0.8);
-            backdrop-filter: blur(12px);
-            border-radius: 40px;
-            padding: 2rem;
-            box-shadow: 0 20px 30px rgba(0,40,50,0.2);
-            border: 1px solid rgba(255,255,255,0.6);
         }
-        .network-header {
-            background: #0b4e5c;
-            color: white;
-            padding: 1.5rem 2rem;
-            border-radius: 28px;
-            margin-bottom: 2rem;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 8px 0 #062a30;
-        }
-        .network-name {
-            font-size: 1.9rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-        .network-name span {
-            background: #ffc107;
-            color: #0b4e5c;
-            padding: 0.2rem 1rem;
-            border-radius: 40px;
-            font-size: 1rem;
-        }
-        /* 密码完全不显示 */
-        .password-placeholder {
-            background: #1e2f3a;
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            color: #aad4db;
-            font-size: 1rem;
-        }
-        .form-card {
+
+        .main-card {
             background: white;
-            border-radius: 28px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 10px 0 #b0c9d0;
-            border: 1px solid #cde3e7;
+            border-radius: 48px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
         }
-        .form-title {
-            font-size: 1.7rem;
-            font-weight: 600;
-            color: #0b4e5c;
-            margin-bottom: 1.8rem;
-            border-bottom: 3px dashed #7ab3c0;
-            padding-bottom: 0.8rem;
+
+        /* 步骤指示器 */
+        .steps-header {
+            display: flex;
+            background: #f8fbfc;
+            padding: 1.5rem 2rem;
+            border-bottom: 3px solid #ffc107;
+        }
+        .step {
+            flex: 1;
             display: flex;
             align-items: center;
             gap: 1rem;
         }
-        .device-badge {
-            background: #1e6a75;
-            color: white;
-            padding: 0.3rem 1.2rem;
-            border-radius: 60px;
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e0edf2;
+            color: #1d5a64;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        .step.active .step-number {
+            background: #ffc107;
+            color: #0b3b44;
+            box-shadow: 0 4px 0 #b8820b;
+        }
+        .step-title {
+            font-weight: 600;
+            color: #1d5a64;
+        }
+        .step.active .step-title {
+            color: #0b3b44;
+            font-weight: 700;
+        }
+
+        /* 内容区域 */
+        .content-area {
+            padding: 2.5rem;
+        }
+
+        /* 第一步：填写信息 */
+        .step-one {
+            display: block;
+        }
+        .step-two {
+            display: none;
+        }
+        .step-three {
+            display: none;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #0b4e5c;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .section-title span {
+            background: #ffc107;
+            color: #0b4e5c;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
             font-size: 0.9rem;
-            font-weight: 500;
         }
-        .input-grid {
+
+        .form-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
+            margin-bottom: 2rem;
         }
-        @media (max-width: 850px) {
-            .input-grid { grid-template-columns: 1fr; }
-        }
+
         .input-item {
             display: flex;
             flex-direction: column;
-            gap: 0.4rem;
+            gap: 0.5rem;
         }
         .input-item label {
             font-weight: 600;
             color: #1d5a64;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            font-size: 1rem;
         }
-        .required-star { color: #c0392b; margin-left: 4px; }
+        .required-star {
+            color: #c0392b;
+            margin-left: 4px;
+        }
         .input-field {
             background: #f5fbfd;
             border: 2px solid #bfdbe0;
-            border-radius: 20px;
-            padding: 0.9rem 1.2rem;
+            border-radius: 30px;
+            padding: 1rem 1.5rem;
             font-size: 1rem;
             transition: 0.2s;
-            width: 100%;
         }
         .input-field:focus {
             border-color: #0f7e8c;
             background: white;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(15,126,140,0.2);
+            box-shadow: 0 0 0 4px rgba(15,126,140,0.15);
         }
+
         .btn {
             border: none;
-            background: #1f8a9c;
-            color: white;
             font-weight: 700;
-            padding: 0.9rem 2.8rem;
+            padding: 1rem 2.5rem;
             border-radius: 60px;
             font-size: 1.2rem;
             cursor: pointer;
-            border-bottom: 5px solid #0e525e;
-            transition: 0.05s;
+            transition: 0.05s linear;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+        .btn-primary {
+            background: #1f8a9c;
+            color: white;
+            border-bottom: 6px solid #0e525e;
+        }
+        .btn-primary:active {
+            transform: translateY(4px);
+            border-bottom-width: 2px;
+        }
+        .btn-warning {
+            background: #ffc107;
+            color: #0b3b44;
+            border-bottom: 6px solid #b8820b;
+        }
+        .btn-warning:active {
+            transform: translateY(4px);
+            border-bottom-width: 2px;
+        }
+        .btn-success {
+            background: #28a745;
+            color: white;
+            border-bottom: 6px solid #1e7e34;
+        }
+        .btn-success:active {
+            transform: translateY(4px);
+            border-bottom-width: 2px;
+        }
+
+        .wifi-info-card {
+            background: linear-gradient(135deg, #0f5a66 0%, #0b4752 100%);
+            border-radius: 32px;
+            padding: 2rem;
+            color: white;
+            margin: 2rem 0;
+            box-shadow: 0 10px 0 #06333b;
+        }
+        .wifi-name {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-left: auto;
+            gap: 1rem;
         }
-        .btn:active {
-            border-bottom-width: 2px;
-            transform: translateY(3px);
+        .wifi-password-box {
+            background: rgba(0,0,0,0.3);
+            border-radius: 24px;
+            padding: 1.5rem;
+            text-align: center;
+            margin: 1.5rem 0;
         }
-        .btn:disabled {
-            opacity: 0.6;
-            border-bottom-width: 5px;
-            transform: none;
-            cursor: not-allowed;
+        .wifi-password {
+            font-size: 3rem;
+            font-weight: 800;
+            font-family: monospace;
+            letter-spacing: 8px;
+            background: #1e3a42;
+            padding: 0.5rem 2rem;
+            border-radius: 60px;
+            border: 2px dashed #ffc107;
+            color: #ffe484;
         }
-        .ip-status {
-            background: #263b40;
-            color: white;
-            padding: 0.8rem 1.8rem;
-            border-radius: 50px;
-            display: inline-block;
-            margin-top: 1rem;
-            font-weight: 500;
+
+        .status-box {
+            background: #f8f9fa;
+            border-left: 10px solid #6c757d;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-size: 1.1rem;
         }
-        .msg-area {
-            background: #fef6dd;
-            border-left: 8px solid #e6b12e;
-            border-radius: 16px;
-            padding: 1.2rem 1.8rem;
-            margin: 1.5rem 0 0.5rem;
-            color: #2d4e55;
-            font-size: 1.05rem;
-            min-height: 5rem;
+        .status-success {
+            border-left-color: #28a745;
+            background: #d4edda;
         }
-        .footer-note {
+        .reminder-box {
+            background: #fff3cd;
+            border-left: 10px solid #ffc107;
+            border-radius: 20px;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+        }
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
             margin-top: 2rem;
-            text-align: right;
-            color: #2c6a75;
-            border-top: 1px solid #b0d3da;
-            padding-top: 1rem;
-            font-size: 0.9rem;
+            flex-wrap: wrap;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 网络名称区域 —— 完全不显示密码 -->
-        <div class="network-header">
-            <div class="network-name">
-                📶 赤逗经济开发区
-                <span>官方专网</span>
-            </div>
-            <div class="password-placeholder">
-                🔒 安全网络 · 自动连接
-            </div>
-        </div>
-
-        <!-- 入网表单 + 当前设备类型显示 -->
-        <div class="form-card">
-            <div class="form-title">
-                📋 设备接入申请
-                <span id="deviceTypeDisplay" class="device-badge">📱 正在检测设备...</span>
-            </div>
-            <div class="input-grid">
-                <div class="input-item">
-                    <label>📱 手机号码 <span class="required-star">*</span></label>
-                    <input type="tel" id="phone" class="input-field" placeholder="11位手机号" maxlength="11" value="">
+        <div class="main-card">
+            <!-- 步骤指示器 -->
+            <div class="steps-header">
+                <div class="step active" id="step1Indicator">
+                    <div class="step-number">1</div>
+                    <div class="step-title">填写信息</div>
                 </div>
-                <div class="input-item">
-                    <label>🏢 所属关系</label>
-                    <input type="text" id="affiliation" class="input-field" placeholder="选填" value="">
+                <div class="step" id="step2Indicator">
+                    <div class="step-number">2</div>
+                    <div class="step-title">连接WiFi</div>
                 </div>
-                <div class="input-item">
-                    <label>📝 原因</label>
-                    <input type="text" id="reason" class="input-field" placeholder="选填" value="">
+                <div class="step" id="step3Indicator">
+                    <div class="step-number">3</div>
+                    <div class="step-title">上传凭证</div>
                 </div>
             </div>
-            <div style="display: flex; justify-content: flex-end; margin-top: 2rem;">
-                <button id="connectBtn" class="btn">
-                    ⚡ 尝试连接网络
-                </button>
+
+            <!-- 内容区域 -->
+            <div class="content-area">
+                <!-- 第一步：填写信息 -->
+                <div id="stepOne" class="step-one">
+                    <div class="section-title">
+                        📋 填写入网信息
+                        <span>必填</span>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="input-item">
+                            <label>📱 手机号码 <span class="required-star">*</span></label>
+                            <input type="tel" id="phone" class="input-field" placeholder="11位手机号" maxlength="11">
+                        </div>
+                        <div class="input-item">
+                            <label>👤 姓名 <span class="required-star">*</span></label>
+                            <input type="text" id="name" class="input-field" placeholder="真实姓名">
+                        </div>
+                        <div class="input-item">
+                            <label>🏢 所属单位</label>
+                            <input type="text" id="affiliation" class="input-field" placeholder="选填">
+                        </div>
+                    </div>
+
+                    <div class="reminder-box">
+                        <strong>📌 填写完成后：</strong> 点击下方按钮获取WiFi信息，然后手动连接网络
+                    </div>
+
+                    <div class="button-group">
+                        <button id="toStep2Btn" class="btn btn-primary">下一步：获取WiFi信息 →</button>
+                    </div>
+                </div>
+
+                <!-- 第二步：显示WiFi信息 -->
+                <div id="stepTwo" class="step-two">
+                    <div class="section-title">
+                        📶 连接WiFi网络
+                    </div>
+
+                    <div class="wifi-info-card">
+                        <div class="wifi-name">
+                            📡 赤逗经济开发区
+                            <span style="background:#ffc107; color:#0b3b44; padding:0.2rem 1rem; border-radius:40px; font-size:0.9rem;">官方专网</span>
+                        </div>
+                        
+                        <div class="wifi-password-box">
+                            <div style="margin-bottom:1rem; opacity:0.9;">WiFi 密码</div>
+                            <div class="wifi-password" id="wifiPassword">20268888</div>
+                        </div>
+
+                        <div style="background:white; color:#0b4e5c; border-radius:20px; padding:1.5rem;">
+                            <strong>📱 连接步骤：</strong>
+                            <ol style="margin-top:0.8rem; margin-left:1.5rem;">
+                                <li>打开手机「设置」>「WLAN/WiFi」</li>
+                                <li>找到网络 <strong>“赤逗经济开发区”</strong></li>
+                                <li>输入密码 <strong>20268888</strong></li>
+                                <li>点击「连接」</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="reminder-box">
+                        <strong>⚠️ 重要提醒：</strong> 连接WiFi成功后，请务必返回本页，点击下方按钮完成最后一步！
+                    </div>
+
+                    <div class="button-group">
+                        <button id="backToStep1Btn" class="btn" style="background:#e0edf2; color:#1d5a64;">← 上一步</button>
+                        <button id="toStep3Btn" class="btn btn-warning">✅ 我已连接成功，下一步</button>
+                    </div>
+                </div>
+
+                <!-- 第三步：上传MAC和IP -->
+                <div id="stepThree" class="step-three">
+                    <div class="section-title">
+                        🔄 自动上传凭证
+                    </div>
+
+                    <div id="deviceInfo" class="status-box">
+                        🔍 正在检测设备信息...
+                    </div>
+
+                    <div id="uploadStatus" class="status-box" style="display: none;">
+                        <!-- 动态显示上传状态 -->
+                    </div>
+
+                    <div class="button-group">
+                        <button id="backToStep2Btn" class="btn" style="background:#e0edf2; color:#1d5a64;">← 返回</button>
+                        <button id="uploadBtn" class="btn btn-success">📤 自动上传MAC和IP</button>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <!-- IP池状态 + 存储提示 -->
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div class="ip-status">
-                📡 已分配: <span id="usedCount">0</span>/100 &nbsp; 下一IP: <span id="nextIp">192.168.0.100</span>
-            </div>
-            <span style="color: #0e5e6b; background: #e0f0f5; padding: 0.4rem 1.2rem; border-radius: 30px;">
-                💾 记录自动保存
-            </span>
-        </div>
-
-        <!-- 动态消息：连接过程、成功/失败 -->
-        <div id="messageBox" class="msg-area">
-            💡 请输入11位手机号，点击尝试连接。
-        </div>
-
-        <div class="footer-note">
-            ⚙️ 赤逗经济开发区 · 真实连接模拟 · 支持鸿蒙4/5、Windows10/11
         </div>
     </div>
 
     <script>
         (function() {
-            const STORAGE_KEY = 'chidou_network_records';
-            const IP_START = 100;
-            const MAX_DEVICES = 100;
+            // WiFi信息
+            const WIFI_NAME = '赤逗经济开发区';
+            const WIFI_PASSWORD = '20268888';
+            
+            // 存储用户填写的信息
+            let userPhone = '';
+            let userName = '';
+            let userAffiliation = '';
 
-            // ---------- DOM 元素 ----------
+            // DOM 元素
+            const step1Indicator = document.getElementById('step1Indicator');
+            const step2Indicator = document.getElementById('step2Indicator');
+            const step3Indicator = document.getElementById('step3Indicator');
+            
+            const stepOne = document.getElementById('stepOne');
+            const stepTwo = document.getElementById('stepTwo');
+            const stepThree = document.getElementById('stepThree');
+            
             const phoneInput = document.getElementById('phone');
+            const nameInput = document.getElementById('name');
             const affInput = document.getElementById('affiliation');
-            const reasonInput = document.getElementById('reason');
-            const connectBtn = document.getElementById('connectBtn');
-            const msgBox = document.getElementById('messageBox');
-            const usedCountSpan = document.getElementById('usedCount');
-            const nextIpSpan = document.getElementById('nextIp');
-            const deviceTypeDisplay = document.getElementById('deviceTypeDisplay');
+            
+            const toStep2Btn = document.getElementById('toStep2Btn');
+            const backToStep1Btn = document.getElementById('backToStep1Btn');
+            const toStep3Btn = document.getElementById('toStep3Btn');
+            const backToStep2Btn = document.getElementById('backToStep2Btn');
+            const uploadBtn = document.getElementById('uploadBtn');
+            
+            const deviceInfo = document.getElementById('deviceInfo');
+            const uploadStatus = document.getElementById('uploadStatus');
 
-            // ---------- 设备类型精准检测（鸿蒙4/5、Windows10/11、iOS尝试25/26）----------
-            function detectDeviceType() {
-                const ua = navigator.userAgent;
+            // 步骤切换函数
+            function showStep(step) {
+                // 隐藏所有步骤
+                stepOne.style.display = 'none';
+                stepTwo.style.display = 'none';
+                stepThree.style.display = 'none';
                 
-                // 鸿蒙检测
-                if (ua.indexOf('HarmonyOS') > -1) {
-                    if (ua.indexOf('HarmonyOS 4') > -1) return '鸿蒙4';
-                    if (ua.indexOf('HarmonyOS 5') > -1) return '鸿蒙5';
-                    if (ua.indexOf('HarmonyOS') > -1) return '鸿蒙(未知版)'; 
-                }
+                // 重置所有指示器
+                step1Indicator.classList.remove('active');
+                step2Indicator.classList.remove('active');
+                step3Indicator.classList.remove('active');
                 
-                // Windows 10/11 检测
-                if (ua.indexOf('Windows NT 10.0') > -1) {
-                    // Windows 11 通常也在 NT 10.0，但可通过某些标识区分
-                    if (ua.indexOf('Windows NT 10.0; Win64; x64') > -1 && ua.indexOf('Windows 11') > -1) return 'Windows 11';
-                    if (ua.indexOf('Windows NT 10.0') > -1) return 'Windows 10'; // 默认win10
+                if (step === 1) {
+                    stepOne.style.display = 'block';
+                    step1Indicator.classList.add('active');
+                } else if (step === 2) {
+                    stepTwo.style.display = 'block';
+                    step2Indicator.classList.add('active');
+                } else if (step === 3) {
+                    stepThree.style.display = 'block';
+                    step3Indicator.classList.add('active');
+                    // 进入第三步时检测设备信息
+                    detectDeviceInfo();
                 }
-                if (ua.indexOf('Windows NT 11.0') > -1) return 'Windows 11'; // 未来可能
-
-                // iOS 检测 - 尝试获取版本，并模拟25/26（实际不存在，尽力满足要求）
-                const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // iPadOS
-                if (isIOS) {
-                    const ver = (navigator.appVersion).match(/OS (\d+)_/);
-                    if (ver) {
-                        const major = parseInt(ver[1], 10);
-                        // 为了满足“iOS25/26”，如果版本≥15，我们显示为模拟的25/26（体现支持）
-                        if (major >= 15) return `iOS 25/26 (模拟)`;  // 因为实际没有25，此处展示支持
-                        return `iOS ${major}`;
-                    }
-                    return 'iOS (未知)';
-                }
-
-                // 其他常见系统
-                if (ua.indexOf('Android') > -1) {
-                    if (ua.includes('Android 14')) return 'Android 14';
-                    if (ua.includes('Android 13')) return 'Android 13';
-                    return 'Android';
-                }
-                if (ua.indexOf('Mac OS X') > -1) return 'macOS';
-                if (ua.indexOf('Linux') > -1) return 'Linux';
-                
-                return '未知设备';
             }
 
-            // 初始化显示设备类型
-            const currentDevice = detectDeviceType();
-            deviceTypeDisplay.innerText = `📱 ${currentDevice}`;
-
-            // ---------- 存储操作 ----------
-            function getRecords() {
-                const data = localStorage.getItem(STORAGE_KEY);
-                return data ? JSON.parse(data) : [];
+            // 检测设备信息（MAC和IP）
+            function detectDeviceInfo() {
+                deviceInfo.innerHTML = '🔍 正在检测设备信息...';
+                
+                // 模拟检测过程（实际浏览器无法获取真实MAC，这里生成模拟数据）
+                setTimeout(() => {
+                    // 生成随机MAC地址
+                    const mac = generateMAC();
+                    
+                    // 获取本地IP（模拟）
+                    const ip = getLocalIP();
+                    
+                    // 获取设备类型
+                    const deviceType = detectDeviceType();
+                    
+                    deviceInfo.innerHTML = `
+                        <div style="display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: center;">
+                            <div style="font-weight:600;">🖥️ 设备类型：</div>
+                            <div>${deviceType}</div>
+                            <div style="font-weight:600;">🌐 IP地址：</div>
+                            <div><code>${ip}</code></div>
+                            <div style="font-weight:600;">🔢 MAC地址：</div>
+                            <div><code>${mac}</code></div>
+                            <div style="font-weight:600;">📶 连接网络：</div>
+                            <div>${WIFI_NAME}</div>
+                        </div>
+                    `;
+                    
+                    // 保存到全局变量，供上传使用
+                    window.deviceMAC = mac;
+                    window.deviceIP = ip;
+                    window.deviceType = deviceType;
+                }, 800);
             }
 
-            function saveRecords(records) {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
-            }
-
-            // 生成随机MAC
+            // 生成随机MAC地址
             function generateMAC() {
                 const hex = '0123456789ABCDEF';
                 let mac = '';
@@ -323,118 +464,197 @@
                 return mac;
             }
 
-            // 当前时间字符串
-            function currentTime() {
-                const d = new Date();
-                return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
+            // 获取本地IP（模拟）
+            function getLocalIP() {
+                // 模拟常见的局域网IP
+                const ips = ['192.168.1.101', '192.168.0.105', '10.0.0.120', '172.16.0.15'];
+                return ips[Math.floor(Math.random() * ips.length)];
             }
 
-            // 更新IP池显示
-            function updateIpStatus() {
-                const records = getRecords();
-                const count = records.length;
-                usedCountSpan.innerText = count;
-                if (count < MAX_DEVICES) {
-                    nextIpSpan.innerText = `192.168.0.${IP_START + count}`;
-                } else {
-                    nextIpSpan.innerText = '无可用IP';
-                }
+            // 检测设备类型
+            function detectDeviceType() {
+                const ua = navigator.userAgent;
+                if (ua.indexOf('Windows') > -1) return 'Windows PC';
+                if (ua.indexOf('Mac') > -1) return 'macOS';
+                if (ua.indexOf('iPhone') > -1) return 'iPhone';
+                if (ua.indexOf('iPad') > -1) return 'iPad';
+                if (ua.indexOf('Android') > -1) return 'Android 设备';
+                if (ua.indexOf('HarmonyOS') > -1) return '鸿蒙设备';
+                return '未知设备';
             }
-            updateIpStatus();
 
-            // ---------- 连接逻辑（真实模拟：延迟、50%失败、11位手机号强制校验）----------
-            function attemptConnect() {
-                const phone = phoneInput.value.trim();
+            // 生成记录内容
+            function generateRecordContent(phone, name, affiliation, mac, ip, deviceType) {
+                const now = new Date();
+                const timeStr = now.toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' });
+                const dateStr = now.toISOString().split('T')[0];
                 
-                // 1. 手机号必填且必须为11位数字
+                let content = '══════════════════════════════════════\n';
+                content += '       赤逗经济开发区 入网凭证\n';
+                content += '══════════════════════════════════════\n\n';
+                content += `⏱️ 入网时间：${timeStr}\n`;
+                content += `📶 WiFi名称：${WIFI_NAME}\n`;
+                content += `🔑 WiFi密码：${WIFI_PASSWORD}\n`;
+                content += `📱 手机号码：${phone}\n`;
+                content += `👤 用户姓名：${name}\n`;
+                content += `🏢 所属单位：${affiliation || '未填写'}\n`;
+                content += `🖥️ 设备类型：${deviceType}\n`;
+                content += `🌐 IP地址：${ip}\n`;
+                content += `🔢 MAC地址：${mac}\n\n`;
+                content += '══════════════════════════════════════\n';
+                content += '此凭证为入网登记证明，请妥善保管\n';
+                content += '══════════════════════════════════════\n';
+
+                return {
+                    content,
+                    filename: `入网凭证_${phone}_${dateStr}.txt`,
+                    date: dateStr,
+                    record: {
+                        time: timeStr,
+                        phone,
+                        name,
+                        affiliation: affiliation || '未填写',
+                        wifi: WIFI_NAME,
+                        deviceType,
+                        ip,
+                        mac
+                    }
+                };
+            }
+
+            // 上传数据（模拟写入服务器）
+            function uploadToServer(record) {
+                // 由于是静态页面，我们用 localStorage 模拟服务器存储
+                
+                // 1. 获取当前最大编号
+                let maxNumber = localStorage.getItem('chidou_max_record_number') || '0';
+                maxNumber = parseInt(maxNumber) + 1;
+                
+                // 2. 保存次记录文件 (管理员/记录/次记录/编号.txt)
+                const subRecordKey = `chidou_sub_record_${maxNumber}`;
+                localStorage.setItem(subRecordKey, JSON.stringify(record));
+                
+                // 3. 保存全部记录汇总
+                let allRecords = JSON.parse(localStorage.getItem('chidou_all_records') || '[]');
+                allRecords.push({
+                    ...record,
+                    recordNumber: maxNumber
+                });
+                localStorage.setItem('chidou_all_records', JSON.stringify(allRecords));
+                
+                // 4. 更新最大编号
+                localStorage.setItem('chidou_max_record_number', maxNumber.toString());
+                
+                // 5. 按日期保存
+                const dateStr = record.time.split(' ')[0]; // 提取日期
+                let dailyRecords = JSON.parse(localStorage.getItem(`chidou_daily_${dateStr}`) || '[]');
+                dailyRecords.push({
+                    ...record,
+                    recordNumber: maxNumber
+                });
+                localStorage.setItem(`chidou_daily_${dateStr}`, JSON.stringify(dailyRecords));
+                
+                return maxNumber;
+            }
+
+            // 第一步：填写信息 → 第二步
+            toStep2Btn.addEventListener('click', function() {
+                const phone = phoneInput.value.trim();
+                const name = nameInput.value.trim();
+                const affiliation = affInput.value.trim();
+                
                 if (!phone) {
-                    msgBox.innerHTML = '⚠️ 手机号码不能为空。';
+                    alert('请输入手机号码');
                     return;
                 }
                 if (!/^\d{11}$/.test(phone)) {
-                    msgBox.innerHTML = '⚠️ 手机号必须为11位数字。';
+                    alert('手机号必须为11位数字');
                     return;
                 }
-
-                // 2. 禁用按钮，显示连接中
-                connectBtn.disabled = true;
-                connectBtn.innerHTML = '⏳ 连接中...';
-                msgBox.innerHTML = '🔄 正在尝试连接赤逗经济开发区...';
-
-                // 3. 模拟真实连接延迟（1.5秒）
-                setTimeout(() => {
-                    // 50% 概率失败
-                    const isSuccess = Math.random() >= 0.5;
-                    
-                    if (!isSuccess) {
-                        // 连接失败
-                        msgBox.innerHTML = '❌ 连接失败，请重新尝试。';
-                        connectBtn.disabled = false;
-                        connectBtn.innerHTML = '⚡ 尝试连接网络';
-                        return;
-                    }
-
-                    // 4. 检查IP池
-                    const records = getRecords();
-                    if (records.length >= MAX_DEVICES) {
-                        msgBox.innerHTML = '❌ IP地址池已满（最多100台），暂时无法接入。';
-                        connectBtn.disabled = false;
-                        connectBtn.innerHTML = '⚡ 尝试连接网络';
-                        return;
-                    }
-
-                    // 5. 连接成功：分配IP、MAC、记录设备类型
-                    const newIndex = IP_START + records.length;
-                    const newIp = `192.168.0.${newIndex}`;
-                    const newMac = generateMAC();
-                    const time = currentTime();
-                    const deviceType = detectDeviceType(); // 实时再次检测
-
-                    const newRecord = {
-                        phone: phone,
-                        affiliation: affInput.value.trim() || '(未填)',
-                        reason: reasonInput.value.trim() || '(未填)',
-                        ip: newIp,
-                        mac: newMac,
-                        time: time,
-                        device: deviceType   // 关键：存储设备类型
-                    };
-
-                    records.push(newRecord);
-                    saveRecords(records);
-
-                    // 6. 更新界面
-                    updateIpStatus();
-                    msgBox.innerHTML = `✅ 连接成功！IP: ${newIp}  MAC: ${newMac}<br>📱 设备类型: ${deviceType} 。记录已保存。`;
-
-                    // 7. 清空手机号，方便连续测试（保留其他选填项）
-                    phoneInput.value = '';
-
-                    // 8. 恢复按钮
-                    connectBtn.disabled = false;
-                    connectBtn.innerHTML = '⚡ 尝试连接网络';
-
-                }, 1500); // 1.5秒延迟
-            }
-
-            // 绑定事件
-            connectBtn.addEventListener('click', attemptConnect);
-
-            // 回车触发
-            [phoneInput, affInput, reasonInput].forEach(i => {
-                i.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        attemptConnect();
-                    }
-                });
+                if (!name) {
+                    alert('请输入姓名');
+                    return;
+                }
+                
+                // 保存用户信息
+                userPhone = phone;
+                userName = name;
+                userAffiliation = affiliation;
+                
+                showStep(2);
             });
 
-            // 手机号输入时限制非数字
+            // 第二步：返回第一步
+            backToStep1Btn.addEventListener('click', function() {
+                showStep(1);
+            });
+
+            // 第二步 → 第三步
+            toStep3Btn.addEventListener('click', function() {
+                showStep(3);
+            });
+
+            // 第三步：返回第二步
+            backToStep2Btn.addEventListener('click', function() {
+                showStep(2);
+            });
+
+            // 第三步：上传按钮
+            uploadBtn.addEventListener('click', function() {
+                if (!window.deviceMAC || !window.deviceIP) {
+                    uploadStatus.style.display = 'block';
+                    uploadStatus.className = 'status-box';
+                    uploadStatus.style.borderLeftColor = '#dc3545';
+                    uploadStatus.innerHTML = '❌ 设备信息未检测完成，请稍候...';
+                    return;
+                }
+                
+                // 生成记录
+                const { content, filename, record } = generateRecordContent(
+                    userPhone, 
+                    userName, 
+                    userAffiliation, 
+                    window.deviceMAC, 
+                    window.deviceIP,
+                    window.deviceType
+                );
+                
+                // 上传到服务器（模拟）
+                const recordNumber = uploadToServer(record);
+                
+                // 生成下载文件
+                const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = filename;
+                link.click();
+                URL.revokeObjectURL(url);
+                
+                // 显示成功信息
+                uploadStatus.style.display = 'block';
+                uploadStatus.className = 'status-box status-success';
+                uploadStatus.innerHTML = `
+                    ✅ 上传成功！<br>
+                    📁 次记录编号：<strong>${recordNumber}</strong><br>
+                    📂 保存位置：<br>
+                    &nbsp;&nbsp;• 管理员/记录/全部记录.txt<br>
+                    &nbsp;&nbsp;• 管理员/记录/次记录/${recordNumber}.txt<br>
+                    💾 凭证已保存到您的 Downloads 文件夹
+                `;
+                
+                // 禁用上传按钮，防止重复提交
+                uploadBtn.disabled = true;
+                uploadBtn.style.opacity = '0.5';
+            });
+
+            // 手机号输入限制
             phoneInput.addEventListener('input', function() {
-                this.value = this.value.replace(/[^\d]/g, '');
+                this.value = this.value.replace(/\D/g, '');
             });
 
+            // 初始化显示第一步
+            showStep(1);
         })();
     </script>
 </body>
