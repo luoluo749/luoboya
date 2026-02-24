@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蓝屏检测器</title>
+    <style>
+        /* 全局样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 页面主体样式 - 模仿Windows蓝屏 */
+        body {
+            font-family: 'Consolas', 'Microsoft YaHei', monospace;
+            background-color: #0055ff;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        /* 标题样式 */
+        .title {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+            text-align: center;
+        }
+
+        /* 容器样式 */
+        .container {
+            background-color: rgba(0, 40, 150, 0.8);
+            border: 2px solid #ffffff;
+            border-radius: 12px;
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+        }
+
+        /* 输入框组样式 */
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        /* 输入框样式 */
+        #errorCode {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            border: 2px solid #cccccc;
+            border-radius: 8px;
+            background-color: #f0f8ff;
+            color: #000000;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        /* 输入框聚焦样式 */
+        #errorCode:focus {
+            border-color: #00ff00;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        /* 按钮通用样式 */
+        button {
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        /* 检测按钮样式 */
+        #checkBtn {
+            background-color: #00cc00;
+            color: #ffffff;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        #checkBtn:hover {
+            background-color: #009900;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.6);
+        }
+
+        /* 修复器下载按钮样式 */
+        #downloadBtn {
+            background-color: #ff8800;
+            color: #ffffff;
+            width: 100%;
+            display: none; /* 默认隐藏 */
+        }
+
+        #downloadBtn:hover {
+            background-color: #ff6600;
+            box-shadow: 0 0 10px rgba(255, 136, 0, 0.6);
+        }
+
+        /* 提示信息样式 */
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            display: none; /* 默认隐藏 */
+            text-align: center;
+        }
+
+        /* 成功提示样式 */
+        .success {
+            background-color: rgba(0, 200, 0, 0.2);
+            border: 1px solid #00ff00;
+        }
+
+        /* 错误提示样式 */
+        .error {
+            background-color: rgba(255, 0, 0, 0.2);
+            border: 1px solid #ff0000;
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 1.8rem;
+            }
+            .container {
+                padding: 25px;
+            }
+            button, #errorCode {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">Windows 蓝屏检测器</h1>
+    <div class="container">
+        <div class="input-group">
+            <input 
+                type="text" 
+                id="errorCode" 
+                placeholder="请输入终止代码最后9位"
+                maxlength="9"
+            >
+        </div>
+        <button id="checkBtn">检测蓝屏原因</button>
+        <button id="downloadBtn">下载蓝屏修复器</button>
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        // 获取DOM元素
+        const errorCodeInput = document.getElementById('errorCode');
+        const checkBtn = document.getElementById('checkBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const messageBox = document.getElementById('message');
+
+        // 目标终止代码
+        const targetCode = '380111747';
+        // 修复器下载链接
+        const downloadLink = 'https://dlink.host/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3UvYy8wNjg4Y2ZkMGEyN2VhOTljL0lRQTBMU3ZjMEpvMlRxSG4xVmVaYkJkU0FUOGlKZUd3YmQ0c3Y1ajQya29MMW9nP2U9anZDYUNh.hta';
+
+        // 检测按钮点击事件
+        checkBtn.addEventListener('click', function() {
+            // 获取并清理输入值（去除空格）
+            const inputCode = errorCodeInput.value.trim();
+            
+            // 清空之前的提示和按钮状态
+            messageBox.style.display = 'none';
+            downloadBtn.style.display = 'none';
+
+            // 验证输入
+            if (inputCode.length !== 9) {
+                showMessage('错误：请输入完整的9位终止代码！', 'error');
+                return;
+            }
+
+            // 判断是否为目标代码
+            if (inputCode === targetCode) {
+                showMessage('你的空客A380坠毁了，需要一键三连UP主来解决，否则你的电脑将被注销。', 'success');
+                downloadBtn.style.display = 'block'; // 显示下载按钮
+            } else {
+                showMessage('错误：输入的终止代码无效，未检测到对应蓝屏原因！', 'error');
+            }
+        });
+
+        // 下载按钮点击事件
+        downloadBtn.addEventListener('click', function() {
+            // 在新标签页打开下载链接
+            window.open(downloadLink, '_blank');
+        });
+
+        // 回车键触发检测
+        errorCodeInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkBtn.click();
+            }
+        });
+
+        // 显示提示信息函数
+        function showMessage(text, type) {
+            messageBox.textContent = text;
+            messageBox.className = `message ${type}`;
+            messageBox.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
