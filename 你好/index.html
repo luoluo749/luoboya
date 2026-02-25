@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>轻验 · 悦读 | 黄以周</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #e6e9f0 0%, #f2f5fa 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* 主卡片 — 现代、轻盈、微光 */
+        .card {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            width: 100%;
+            max-width: 750px;
+            border-radius: 36px;
+            padding: 40px 48px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.6) inset;
+            transition: all 0.3s ease;
+        }
+
+        /* 滑动条容器 — 柔和宽敞 */
+        .slide {
+            width: 100%;
+            max-width: 460px;
+            height: 52px;
+            background: rgba(230, 235, 245, 0.7);
+            border-radius: 40px;
+            position: relative;
+            margin: 0 auto 36px;
+            overflow: hidden;
+            user-select: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02), inset 0 1px 4px rgba(255,255,255,0.8);
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .slide-progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(95deg, #6cdb7e, #4cd964, #32c755);
+            border-radius: 40px;
+            transition: width 0.1s linear;
+            box-shadow: 0 2px 8px rgba(76, 217, 100, 0.3);
+            pointer-events: none;
+        }
+
+        .slide-btn {
+            width: 52px;
+            height: 52px;
+            background: #ffffff;
+            border-radius: 50%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #3c4a5a;
+            cursor: grab;
+            box-shadow: 0 8px 18px -4px rgba(0,30,20,0.15), 0 0 0 1px rgba(255,255,255,0.9) inset;
+            z-index: 20;
+            transition: box-shadow 0.2s, transform 0.1s;
+            will-change: left;
+        }
+
+        .slide-btn:active {
+            cursor: grabbing;
+            box-shadow: 0 10px 22px -2px rgba(0,100,50,0.25);
+            transform: scale(0.98);
+        }
+
+        .slide-text {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4a5a6e;
+            font-size: 15px;
+            font-weight: 460;
+            letter-spacing: 0.3px;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.7);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* 文章区域 — 未验证时模糊、半透明、不可点击 (完美“淡化”) */
+        .article {
+            opacity: 0.95;
+            filter: blur(6px) brightness(0.98);
+            transform: translateY(0);
+            transition: filter 0.6s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.5s ease, transform 0.4s ease;
+            pointer-events: none;           /* 整个区域不可点击，包括复制按钮 */
+            user-select: none;               /* 防文字选中 */
+        }
+
+        /* 验证通过 — 清晰、可交互 */
+        .article.show {
+            opacity: 1;
+            filter: blur(0) brightness(1);
+            transform: translateY(0);
+            pointer-events: auto;
+            user-select: text;
+        }
+
+        .article h1 {
+            text-align: center;
+            margin-bottom: 28px;
+            font-size: 26px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #1f2a3a, #2f3e5a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .article p {
+            font-size: 17px;
+            line-height: 1.85;
+            margin-bottom: 18px;
+            text-indent: 2em;
+            color: #1e2a36;
+            font-weight: 400;
+        }
+
+        /* 复制按钮 — 柔光质感 */
+        .copy-btn {
+            display: block;
+            margin: 36px auto 8px;
+            padding: 12px 32px;
+            background: #ffffff;
+            border: 1px solid rgba(90, 140, 255, 0.2);
+            color: #2c6ef0;
+            font-weight: 520;
+            font-size: 16px;
+            border-radius: 60px;
+            cursor: pointer;
+            box-shadow: 0 6px 18px -6px rgba(44, 110, 240, 0.2), 0 0 0 1px rgba(255,255,255,0.7) inset;
+            transition: all 0.2s ease;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(4px);
+        }
+
+        .copy-btn:hover {
+            background: #f5faff;
+            border-color: #2c6ef0;
+            box-shadow: 0 12px 24px -10px #2c6ef0;
+            transform: scale(1.02);
+        }
+
+        .copy-btn.success {
+            background: #4cd964;
+            border-color: #2b9e40;
+            color: white;
+            box-shadow: 0 6px 18px -4px #2b9e40;
+        }
+
+        .copy-btn.success:hover {
+            background: #44c75a;
+        }
+
+        /* 验证成功后的滑块对勾样式 */
+        .slide-btn.success-style {
+            background: #4cd964;
+            color: white;
+            font-size: 26px;
+            cursor: default;
+            box-shadow: 0 8px 18px -4px rgba(50,180,70,0.5);
+            pointer-events: none;
+        }
+
+        /* 小点缀：提示线 */
+        .slide::after {
+            content: '';
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            height: 1px;
+            background: rgba(100,120,140,0.1);
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 1px;
+            z-index: 1;
+        }
+
+        /* 响应式 */
+        @media (max-width: 500px) {
+            .card { padding: 30px 20px; }
+            .slide { height: 48px; }
+            .slide-btn { width: 48px; height: 48px; font-size: 20px; }
+            .article h1 { font-size: 22px; }
+            .article p { font-size: 16px; }
+        }
+
+        /* 进入时的轻柔动画 */
+        .card {
+            animation: cardFloat 0.7s ease-out;
+        }
+        @keyframes cardFloat {
+            0% { opacity: 0; transform: translateY(12px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <!-- 滑动容器 -->
+    <div class="slide" id="slide">
+        <div class="slide-progress" id="progress"></div>
+        <div class="slide-btn" id="sliderBtn">→</div>
+        <div class="slide-text" id="slideText">向右滑动验证不是机器人</div>
+    </div>
+
+    <!-- 文章区 (初始模糊淡化，验证后清晰) -->
+    <div class="article" id="article">
+        <h1>读《走进黄以周》有感</h1>
+        <p>最近，我认真阅读了《走进黄以周》这本书，心中充满了敬佩与感动。书中的黄以周先生，不仅学问渊博，更有着高尚的品德，让我深受教育。</p>
+        <p>黄以周是清代著名的学者，他潜心研究经学，不仅精通“三礼”，还贯通《周易》，一生治学严谨、实事求是。他用一生的坚持告诉我们，做学问要脚踏实地，做人更要品行端正。</p>
+        <p>最让我感动的，是他小时候主动帮父亲抄写族谱的故事。看到父亲日夜操劳、辛苦忙碌，年幼的黄以周主动拿起笔墨，一笔一画、认认真真地帮忙抄写。他不怕枯燥、不嫌繁琐，用默默的行动分担父母的辛劳。这份懂事与孝心，如同温暖的阳光，深深打动了我。</p>
+        <p>长大后，黄以周更加勤奋刻苦。他花费数十年心血，潜心钻研，最终写成了重要的学术著作《礼书通故》。他不浮躁、不放弃，这种持之以恒的精神，值得我们每一个人学习。</p>
+        <p>黄以周先生用一生诠释了孝顺与勤奋。今后，我也要以他为榜样，做一个懂事孝顺、认真踏实、勤奋好学的好学生。</p>
+
+        <button class="copy-btn" id="copyBtn">📋 一键复制全文</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // DOM 元素
+        const slide = document.getElementById('slide');
+        const btn = document.getElementById('sliderBtn');
+        const progress = document.getElementById('progress');
+        const slideText = document.getElementById('slideText');
+        const article = document.getElementById('article');
+        const copyBtn = document.getElementById('copyBtn');
+
+        // 状态变量
+        let isDragging = false;          // 是否正在拖动
+        let verified = false;             // 是否已经验证成功
+        let maxOffset = 0;                // 最大拖动距离 (实时计算)
+
+        // ----- 辅助函数：获取相对于slide的x坐标 (支持触摸) -----
+        function getClientX(e) {
+            if (e.touches) {
+                return e.touches[0].clientX;
+            }
+            return e.clientX;
+        }
+
+        // ----- 重置滑块到起点 (带动画) -----
+        function resetSlider(useTransition = true) {
+            if (verified) return; // 已验证成功不复位
+
+            // 启用平滑过渡 (复位专用)
+            if (useTransition) {
+                btn.style.transition = 'left 0.25s cubic-bezier(0.2, 0.9, 0.3, 1)';
+                progress.style.transition = 'width 0.25s cubic-bezier(0.2, 0.9, 0.3, 1)';
+            } else {
+                btn.style.transition = 'none';
+                progress.style.transition = 'none';
+            }
+
+            btn.style.left = '0px';
+            progress.style.width = '0px';
+
+            // 恢复文字和箭头 (如果因为验证半途而废)
+            if (btn.innerText !== '→') btn.innerText = '→';
+            if (slideText.innerText !== '向右滑动验证不是机器人') slideText.innerText = '向右滑动验证不是机器人';
+            if (btn.classList.contains('success-style')) btn.classList.remove('success-style');
+            btn.style.pointerEvents = 'auto';   // 确保可拖动
+        }
+
+        // ----- 验证成功后的操作 -----
+        function handleSuccess() {
+            if (verified) return;
+
+            verified = true;
+            // 滑块ui标记成功
+            btn.classList.add('success-style');
+            btn.innerText = '✓';
+            slideText.innerText = '验证成功';
+            btn.style.pointerEvents = 'none';   // 禁止再次拖动
+
+            // 进度条填满 (可能由于滑动已经填满，但确保一下)
+            btn.style.transition = 'none';
+            progress.style.transition = 'none';
+            btn.style.left = maxOffset + 'px';
+            progress.style.width = maxOffset + 'px';
+
+            // 文章淡入清晰 (移除模糊/不可点击)
+            article.classList.add('show');
+        }
+
+        // ----- 拖动逻辑 (mousemove / touchmove) -----
+        function onDragMove(e) {
+            if (!isDragging || verified) return;
+            e.preventDefault();   // 阻止触摸滚动
+
+            // 实时计算最大偏移
+            const slideRect = slide.getBoundingClientRect();
+            const btnWidth = btn.offsetWidth;
+            maxOffset = slideRect.width - btnWidth;
+
+            let clientX = getClientX(e);
+            let newLeft = clientX - slideRect.left;
+
+            // 边界限制
+            if (newLeft < 0) newLeft = 0;
+            if (newLeft > maxOffset) newLeft = maxOffset;
+
+            // 更新滑块位置和进度条宽度
+            btn.style.left = newLeft + 'px';
+            progress.style.width = newLeft + 'px';
+
+            // 判断是否达到最右 (允许一点容差)
+            if (newLeft >= maxOffset - 2) {
+                handleSuccess();
+            }
+        }
+
+        // ----- 停止拖动 (mouseup / touchend) -----
+        function onDragEnd(e) {
+            if (!isDragging) return;
+            isDragging = false;
+
+            // 如果未验证成功，滑块复位到起点
+            if (!verified) {
+                resetSlider(true);
+            }
+
+            // 移除全局监听
+            document.removeEventListener('mousemove', onDragMove);
+            document.removeEventListener('mouseup', onDragEnd);
+            document.removeEventListener('touchmove', onDragMove);
+            document.removeEventListener('touchend', onDragEnd);
+            document.removeEventListener('touchcancel', onDragEnd);
+        }
+
+        // ----- 开始拖动 (mousedown / touchstart) -----
+        function onDragStart(e) {
+            // 防止鼠标右键、或者已经验证成功
+            if (verified) return;
+            if (e.button === 2) return; // 右键忽略
+
+            e.preventDefault();  // 重要: 阻止拖动时选中页面文字
+
+            // 获取最新的maxOffset，用于边界
+            const slideRect = slide.getBoundingClientRect();
+            maxOffset = slideRect.width - btn.offsetWidth;
+
+            // 关闭过渡，实现无延迟跟随
+            btn.style.transition = 'none';
+            progress.style.transition = 'none';
+
+            // 校准当前位置（以防之前有过渡残留）
+            const currentLeft = btn.offsetLeft;  // 相对于父元素
+            btn.style.left = currentLeft + 'px';
+            progress.style.width = currentLeft + 'px';
+
+            isDragging = true;
+
+            // 添加全局事件
+            document.addEventListener('mousemove', onDragMove);
+            document.addEventListener('mouseup', onDragEnd);
+            document.addEventListener('touchmove', onDragMove, { passive: false });
+            document.addEventListener('touchend', onDragEnd);
+            document.addEventListener('touchcancel', onDragEnd);
+        }
+
+        // ----- 绑定滑动事件 (鼠标 + 触摸) -----
+        btn.addEventListener('mousedown', onDragStart);
+        btn.addEventListener('touchstart', onDragStart, { passive: false });
+
+        // 防止触摸时页面滚动 (已通过e.preventDefault在start/move实现)
+        // 额外安全：滑块容器不捕获触摸移动
+        slide.addEventListener('touchmove', (e) => { if (isDragging) e.preventDefault(); }, { passive: false });
+
+        // 如果用户在滑块外松开鼠标，也要触发复位 (由document的mouseup处理)
+
+        // ----- 复制全文功能 (仅当验证成功后可用, 但按钮已在article内由pointer-events控制，仍保留反馈) -----
+        copyBtn.addEventListener('click', function() {
+            // 若未验证 (article没有show类) 理论上按钮不可点击，但加上双重判断
+            if (!article.classList.contains('show')) return;
+
+            const fullText = `读《走进黄以周》有感
+
+最近，我认真阅读了《走进黄以周》这本书，心中充满了敬佩与感动。书中的黄以周先生，不仅学问渊博，更有着高尚的品德，让我深受教育。
+
+黄以周是清代著名的学者，他潜心研究经学，不仅精通“三礼”，还贯通《周易》，一生治学严谨、实事求是。他用一生的坚持告诉我们，做学问要脚踏实地，做人更要品行端正。
+
+最让我感动的，是他小时候主动帮父亲抄写族谱的故事。看到父亲日夜操劳、辛苦忙碌，年幼的黄以周主动拿起笔墨，一笔一画、认认真真地帮忙抄写。他不怕枯燥、不嫌繁琐，用默默的行动分担父母的辛劳。这份懂事与孝心，如同温暖的阳光，深深打动了我。
+
+长大后，黄以周更加勤奋刻苦。他花费数十年心血，潜心钻研，最终写成了重要的学术著作《礼书通故》。他不浮躁、不放弃，这种持之以恒的精神，值得我们每一个人学习。
+
+黄以周先生用一生诠释了孝顺与勤奋。今后，我也要以他为榜样，做一个懂事孝顺、认真踏实、勤奋好学的好学生。`;
+
+            navigator.clipboard.writeText(fullText).then(() => {
+                copyBtn.innerText = '✅ 复制成功！';
+                copyBtn.classList.add('success');
+                setTimeout(() => {
+                    copyBtn.innerText = '📋 一键复制全文';
+                    copyBtn.classList.remove('success');
+                }, 1500);
+            }).catch(() => {
+                alert('复制失败，请手动复制');
+            });
+        });
+
+        // 页面加载完成后，确保滑块初始在最左，进度条为0，文章无show类(但默认已经是模糊)
+        window.addEventListener('load', function() {
+            resetSlider(false);
+            article.classList.remove('show');  // 确保初始模糊
+            verified = false;
+            btn.style.pointerEvents = 'auto';
+            btn.classList.remove('success-style');
+            btn.innerText = '→';
+            slideText.innerText = '向右滑动验证不是机器人';
+        });
+
+        // 可选：如果窗口大小变化，需要保证滑块边界更新，但拖动时会实时计算
+        // 另外当窗口改变，若滑块不在0且未验证，可复位以保证ui合理(但很少见，可忽略)
+        window.addEventListener('resize', function() {
+            if (!verified) {
+                resetSlider(false);  // 直接复位，避免越界
+            }
+        });
+    })();
+</script>
+</body>
+</html>
