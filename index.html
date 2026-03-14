@@ -1,40 +1,312 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<title>网站临时升级中</title>
-<style>
-body{
-  background:#f5f5f5;
-  font-family:Microsoft YaHei, sans-serif;
-  text-align:center;
-  padding-top:100px;
-  color:#333;
-}
-.box{
-  background:#fff;
-  max-width:500px;
-  margin:0 auto;
-  padding:40px;
-  border-radius:10px;
-  box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
-h1{
-  font-size:24px;
-  margin-bottom:20px;
-}
-p{
-  font-size:16px;
-  line-height:1.8;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>萝卜芽科技无限公司</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0066cc',
+                        secondary: '#00aaff',
+                        dark: '#1a1a2e',
+                        light: '#f5f7fa'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'glow': '0 0 15px rgba(0, 170, 255, 0.5)',
+                        'glow-lg': '0 0 25px rgba(0, 170, 255, 0.7)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a192f 0%, #172a45 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #0066cc, #00aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-glow {
+            transition: all 0.3s;
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
+        }
+
+        .btn-glow:active {
+            box-shadow: 0 0 25px rgba(0, 170, 255, 0.7);
+        }
+
+        .bg-blur {
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .logo-container {
+            perspective: 1000px;
+        }
+
+        .logo {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .logo-container:hover .logo {
+            transform: rotateY(180deg);
+        }
+
+        /* 主按钮样式 - 高级动态渐变 */
+        .btn-primary {
+            background: linear-gradient(135deg, #0066cc 0%, #00aaff 100%);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(4px);
+        }
+
+        .btn-primary:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .btn-primary:hover:after {
+            left: 100%;
+        }
+
+        /* 新增按钮风格变体 (军事/民航 使用冷峻微调) */
+        .btn-secondary-special {
+            background: linear-gradient(145deg, #0b2f4e, #1b4a6b);
+            border-left: 3px solid #3fa9f0;
+            box-shadow: 0 4px 12px rgba(0,80,120,0.4);
+        }
+        .btn-secondary-special:hover {
+            background: linear-gradient(145deg, #124f72, #1f5f82);
+            border-left-color: #7fc9ff;
+        }
+
+        .simple-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: #00aaff;
+            border-radius: 50%;
+            opacity: 0.2;
+            animation: floatParticle 18s infinite alternate ease-in-out;
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(20px, -30px) scale(1.2); }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .fade-in-delay-1 { animation-delay: 0.2s; }
+        .fade-in-delay-2 { animation-delay: 0.4s; }
+        .fade-in-delay-3 { animation-delay: 0.6s; }
+        .fade-in-delay-4 { animation-delay: 0.8s; }
+        .fade-in-delay-5 { animation-delay: 1.0s; }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .domain-link {
+            transition: all 0.3s ease;
+            border-bottom: 1px dotted rgba(0, 170, 255, 0.5);
+        }
+
+        .domain-link:hover {
+            color: #00aaff;
+            border-bottom-color: #00aaff;
+        }
+
+        /* 图片Logo样式 */
+        .logo-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 0 40px rgba(0, 170, 255, 0.6);
+            border: 3px solid rgba(255,255,255,0.2);
+            background: #0a192f; /* fallback if image missing */
+        }
+
+        /* 按钮网格布局增强 */
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        @media (max-width: 500px) {
+            .button-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 给俱乐部按钮一点特色icon微调 */
+        .btn-club {
+            background: linear-gradient(145deg, #0d3c55, #154e6e);
+            border-bottom: 2px solid #3fa9f0;
+        }
+    </style>
 </head>
-<body>
-<div class="box">
-  <h1>网站临时升级中</h1>
-  <p>网站正在临时升级，给您带来不便，敬请谅解。</p>
-  <p>将于<strong>今天中午12:00前</strong>重新开放。</p>
-  <p>感谢您的耐心等待！</p>
-</div>
+<body class="flex flex-col min-h-screen text-white">
+    <!-- 粒子背景 -->
+    <div class="simple-particles" id="simple-particles"></div>
+
+    <!-- 主内容容器 -->
+    <div class="container mx-auto px-4 z-10 flex flex-col items-center justify-center flex-grow py-8 md:py-12">
+        
+        <!-- Logo 图片 -->
+        <div class="logo-container mb-6 fade-in">
+            <img src="picture.jpg" alt="萝卜芽科技" class="logo logo-image">
+        </div>
+
+        <!-- 公司名称 -->
+        <h1 class="text-4xl md:text-6xl font-bold mb-2 text-gradient fade-in fade-in-delay-1">萝卜芽科技无限公司</h1>
+        <p class="text-xl md:text-2xl text-gray-300 mb-3 fade-in fade-in-delay-2">探索 · 创造 · 集结</p>
+
+        <!-- 域名显示 -->
+        <div class="mb-8 fade-in fade-in-delay-3">
+            <a href="https://luoboya.top" target="_blank" class="domain-link text-lg text-gray-300 hover:text-secondary">
+                luoboya.top
+            </a>
+        </div>
+
+        <!-- 四按钮区域 (根据要求: game, lbbzzp, 民航飞机俱乐部, 军事俱乐部) 
+             地址格式: luoboya.top/game , luoboya.top/lbbzzp , luoboya.top/民航飞机俱乐部 , luoboya/军事俱乐部 
+             注意最后一个缺少 .top 但已补全为 luoboya.top/军事俱乐部 (合理推断)
+        -->
+        <div class="button-grid fade-in fade-in-delay-4 mx-auto">
+            <!-- 拉布布折纸铺 (lbbzzp) -->
+            <a href="https://luoboya.top/lbbzzp/" target="_blank" 
+               class="btn-primary btn-glow py-4 px-3 rounded-2xl text-lg font-semibold text-white shadow-lg hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+                <i class="fa fa-paper-plane"></i> 拉布布折纸铺
+            </a>
+
+            <!-- HTML在线游戏 (game) -->
+            <a href="https://game.luoboya.top" target="_blank" 
+               class="btn-primary btn-glow py-4 px-3 rounded-2xl text-lg font-semibold text-white shadow-lg hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+                <i class="fa fa-gamepad"></i> HTML在线游戏
+            </a>
+
+            <!-- 民航飞机俱乐部 (新) 使用独特微调风格 -->
+            <a href="https://luoboya.top/民航飞机俱乐部" target="_blank" 
+               class="btn-club btn-glow py-4 px-3 rounded-2xl text-lg font-semibold text-white shadow-lg hover:scale-105 active:scale-95 flex items-center justify-center gap-2 border border-cyan-400/30">
+                <i class="fa fa-plane"></i> 民航飞机俱乐部
+            </a>
+
+            <!-- 军事俱乐部 (新) 风格略微硬朗 -->
+            <a href="https://luoboya.top/军事俱乐部" target="_blank" 
+               class="btn-secondary-special btn-glow py-4 px-3 rounded-2xl text-lg font-semibold text-white shadow-lg hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+                <i class="fa fa-shield"></i> 军事俱乐部
+            </a>
+        </div>
+
+        <!-- 公司简介 -->
+        <div class="mt-14 max-w-2xl text-center bg-blur rounded-2xl p-8 backdrop-blur-md fade-in fade-in-delay-5">
+            <h2 class="text-2xl font-bold mb-4 text-gradient">关于我们</h2>
+            <p class="text-gray-300 mb-4">
+                萝卜芽科技无限公司专注于创新数字体验。从折纸艺术到在线游戏，再到航空与军事爱好者的聚集地——我们不断拓展科技的边界。
+            </p>
+            <p class="text-gray-300">
+                加入「民航飞机俱乐部」领略蓝天魅力，深入「军事俱乐部」探讨战略科技。四个领域，同样精彩。
+            </p>
+        </div>
+    </div>
+
+    <!-- 底部版权标识 (年份更新) -->
+    <footer class="py-6 border-t border-gray-800/70 mt-auto">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-400 text-sm">
+                © 2025 萝卜芽科技无限公司 · 无限可能 | 
+                <a href="https://luoboya.top" target="_blank" class="text-gray-400 hover:text-secondary transition-colors">luoboya.top</a>
+            </p>
+            <p class="text-gray-500 text-xs mt-1">
+                <i class="fa fa-rocket"></i> 民航 · 军事 · 游戏 · 折纸
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // 创建增强粒子背景 (带浮动效果)
+        function createSimpleParticles() {
+            const container = document.getElementById('simple-particles');
+            const particleCount = 42;  // 稍微多一些粒子
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+
+                // 随机大小 1px ~ 8px
+                const size = Math.random() * 7 + 1.5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+
+                // 随机位置
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+
+                // 随机透明度
+                particle.style.opacity = Math.random() * 0.25 + 0.1;
+
+                // 随机动画延迟与时长，让它们各自飘忽
+                const duration = Math.random() * 20 + 12;
+                const delay = Math.random() * 5;
+                particle.style.animation = `floatParticle ${duration}s infinite alternate ease-in-out ${delay}s`;
+
+                container.appendChild(particle);
+            }
+        }
+
+        // 初始化粒子背景
+        document.addEventListener('DOMContentLoaded', function() {
+            createSimpleParticles();
+
+            // 可选：给军事俱乐部加一点小彩蛋 (控制台)
+            console.log("🚀 萝卜芽四维入口已激活: 民航/军事/游戏/折纸");
+        });
+    </script>
 </body>
 </html>
