@@ -1,251 +1,40 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>萝卜芽科技无限公司</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#0066cc',
-                        secondary: '#00aaff',
-                        dark: '#1a1a2e',
-                        light: '#f5f7fa'
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif']
-                    },
-                    boxShadow: {
-                        'glow': '0 0 15px rgba(0, 170, 255, 0.5)',
-                        'glow-lg': '0 0 25px rgba(0, 170, 255, 0.7)'
-                    }
-                }
-            }
-        }
-    </script>
-
-    <style>
-        body {
-            background: linear-gradient(135deg, #0a192f 0%, #172a45 100%);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        .text-gradient {
-            background: linear-gradient(to right, #0066cc, #00aaff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .btn-glow {
-            transition: all 0.3s;
-        }
-
-        .btn-glow:hover {
-            box-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
-        }
-
-        .btn-glow:active {
-            box-shadow: 0 0 25px rgba(0, 170, 255, 0.7);
-        }
-
-        .bg-blur {
-            backdrop-filter: blur(10px);
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .logo-container {
-            perspective: 1000px;
-        }
-
-        .logo {
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
-
-        .logo-container:hover .logo {
-            transform: rotateY(180deg);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #0066cc 0%, #00aaff 100%);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary:after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: all 0.6s ease;
-        }
-
-        .btn-primary:hover:after {
-            left: 100%;
-        }
-
-        .simple-particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            background-color: #00aaff;
-            border-radius: 50%;
-            opacity: 0.3;
-        }
-
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        .fade-in-delay-1 {
-            animation-delay: 0.2s;
-        }
-
-        .fade-in-delay-2 {
-            animation-delay: 0.4s;
-        }
-
-        .fade-in-delay-3 {
-            animation-delay: 0.6s;
-        }
-
-        .fade-in-delay-4 {
-            animation-delay: 0.8s;
-        }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .domain-link {
-            transition: all 0.3s ease;
-            border-bottom: 1px dotted rgba(0, 170, 255, 0.5);
-        }
-
-        .domain-link:hover {
-            color: #00aaff;
-            border-bottom-color: #00aaff;
-        }
-
-        /* 图片Logo样式 */
-        .logo-image {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            object-fit: cover;
-            box-shadow: 0 0 30px rgba(0, 170, 255, 0.5);
-            border: 3px solid rgba(255, 255, 255, 0.1);
-        }
-    </style>
+<meta charset="utf-8">
+<title>网站临时升级中</title>
+<style>
+body{
+  background:#f5f5f5;
+  font-family:Microsoft YaHei, sans-serif;
+  text-align:center;
+  padding-top:100px;
+  color:#333;
+}
+.box{
+  background:#fff;
+  max-width:500px;
+  margin:0 auto;
+  padding:40px;
+  border-radius:10px;
+  box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+h1{
+  font-size:24px;
+  margin-bottom:20px;
+}
+p{
+  font-size:16px;
+  line-height:1.8;
+}
+</style>
 </head>
-<body class="flex flex-col min-h-screen text-white">
-    <!-- 粒子背景 -->
-    <div class="simple-particles" id="simple-particles"></div>
-
-    <!-- 主内容 -->
-    <div class="container mx-auto px-4 z-10 flex flex-col items-center justify-center flex-grow py-12">
-        <!-- Logo - 已修改为使用图片 -->
-        <div class="logo-container mb-8 fade-in">
-            <img src="picture.jpg" alt="萝卜芽科技" class="logo logo-image">
-        </div>
-
-        <!-- 公司名称 -->
-        <h1 class="text-4xl md:text-6xl font-bold mb-2 text-gradient fade-in fade-in-delay-1">萝卜芽科技无限公司</h1>
-        <p class="text-xl md:text-2xl text-gray-300 mb-4 fade-in fade-in-delay-2">探索科技无限可能</p>
-
-        <!-- 域名显示 -->
-        <div class="mb-12 fade-in fade-in-delay-3">
-            <a href="https://luoboya.top" target="_blank" class="domain-link text-lg text-gray-300 hover:text-secondary">
-                luoboya.top
-            </a>
-        </div>
-
-        <!-- 按钮容器 -->
-        <div class="flex flex-col sm:flex-row gap-4 w-full max-w-lg mx-auto flex-wrap justify-center fade-in fade-in-delay-4">
-            <!-- 拉布布折纸铺按钮 -->
-            <a href="https://luoboya.top/lbbzzp/" target="_blank" class="btn-primary btn-glow py-4 px-6 rounded-full text-lg font-semibold text-white shadow-lg hover:scale-105 active:scale-95 min-w-[180px] text-center">
-                <i class="fa fa-paper-plane mr-2"></i>拉布布折纸铺
-            </a>
-
-            <!-- HTML在线游戏按钮 - 已修改为直接跳转 -->
-            <a href="https://game.luoboya.top" target="_blank" class="btn-primary btn-glow py-4 px-6 rounded-full text-lg font-semibold text-white shadow-lg hover:scale-105 active:scale-95 min-w-[180px] text-center">
-                <i class="fa fa-gamepad mr-2"></i>HTML在线游戏
-            </a>
-        </div>
-
-        <!-- 公司简介 -->
-        <div class="mt-16 max-w-2xl text-center bg-blur rounded-2xl p-8 backdrop-blur-md fade-in">
-            <h2 class="text-2xl font-bold mb-4 text-gradient">关于我们</h2>
-            <p class="text-gray-300 mb-4">
-                萝卜芽科技无限公司是一家专注于创新科技产品研发的企业，致力于通过技术改善人们的生活体验。
-            </p>
-            <p class="text-gray-300">
-                我们的产品包括拉布布折纸铺和HTML在线游戏平台，为用户提供富有创意的数字体验。
-            </p>
-        </div>
-    </div>
-
-    <!-- 底部版权标识 -->
-    <footer class="py-6 border-t border-gray-800 mt-auto">
-        <div class="container mx-auto px-4 text-center">
-            <p class="text-gray-400 text-sm">
-                © 2023 萝卜芽科技无限公司. 保留所有权利. | 
-                <a href="https://luoboya.top" target="_blank" class="text-gray-400 hover:text-secondary transition-colors">luoboya.top</a>
-            </p>
-        </div>
-    </footer>
-
-    <script>
-        // 创建简单粒子背景
-        function createSimpleParticles() {
-            const container = document.getElementById('simple-particles');
-            const particleCount = 30;
-
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-
-                // 随机大小
-                const size = Math.random() * 6 + 2;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-
-                // 随机位置
-                particle.style.left = `${Math.random() * 100}%`;
-                particle.style.top = `${Math.random() * 100}%`;
-
-                container.appendChild(particle);
-            }
-        }
-
-        // 初始化简单粒子背景
-        document.addEventListener('DOMContentLoaded', function() {
-            createSimpleParticles();
-        });
-    </script>
+<body>
+<div class="box">
+  <h1>网站临时升级中</h1>
+  <p>网站正在临时升级，给您带来不便，敬请谅解。</p>
+  <p>将于<strong>今天中午12:00前</strong>重新开放。</p>
+  <p>感谢您的耐心等待！</p>
+</div>
 </body>
 </html>
