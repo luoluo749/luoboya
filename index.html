@@ -73,7 +73,6 @@
             transform: rotateY(180deg);
         }
 
-        /* 主按钮样式 - 高级动态渐变 */
         .btn-primary {
             background: linear-gradient(135deg, #0066cc 0%, #00aaff 100%);
             transition: all 0.3s ease;
@@ -98,7 +97,6 @@
             left: 100%;
         }
 
-        /* 新增按钮风格变体 (军事/民航 使用冷峻微调) */
         .btn-secondary-special {
             background: linear-gradient(145deg, #0b2f4e, #1b4a6b);
             border-left: 3px solid #3fa9f0;
@@ -158,7 +156,6 @@
             border-bottom-color: #00aaff;
         }
 
-        /* 图片Logo样式 */
         .logo-image {
             width: 200px;
             height: 200px;
@@ -166,10 +163,9 @@
             object-fit: cover;
             box-shadow: 0 0 40px rgba(0, 170, 255, 0.6);
             border: 3px solid rgba(255,255,255,0.2);
-            background: #0a192f; /* fallback if image missing */
+            background: #0a192f;
         }
 
-        /* 按钮网格布局增强 */
         .button-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -184,7 +180,6 @@
             }
         }
 
-        /* 给俱乐部按钮一点特色icon微调 */
         .btn-club {
             background: linear-gradient(145deg, #0d3c55, #154e6e);
             border-bottom: 2px solid #3fa9f0;
@@ -197,7 +192,7 @@
 
     <!-- 主内容容器 -->
     <div class="container mx-auto px-4 z-10 flex flex-col items-center justify-center flex-grow py-8 md:py-12">
-
+        
         <!-- Logo 图片 -->
         <div class="logo-container mb-6 fade-in">
             <img src="picture.jpg" alt="萝卜芽科技" class="logo logo-image">
@@ -214,30 +209,27 @@
             </a>
         </div>
 
-        <!-- 四按钮区域 (根据要求: game, lbbzzp, 民航飞机俱乐部, 军事俱乐部) 
-             地址格式: luoboya.top/game , luoboya.top/lbbzzp , luoboya.top/民航飞机俱乐部 , luoboya/军事俱乐部 
-             注意最后一个缺少 .top 但已补全为 luoboya.top/军事俱乐部 (合理推断)
-        -->
+        <!-- 四按钮区域 -->
         <div class="button-grid fade-in fade-in-delay-4 mx-auto">
-            <!-- 萝卜芽折纸铺 (lbbzzp) -->
+            <!-- 拉布布折纸铺 -->
             <a href="https://luoboya.top/lbbzzp/" target="_blank" 
                class="btn-primary btn-glow py-4 px-3 rounded-2xl text-lg font-semibold text-white shadow-lg hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
-                <i class="fa fa-paper-plane"></i> 萝卜芽折纸铺
+                <i class="fa fa-paper-plane"></i> 拉布布折纸铺
             </a>
 
-            <!-- HTML在线游戏 (game) -->
-            <a href="https://game.luoboya.top" target="_blank" 
+            <!-- HTML在线游戏 - 已修正为 luoboya.top/game -->
+            <a href="https://luoboya.top/game" target="_blank" 
                class="btn-primary btn-glow py-4 px-3 rounded-2xl text-lg font-semibold text-white shadow-lg hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
                 <i class="fa fa-gamepad"></i> HTML在线游戏
             </a>
 
-            <!-- 民航飞机俱乐部 (新) 使用独特微调风格 -->
+            <!-- 民航飞机俱乐部 -->
             <a href="https://luoboya.top/民航飞机俱乐部" target="_blank" 
                class="btn-club btn-glow py-4 px-3 rounded-2xl text-lg font-semibold text-white shadow-lg hover:scale-105 active:scale-95 flex items-center justify-center gap-2 border border-cyan-400/30">
                 <i class="fa fa-plane"></i> 民航飞机俱乐部
             </a>
 
-            <!-- 军事俱乐部 (新) 风格略微硬朗 -->
+            <!-- 军事俱乐部 -->
             <a href="https://luoboya.top/军事俱乐部" target="_blank" 
                class="btn-secondary-special btn-glow py-4 px-3 rounded-2xl text-lg font-semibold text-white shadow-lg hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
                 <i class="fa fa-shield"></i> 军事俱乐部
@@ -248,50 +240,43 @@
         <div class="mt-14 max-w-2xl text-center bg-blur rounded-2xl p-8 backdrop-blur-md fade-in fade-in-delay-5">
             <h2 class="text-2xl font-bold mb-4 text-gradient">关于我们</h2>
             <p class="text-gray-300 mb-4">
-                萝卜芽科技无限公司专注于创新数字体验。从折纸艺术到在线游戏，再到航空与军事爱好者的聚集地——我们不断拓展科技的边界。
+                萝卜芽科技无限公司是一家专注于创新科技产品研发的企业，致力于通过技术改善人们的生活体验。
             </p>
             <p class="text-gray-300">
-                加入「民航飞机俱乐部」领略蓝天魅力，深入「军事俱乐部」探讨战略科技。四个领域，同样精彩。
+                我们的产品包括拉布布折纸铺和HTML在线游戏平台，为用户提供富有创意的数字体验。
             </p>
         </div>
     </div>
 
-    <!-- 底部版权标识 (年份更新) -->
+    <!-- 底部版权标识 -->
     <footer class="py-6 border-t border-gray-800/70 mt-auto">
         <div class="container mx-auto px-4 text-center">
             <p class="text-gray-400 text-sm">
-                © 2026 萝卜芽科技无限公司 · 无限可能 | 
+                © 2026 萝卜芽科技无限公司. 保留所有权利. | 
                 <a href="https://luoboya.top" target="_blank" class="text-gray-400 hover:text-secondary transition-colors">luoboya.top</a>
-            </p>
-            <p class="text-gray-500 text-xs mt-1">
-                <i class="fa fa-rocket"></i> 民航 · 军事 · 游戏 · 折纸
             </p>
         </div>
     </footer>
 
     <script>
-        // 创建增强粒子背景 (带浮动效果)
+        // 创建粒子背景
         function createSimpleParticles() {
             const container = document.getElementById('simple-particles');
-            const particleCount = 42;  // 稍微多一些粒子
+            const particleCount = 42;
 
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
 
-                // 随机大小 1px ~ 8px
                 const size = Math.random() * 7 + 1.5;
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
 
-                // 随机位置
                 particle.style.left = `${Math.random() * 100}%`;
                 particle.style.top = `${Math.random() * 100}%`;
 
-                // 随机透明度
                 particle.style.opacity = Math.random() * 0.25 + 0.1;
 
-                // 随机动画延迟与时长，让它们各自飘忽
                 const duration = Math.random() * 20 + 12;
                 const delay = Math.random() * 5;
                 particle.style.animation = `floatParticle ${duration}s infinite alternate ease-in-out ${delay}s`;
@@ -300,12 +285,9 @@
             }
         }
 
-        // 初始化粒子背景
+        // 初始化
         document.addEventListener('DOMContentLoaded', function() {
             createSimpleParticles();
-
-            // 可选：给军事俱乐部加一点小彩蛋 (控制台)
-            console.log("🚀 萝卜芽四维入口已激活: 民航/军事/游戏/折纸");
         });
     </script>
 </body>
