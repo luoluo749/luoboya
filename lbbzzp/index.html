@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>拉布布折纸铺 - 欢迎</title>
+    <title>萝卜芽折纸铺 - 欢迎</title>
     <style>
         /* 基础变量：明暗模式核心配色 - 与教程页面完全匹配 */
         :root {
@@ -256,13 +256,13 @@
     <div class="container">
         <!-- 顶部：标题+明暗模式切换 -->
         <div class="header">
-            <h1 class="shop-title">拉布布折纸铺</h1>
+            <h1 class="shop-title">萝卜芽折纸铺</h1>
             <div class="theme-toggle" id="themeToggle"></div>
         </div>
 
         <!-- 主内容区域 -->
         <div class="welcome-content">
-            <p class="welcome-text">欢迎来到拉布布折纸铺，这里汇集了各种精美的折纸教程，从简单的入门作品到复杂的立体模型，让我们一起探索折纸的奇妙世界！</p>
+            <p class="welcome-text">欢迎来到萝卜芽折纸铺，这里汇集了各种精美的折纸教程，从简单的入门作品到复杂的立体模型，让我们一起探索折纸的奇妙世界！</p>
             
             <div class="btn-group">
                 <button class="btn" id="videoBtn">获取内部视频</button>
@@ -285,7 +285,7 @@
         
         <!-- 页脚 -->
         <div class="footer">
-            <p>拉布布折纸铺 &copy; 2023 - 保留所有权利</p>
+            <p>萝卜芽折纸铺 &copy; 2026 - 保留所有权利</p>
         </div>
     </div>
 
@@ -306,29 +306,97 @@
             localStorage.setItem('isDarkMode', isDark);
         });
 
-        // 2. 按钮功能
+        // 2. 按钮功能 - 修改为从文件读取密码和跳转地址
         const videoBtn = document.getElementById('videoBtn');
-        const aboutBtn = document.getElementById('aboutBtn');
         const passwordModal = document.getElementById('passwordModal');
         const passwordInput = document.getElementById('passwordInput');
         const confirmBtn = document.getElementById('confirmBtn');
         const cancelBtn = document.getElementById('cancelBtn');
         
-        // 密码验证
-        const correctPassword = "6226";
+        // 存储从文件读取的正确密码和跳转URL
+        let correctPassword = "";       // 将从 password.txt 加载
+        let targetUrl = "";             // 将从 html.txt 加载
         
-        // 打开密码模态框
+        // 标记是否已经加载过文件，避免重复读取影响性能
+        let filesLoaded = false;
+
+        // 打开密码模态框前，先确保密码和URL已加载（如果尚未加载）
         videoBtn.addEventListener('click', () => {
-            passwordModal.style.display = 'flex';
-            passwordInput.value = '';
-            passwordInput.focus();
+            if (!filesLoaded) {
+                // 显示加载提示（可选，但为了用户体验，可以直接打开模态框并提示“验证中”）
+                // 我们在这里先显示模态框，输入框禁用，并显示加载文字
+                passwordInput.disabled = true;
+                passwordInput.placeholder = "加载中...";
+                confirmBtn.disabled = true;
+                passwordModal.style.display = 'flex';
+                
+                // 并行请求两个文件
+                Promise.all([
+                    fetch('password.txt').then(resp => {
+                        if (!resp.ok) throw new Error('密码文件加载失败');
+                        return resp.text();
+                    }),
+                    fetch('html.txt').then(resp => {
+                        if (!resp.ok) throw new Error('地址文件加载失败');
+                        return resp.text();
+                    })
+                ])
+                .then(([pwdText, urlText]) => {
+                    // 通常文件内容可能包含换行符，需要trim()处理干净
+                    correctPassword = pwdText.trim();
+                    targetUrl = urlText.trim();
+                    filesLoaded = true;
+                    
+                    // 恢复输入框状态
+                    passwordInput.disabled = false;
+                    passwordInput.placeholder = "****";
+                    passwordInput.focus();
+                    confirmBtn.disabled = false;
+                    
+                    // 如果密码或URL为空，给出提示并关闭模态框（防止异常）
+                    if (!correctPassword || !targetUrl) {
+                        alert('配置文件内容错误，请联系管理员。');
+                        passwordModal.style.display = 'none';
+                        passwordInput.disabled = true; // 复原状态以便下次
+                        confirmBtn.disabled = true;
+                    }
+                })
+                .catch(error => {
+                    console.error('读取文件失败:', error);
+                    alert('无法获取验证信息，请稍后重试。');
+                    passwordModal.style.display = 'none';
+                    passwordInput.disabled = true;
+                    confirmBtn.disabled = true;
+                    // 重置标记，以便下次点击可以再次尝试加载
+                    filesLoaded = false;
+                });
+            } else {
+                // 文件已经加载过，直接打开模态框
+                passwordModal.style.display = 'flex';
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
         });
         
         // 确认密码
         confirmBtn.addEventListener('click', () => {
+            // 如果文件还未加载完成（理论上按钮会被禁用，但以防万一）
+            if (!filesLoaded) {
+                alert('验证信息尚未加载完成，请稍后...');
+                return;
+            }
+            // 验证前确保密码非空
+            if (correctPassword === "") {
+                alert('密码配置无效，无法验证。');
+                return;
+            }
             if (passwordInput.value === correctPassword) {
-                // 密码正确，跳转到教程页面
-                window.location.href = "https://luoboya.top/lbbzzp/video/";
+                // 密码正确，跳转到从html.txt读取的网址
+                if (targetUrl) {
+                    window.location.href = targetUrl;
+                } else {
+                    alert('目标地址无效，请联系管理员。');
+                }
             } else {
                 alert("密码错误，请重新输入！");
                 passwordInput.value = '';
@@ -339,6 +407,12 @@
         // 取消按钮
         cancelBtn.addEventListener('click', () => {
             passwordModal.style.display = 'none';
+            // 可选：如果密码正在加载中取消，重置输入框状态（但不影响filesLoaded）
+            if (!filesLoaded) {
+                // 取消加载，但可能下次点击会重新触发加载，所以保持filesLoaded = false即可
+                passwordInput.disabled = true;
+                confirmBtn.disabled = true;
+            }
         });
         
         // 按回车键确认
@@ -352,8 +426,15 @@
         passwordModal.addEventListener('click', (e) => {
             if (e.target === passwordModal) {
                 passwordModal.style.display = 'none';
+                // 同样处理加载中断
+                if (!filesLoaded) {
+                    passwordInput.disabled = true;
+                    confirmBtn.disabled = true;
+                }
             }
         });
+
+        // 关于我们按钮链接保持不变（已在HTML中写好），无需修改
     </script>
 </body>
 </html>
