@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>萝卜芽折纸论坛 - 欢迎</title>
+    <style>
+        /* 基础变量：明暗模式核心配色 - 与教程页面完全匹配 */
+        :root {
+            --bg-main: #ffffff;
+            --bg-card: #f8fafc;
+            --bg-hover: #f0f9ff;
+            --text-title: #1e293b;
+            --text-desc: #64748b;
+            --accent-primary: #3b82f6;
+            --accent-light: #93c5fd;
+            --border-light: #e2e8f0;
+            --shadow-light: 0 4px 12px rgba(0,0,0,0.05);
+            --shadow-medium: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .dark {
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --bg-hover: #2563eb15;
+            --text-title: #f1f5f9;
+            --text-desc: #94a3b8;
+            --accent-primary: #93c5fd;
+            --accent-light: #3b82f6;
+            --border-light: #334155;
+            --shadow-light: 0 4px 12px rgba(0,0,0,0.15);
+            --shadow-medium: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* 全局样式 */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: "Inter", "微软雅黑", system-ui, -apple-system; 
+        }
+        body { 
+            background: var(--bg-main); 
+            color: var(--text-desc); 
+            line-height: 1.6; 
+            padding: 20px; 
+            transition: background 0.3s ease, color 0.3s ease; 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto; 
+            padding: 30px 0; 
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* 顶部栏：标题+明暗模式切换 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        .shop-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(120deg, var(--accent-primary), var(--accent-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .theme-toggle {
+            width: 42px;
+            height: 22px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .theme-toggle::after {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            transition: transform 0.3s ease;
+        }
+        .dark .theme-toggle::after {
+            transform: translateX(20px);
+        }
+
+        /* 主内容区域 */
+        .welcome-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .welcome-text {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: var(--text-desc);
+        }
+
+        /* 按钮样式 - 匹配教程页面 */
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+        .btn {
+            padding: 14px 30px;
+            background: var(--accent-primary);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            min-width: 160px;
+            box-shadow: var(--shadow-light);
+        }
+        .btn:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-title);
+            border: 1px solid var(--border-light);
+        }
+        .btn-secondary:hover {
+            background: var(--bg-hover);
+        }
+
+        /* 密码模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: var(--shadow-medium);
+            border: 1px solid var(--border-light);
+        }
+        .modal-title {
+            font-size: 1.3rem;
+            color: var(--text-title);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .password-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            background: var(--bg-main);
+            color: var(--text-title);
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.1rem;
+            letter-spacing: 3px;
+        }
+        .password-hint {
+            font-size: 0.9rem;
+            color: var(--text-desc);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .modal-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .modal-btn.confirm {
+            background: var(--accent-primary);
+            color: white;
+        }
+        .modal-btn.cancel {
+            background: var(--bg-main);
+            color: var(--text-title);
+            border: 1px solid var(--border-light);
+        }
+
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            margin-top: auto;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-light);
+            font-size: 0.9rem;
+            color: var(--text-desc);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .shop-title {
+                font-size: 2rem;
+            }
+            .btn-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            .btn {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .welcome-content {
+            animation: fadeIn 0.8s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部：标题+明暗模式切换 -->
+        <div class="header">
+            <h1 class="shop-title">萝卜芽折纸论坛</h1>
+            <div class="theme-toggle" id="themeToggle"></div>
+        </div>
+
+        <!-- 主内容区域 -->
+        <div class="welcome-content">
+            <p class="welcome-text">欢迎来到萝卜芽折纸论坛，这里汇集了各种精美的折纸教程，从简单的入门作品到复杂的立体模型，让我们一起探索折纸的奇妙世界！</p>
+
+            <div class="btn-group">
+                <button class="btn" id="videoBtn">获取内部视频</button>
+                <a href="https://luoboya.top/lbbzzp/about/" class="btn btn-secondary" id="aboutBtn">关于我们</a>
+            </div>
+        </div>
+
+        <!-- 密码输入模态框 -->
+        <div class="modal" id="passwordModal">
+            <div class="modal-content">
+                <h3 class="modal-title">管理员验证</h3>
+                <p class="password-hint">请输入四位数字密码</p>
+                <input type="password" class="password-input" id="passwordInput" maxlength="4" placeholder="****">
+                <div class="modal-buttons">
+                    <button class="modal-btn confirm" id="confirmBtn">确认</button>
+                    <button class="modal-btn cancel" id="cancelBtn">取消</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="footer">
+            <p>萝卜芽折纸论坛 &copy; 2026 - 保留所有权利</p>
+        </div>
+    </div>
+
+    <script>
+        // 1. 明暗模式切换（与教程页面完全一致）
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const isDarkMode = localStorage.getItem('isDarkMode') === 'true';
+
+        // 初始化主题（优先用户之前的选择）
+        if (isDarkMode) {
+            html.classList.add('dark');
+        }
+
+        // 点击切换主题
+        themeToggle.addEventListener('click', () => {
+            const isDark = html.classList.toggle('dark');
+            localStorage.setItem('isDarkMode', isDark);
+        });
+
+        // 2. 按钮功能 - 修改为从文件读取密码和跳转地址
+        const videoBtn = document.getElementById('videoBtn');
+        const passwordModal = document.getElementById('passwordModal');
+        const passwordInput = document.getElementById('passwordInput');
+        const confirmBtn = document.getElementById('confirmBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+
+        // 存储从文件读取的正确密码和跳转URL
+        let correctPassword = "";       // 将从 password.txt 加载
+        let targetUrl = "";             // 将从 html.txt 加载
+
+        // 标记是否已经加载过文件，避免重复读取影响性能
+        let filesLoaded = false;
+
+        // 打开密码模态框前，先确保密码和URL已加载（如果尚未加载）
+        videoBtn.addEventListener('click', () => {
+            if (!filesLoaded) {
+                // 显示加载提示（可选，但为了用户体验，可以直接打开模态框并提示“验证中”）
+                // 我们在这里先显示模态框，输入框禁用，并显示加载文字
+                passwordInput.disabled = true;
+                passwordInput.placeholder = "加载中...";
+                confirmBtn.disabled = true;
+                passwordModal.style.display = 'flex';
+
+                // 并行请求两个文件
+                Promise.all([
+                    fetch('password.txt').then(resp => {
+                        if (!resp.ok) throw new Error('密码文件加载失败');
+                        return resp.text();
+                    }),
+                    fetch('html.txt').then(resp => {
+                        if (!resp.ok) throw new Error('地址文件加载失败');
+                        return resp.text();
+                    })
+                ])
+                .then(([pwdText, urlText]) => {
+                    // 通常文件内容可能包含换行符，需要trim()处理干净
+                    correctPassword = pwdText.trim();
+                    targetUrl = urlText.trim();
+                    filesLoaded = true;
+
+                    // 恢复输入框状态
+                    passwordInput.disabled = false;
+                    passwordInput.placeholder = "****";
+                    passwordInput.focus();
+                    confirmBtn.disabled = false;
+
+                    // 如果密码或URL为空，给出提示并关闭模态框（防止异常）
+                    if (!correctPassword || !targetUrl) {
+                        alert('配置文件内容错误，请联系管理员。');
+                        passwordModal.style.display = 'none';
+                        passwordInput.disabled = true; // 复原状态以便下次
+                        confirmBtn.disabled = true;
+                    }
+                })
+                .catch(error => {
+                    console.error('读取文件失败:', error);
+                    alert('无法获取验证信息，请稍后重试。');
+                    passwordModal.style.display = 'none';
+                    passwordInput.disabled = true;
+                    confirmBtn.disabled = true;
+                    // 重置标记，以便下次点击可以再次尝试加载
+                    filesLoaded = false;
+                });
+            } else {
+                // 文件已经加载过，直接打开模态框
+                passwordModal.style.display = 'flex';
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        });
+
+        // 确认密码
+        confirmBtn.addEventListener('click', () => {
+            // 如果文件还未加载完成（理论上按钮会被禁用，但以防万一）
+            if (!filesLoaded) {
+                alert('验证信息尚未加载完成，请稍后...');
+                return;
+            }
+            // 验证前确保密码非空
+            if (correctPassword === "") {
+                alert('密码配置无效，无法验证。');
+                return;
+            }
+            if (passwordInput.value === correctPassword) {
+                // 密码正确，跳转到从html.txt读取的网址
+                if (targetUrl) {
+                    window.location.href = targetUrl;
+                } else {
+                    alert('目标地址无效，请联系管理员。');
+                }
+            } else {
+                alert("密码错误，请重新输入！");
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        });
+
+        // 取消按钮
+        cancelBtn.addEventListener('click', () => {
+            passwordModal.style.display = 'none';
+            // 可选：如果密码正在加载中取消，重置输入框状态（但不影响filesLoaded）
+            if (!filesLoaded) {
+                // 取消加载，但可能下次点击会重新触发加载，所以保持filesLoaded = false即可
+                passwordInput.disabled = true;
+                confirmBtn.disabled = true;
+            }
+        });
+
+        // 按回车键确认
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                confirmBtn.click();
+            }
+        });
+
+        // 点击模态框外部关闭
+        passwordModal.addEventListener('click', (e) => {
+            if (e.target === passwordModal) {
+                passwordModal.style.display = 'none';
+                // 同样处理加载中断
+                if (!filesLoaded) {
+                    passwordInput.disabled = true;
+                    confirmBtn.disabled = true;
+                }
+            }
+        });
+
+        // 关于我们按钮链接保持不变（已在HTML中写好），无需修改
+    </script>
+</body>
+</html>
